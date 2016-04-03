@@ -1,0 +1,418 @@
+<html lang="en"><head>
+
+
+
+	<link rel="stylesheet" href="js/controllers/reset.css">
+	<link rel="stylesheet" type="text/css" href="js/controllers/main.css">
+
+
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+    <script src="js/controllers/jquery.ui.core.js"></script>
+    <script src="js/controllers/jquery.ui.widget.js"></script>
+    <script src="js/controllers/jquery.ui.mouse.js"></script>
+    <script src="js/controllers/jquery.ui.draggable.js"></script>
+    <script src="js/controllers/jquery-collision.min.js"></script>
+    <script src="js/controllers/jquery-ui-draggable-collision.js"></script>
+	
+
+<script type="text/javascript" src="js/controllers/angular.js"></script>
+<script type="text/javascript" src="js/controllers/angular-fusioncharts.min.js"></script>
+<script type="text/javascript" src="js/controllers/fusioncharts.js"></script>
+<script type="text/javascript" src="js/controllers/fusioncharts.widgets.js"></script>
+<script type="text/javascript" src="js/controllers/fusioncharts.theme.fint.js"></script>
+<script> var elementDragged = null;	var right_global;</script>
+<script src="js/controllers/demo.js"></script>
+<script type="text/javascript" src="js/controllers/test.js"></script>
+<script type="text/javascript" src="js/controllers/svg_script.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/controllers/CollapsibleLists.js"></script>
+
+<script>
+var xsd;
+var mychart;
+//var app = angular.module("myApp", []);
+var app = angular.module("myApp", ["ng-fusioncharts","test","app"]);
+app.controller('MyController', function($scope) {
+    //Define the `myDataSource` scope variable.
+    $scope.myDataSource = {
+        chart: {
+            //Define the chart attributes.
+			"caption": "Monthly revenue for last year",
+            "subCaption": "Harry's SuperMart",
+            "xAxisName": "Month",
+            "yAxisName": "Revenues (In USD)",
+            "theme": "fint"
+        },
+        data: [
+            //Define the data labels and data values for the data plots.
+			{
+               "label": "Jan",
+               "value": "420000"
+            },
+            {
+               "label": "Feb",
+               "value": "810000"
+            },
+            {
+               "label": "Mar",
+               "value": "720000"
+            },
+            {
+               "label": "Apr",
+               "value": "550000"
+            },
+            {
+               "label": "May",
+               "value": "910000"
+            },
+            {
+               "label": "Jun",
+               "value": "510000"
+            },
+            {
+               "label": "Jul",
+               "value": "680000"
+            },
+            {
+               "label": "Aug",
+               "value": "620000"
+            },
+            {
+               "label": "Sep",
+               "value": "610000"
+            },
+            {
+               "label": "Oct",
+               "value": "490000"
+            },
+            {
+               "label": "Nov",
+               "value": "900000"
+            },
+            {
+               "label": "Dec",
+               "value": "730000"
+            }
+        ]
+    };
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+		$scope.updateMyChartData = function() {
+		
+					var test = {label: "Test", value: "520000"};
+					$scope.myDataSource.data.push(test);
+					/*
+					$scope.myDataSource.data[2].label = "This Label is Updated";
+					$scope.myDataSource.data[2].value = "420000";
+					$scope.myDataSource.data[3].label = "This is updated as well";
+					$scope.myDataSource.data[3].value = "210000";
+					*/		
+		}
+		
+		$scope.updateMyChartData_new = function() {
+		
+					var test = {label:"13"};
+					$scope.categories[0]["category"].push(test);
+					$scope.dataset[0].data.push({"value": "10400"});
+					$scope.dataset[1].data.push({"value": "15400"});					
+					
+					var test = {label:"14"};
+					$scope.categories[0]["category"].push(test);
+					$scope.dataset[0].data.push({"value": "10400"});
+					$scope.dataset[1].data.push({"value": "15400"});
+					
+					var test = {label:"15"};
+					$scope.categories[0]["category"].push(test);					
+					$scope.dataset[0].data.push({"value": "10400"});
+					$scope.dataset[1].data.push({"value": "15400"});
+					
+					/*
+					$scope.myDataSource.data[2].label = "This Label is Updated";
+					$scope.myDataSource.data[2].value = "420000";
+					$scope.myDataSource.data[3].label = "This is updated as well";
+					$scope.myDataSource.data[3].value = "210000";
+					*/		
+		}
+		
+		$scope.updateMyChartData_real = function(){
+		
+		
+		               function addLeadingZero(num){
+                   return (num <= 9)? ("0"+num) : num;
+               }
+			   
+		function updateData() {
+					mychart = FusionCharts("chartobject-1");
+                        currDate = new Date(),
+                        label = addLeadingZero(currDate.getHours()) + ":" +
+                                addLeadingZero(currDate.getMinutes()) + ":" +
+                                addLeadingZero(currDate.getSeconds()),
+                        // Get random number between 35.25 & 35.75 - rounded to 2 decimal places
+                        randomValue = Math.floor(Math.random() * 50) / 100 + 35.25,
+                        // Build Data String in format &label=...&value=...
+                        strData = "&label=" + label 
+                                    + "&value=" 
+                                    + randomValue;
+                    // Feed it to chart.
+                    mychart.feedData(strData);
+			}
+			
+			               var myVar = setInterval(function () {
+                   updateData();
+               }, 2000);
+			
+			//$scope.myRealTimeData["dataset"][0]["data"].push({"value": "37.5"});
+			//mychart.setJSONData({"value": "37.5"});
+			//$scope.myRealTimeData["dataset"][0]["data"].push({"value": "35.5"});			
+			//&value=33;			
+		}
+		
+		
+		
+		
+		
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+$scope.attrs = {
+
+    "caption": "Sales Comparison: 2013 versus 2014",
+    "subCaption": "Harry’ s SuperMart",
+    "numberprefix": "$",
+    "plotgradientcolor": "",
+    "bgcolor": "FFFFFF",
+    "showalternatehgridcolor": "0",
+    "divlinecolor": "CCCCCC",
+    "showvalues": "0",
+    "showcanvasborder": "0",
+    "canvasborderalpha": "0",
+    "canvasbordercolor": "CCCCCC",
+    "canvasborderthickness": "1",
+    "yaxismaxvalue": "30000",
+    "captionpadding": "30",
+    "linethickness": "3",
+    "yaxisvaluespadding": "15",
+    "legendshadow": "0",
+    "legendborderalpha": "0",
+    "palettecolors": "#f8bd19,#008ee4,#33bdda,#e44a00,#6baa01,#583e78",
+    "showborder": "0"
+};
+
+$scope.categories = [{
+    "category": [{
+        "label": "1"
+    }, {
+        "label": "2"
+    }, {
+        "label": "3"
+    }, {
+        "label": "4"
+    }, {
+        "label": "5"
+    }, {
+        "label": "6"
+    }, {
+        "label": "7"
+    }, {
+        "label": "8"
+    }, {
+        "label": "9"
+    }, {
+        "label": "10"
+    }, {
+        "label": "11"
+    }, {
+        "label": "12"
+    }]
+}];
+
+$scope.dataset = [{
+        "seriesname": "2013",
+        "data": [{
+            "value": "22400"
+        }, {
+            "value": "24800"
+        }, {
+            "value": "21800"
+        }, {
+            "value": "21800"
+        }, {
+            "value": "24600"
+        }, {
+            "value": "27600"
+        }, {
+            "value": "2+6800"
+        }, {
+            "value": "27700"
+        }, {
+            "value": "23700"
+        }, {
+            "value": "25900"
+        }, {
+            "value": "26800"
+        }, {
+            "value": "24800"
+        }]
+    },
+
+    {
+        "seriesname": "2012",
+        "data": [{
+            "value": "10000"
+        }, {
+            "value": "11500"
+        }, {
+            "value": "12500"
+        }, {
+            "value": "15000"
+        }, {
+            "value": "16000"
+        }, {
+            "value": "17600"
+        }, {
+            "value": "18800"
+        }, {
+            "value": "19700"
+        }, {
+            "value": "21700"
+        }, {
+            "value": "21900"
+        }, {
+            "value": "22900"
+        }, {
+            "value": "20800"
+        }]
+    }
+];
+*/
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$scope.myRealTimeData = {
+    "chart": {
+        "caption": "Real-time stock price monitor",
+        "subCaption": "Harry's SuperMart",
+        "xAxisName": "Time",
+        "yAxisName": "Stock Price",
+        "numberPrefix": "$",
+        "refreshinterval": "5",
+        "yaxisminvalue": "35",
+        "yaxismaxvalue": "36",
+        "numdisplaysets": "10",
+        "labeldisplay": "rotate",
+        "showValues": "0",
+        "showRealTimeValue": "0",
+        "theme": "fint"
+    },
+    "categories": [
+        {
+            "category": [
+                {
+                    "label": "Day Start"
+                }
+            ]
+        }
+    ],
+    "dataset": [
+        {
+            "data": [
+                {
+                    "value": "37.27"
+                }
+            ]
+        }
+    ]
+};
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$scope.myevents = {
+    dataplotclick: function (ev, props) {
+        $scope.$apply(function () {
+            $scope.selectedValue = props.displayValue;
+        });
+    },
+	chartClick: function (eventObj, argsObj) {
+                console.log('Chart clicked at ' + argsObj.chartX + ',' + argsObj.chartY);
+    }
+	
+/*
+	"initialized": function (e) {
+               function addLeadingZero(num){
+                   return (num <= 9)? ("0"+num) : num;
+               }
+               function updateData() {
+                    // Get reference to the chart using its ID
+                    var chartRef = FusionCharts("chartobject-1"),
+                        // We need to create a querystring format incremental update, containing
+                        // label in hh:mm:ss format
+                        // and a value (random).
+                        currDate = new Date(),
+                        label = addLeadingZero(currDate.getHours()) + ":" +
+                                addLeadingZero(currDate.getMinutes()) + ":" +
+                                addLeadingZero(currDate.getSeconds()),
+                        // Get random number between 35.25 & 35.75 - rounded to 2 decimal places
+                        randomValue = Math.floor(Math.random()     
+                                                  * 50) / 100 + 35.25,
+                        // Build Data String in format &label=...&value=...
+                        strData = "&label=" + label 
+                                    + "&value=" 
+                                    + randomValue;
+                    // Feed it to chart.
+                    chartRef.feedData(strData);
+                }
+
+               var myVar = setInterval(function () {
+                   updateData();
+               }, 5000);
+           }
+*/
+	
+	
+}
+	
+	
+});
+
+
+
+</script>
+
+
+
+
+
+
+	<title>Factory Visualiztion</title>
+	
+
+</head>
+
+<body ng-app="myApp" ng-controller="MyController">
+
+
+	
+<div id="main_ui" class="main">
+
+
+			<div id="drop-target-one">
+
+			</div>
+
+			
+</div>	
+
+
+
+
+
+
+
+</body><script class="jsdom" src="http://code.jquery.com/jquery.js"></script></html>
