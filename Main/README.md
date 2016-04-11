@@ -1,5 +1,11 @@
 ﻿# Main
+-- Install GIT.
+-- Open git shell.
+-- Change to the directory you want to clone the project.
+--Run the following command.
+git clone https://github.com/UmerIftikhar/Project_Demola.git
 
+Follow the following instructions.
 
 =============================================================================================================
 ----------------------------------------------Install Instructions-------------------------------------------
@@ -9,9 +15,8 @@
 
 1.  Install Node JS from (https://nodejs.org/en/)
 2.	Install Visual Studio with C++ derivatives (https://www.visualstudio.com/products/free-developer-offers-vs)
-3.	Copy "Fatory_Visualization_master" to your local drive.
-4.	Open command prompt from the "Fatory_Visualization_master" folder.
-5.	Run this command in cmd "npm install", which basically will install all the modules listed in the package.json file.
+3.	Open command prompt from the "Main" folder.
+4.	Run this command in cmd "npm install", which basically will install all the modules listed in the package.json file.
     
 Or if there are any issues while running the above command, install all the modules manually, as explained below:
 ------------------------------------------------
@@ -27,6 +32,6 @@ Or if there are any issues while running the above command, install all the modu
 		IX.		body-parser (Install Command : npm install body-parser)	
 		X.		express-session (Install Command : npm install express-session)		
 ------------------------------------------------
-6. 	Start the application by following command (node app.js) in CMD
+5. 	Start the application by following command (node app.js) in CMD
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
