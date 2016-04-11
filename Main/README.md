@@ -1,9 +1,10 @@
 ﻿# Main
--- Install GIT.
--- Open git shell.
--- Change to the directory you want to clone the project.
---Run the following command.
-git clone https://github.com/UmerIftikhar/Project_Demola.git
+
+1.  -- Install GIT.
+2.  -- Open git shell.
+3.  -- Change to the directory you want to clone the project.
+4.  --Run the following command.
+5.  git clone https://github.com/UmerIftikhar/Project_Demola.git
 
 Follow the following instructions.
 
