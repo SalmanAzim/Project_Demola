@@ -60,18 +60,6 @@ function showCustomMenu(currElement) {
 		var posY = e.clientY;
 		menu(posX, posY,i);
 		e.preventDefault();
-
-
-/*
-    var rightclick;
-    var e = window.event;
-	e.preventDefault();
-	test = currElement;
-    if (e.which) rightclick = (e.which == 3);
-    else if (e.button) rightclick = (e.button == 2);
-    alert(rightclick); // true or false, you can trap right click here by if comparison
-*/	
-//<div class="top" oncontextmenu="javascript:alert('success!');return false;">
 	
 }
 
@@ -109,16 +97,6 @@ else if(chartType == "realtimeline"){
 randomValue = Math.floor(Math.random() * 50) / 100 + 35.25,
 strData = "&label=" + label  + "&value=" + randomValue;
 }		
-
-/*						
-                        // Get random number between 35.25 & 35.75 - rounded to 2 decimal places
-                        randomValue = Math.floor(Math.random() * 50) / 100 + 35.25,
-                        // Build Data String in format &label=...&value=...
-                        strData = "&label=" + label 
-                                    + "&value=" 
-                                    + randomValue;
-*/									
-                    // Feed it to chart.
 					test_data = strData;
                     mychart.feedData(strData);
 			}
@@ -139,7 +117,6 @@ strData = "&label=" + label  + "&value=" + randomValue;
 <script>
 function removeCustomMenu(currElement) {
 
-//test = currElement;
 right_global.remove();
 
 		var e = window.event;
@@ -151,17 +128,6 @@ right_global.remove();
 	
 	
 right_global = null;
-
-/*
-    var rightclick;
-    var e = window.event;
-	e.preventDefault();
-	test = currElement;
-    if (e.which) rightclick = (e.which == 3);
-    else if (e.button) rightclick = (e.button == 2);
-    alert(rightclick); // true or false, you can trap right click here by if comparison
-*/	
-//<div class="top" oncontextmenu="javascript:alert('success!');return false;">
 	
 }
 
@@ -174,16 +140,6 @@ right_global = null;
 
 
 function showDoubleMenu(currElement) {
-/*
-		right_global = currElement;
-		var e = window.event;
-		//var i = document.getElementById("menu1").style;
-		var i = document.getElementById("stylized").style;
-		var posX = e.clientX;
-		var posY = e.clientY;
-		menu(posX, posY,i);
-		e.preventDefault();
-*/
 		
 }
 
@@ -264,48 +220,6 @@ app.controller('MyController', function($scope) {
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 		$scope.updateMyChartData = function() {
-	
-//angular.element(document.getElementById('drop-target-one')).append($compile("<div id='firstChart' fusioncharts=''  width='600' height='400'  type='realtimeline'  dataSource='" + JSON.stringify(scope.myRealTimeData) +"'> </div>")(scope));			
-
-
-
-/*
-angular.injector(['ng', 'myApp']).invoke(function ($compile) {
-    // Create a scope.
-    var $scope = angular.element(document.body).scope();
-    // Specify what it is we'll be compiling.
-    var to_compile = '<div ng-attr-tooltip="test">Cancel</div>';
-    // Compile the tag, retrieving the compiled output.
-    var $compiled = $compile(to_compile)($scope);
-    // Ensure the scope and been signalled to digest our data.
-    $scope.$digest();
-    // Append the compiled output to the page.
-    $compiled.appendTo(document.body);
-  });
-
-*/
-
-
-
-
-
-/*
-				var $injector = angular.injector(['ng', 'myApp']);
-				  $injector.invoke(function($rootScope, $compile) {
-angular.element(document.getElementById('drop-target-one')).append($compile("<div id='firstChart' fusioncharts=''  width='600' height='400'  type='realtimeline'  dataSource='" + JSON.stringify($scope.myRealTimeData) +"'> </div>")($scope));
-				  });
-*/
-
-
-	
-					//var test = {label: "Test", value: "520000"};
-					//$scope.myDataSource.data.push(test);
-					/*
-					$scope.myDataSource.data[2].label = "This Label is Updated";
-					$scope.myDataSource.data[2].value = "420000";
-					$scope.myDataSource.data[3].label = "This is updated as well";
-					$scope.myDataSource.data[3].value = "210000";
-					*/		
 		}
 		
 		$scope.updateMyChartData_new = function() {
@@ -324,13 +238,7 @@ angular.element(document.getElementById('drop-target-one')).append($compile("<di
 					$scope.categories[0]["category"].push(test);					
 					$scope.dataset[0].data.push({"value": "10400"});
 					$scope.dataset[1].data.push({"value": "15400"});
-					
-					/*
-					$scope.myDataSource.data[2].label = "This Label is Updated";
-					$scope.myDataSource.data[2].value = "420000";
-					$scope.myDataSource.data[3].label = "This is updated as well";
-					$scope.myDataSource.data[3].value = "210000";
-					*/		
+						
 		}
 		
 		$scope.updateMyChartData_real = function(){
@@ -359,134 +267,9 @@ angular.element(document.getElementById('drop-target-one')).append($compile("<di
 			               var myVar = setInterval(function () {
                    updateData();
                }, 2000);
-			
-			//$scope.myRealTimeData["dataset"][0]["data"].push({"value": "37.5"});
-			//mychart.setJSONData({"value": "37.5"});
-			//$scope.myRealTimeData["dataset"][0]["data"].push({"value": "35.5"});			
-			//&value=33;			
+						
 		}
 		
-		
-		
-		
-		
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-$scope.attrs = {
-
-    "caption": "Sales Comparison: 2013 versus 2014",
-    "subCaption": "Harry’ s SuperMart",
-    "numberprefix": "$",
-    "plotgradientcolor": "",
-    "bgcolor": "FFFFFF",
-    "showalternatehgridcolor": "0",
-    "divlinecolor": "CCCCCC",
-    "showvalues": "0",
-    "showcanvasborder": "0",
-    "canvasborderalpha": "0",
-    "canvasbordercolor": "CCCCCC",
-    "canvasborderthickness": "1",
-    "yaxismaxvalue": "30000",
-    "captionpadding": "30",
-    "linethickness": "3",
-    "yaxisvaluespadding": "15",
-    "legendshadow": "0",
-    "legendborderalpha": "0",
-    "palettecolors": "#f8bd19,#008ee4,#33bdda,#e44a00,#6baa01,#583e78",
-    "showborder": "0"
-};
-
-$scope.categories = [{
-    "category": [{
-        "label": "1"
-    }, {
-        "label": "2"
-    }, {
-        "label": "3"
-    }, {
-        "label": "4"
-    }, {
-        "label": "5"
-    }, {
-        "label": "6"
-    }, {
-        "label": "7"
-    }, {
-        "label": "8"
-    }, {
-        "label": "9"
-    }, {
-        "label": "10"
-    }, {
-        "label": "11"
-    }, {
-        "label": "12"
-    }]
-}];
-
-$scope.dataset = [{
-        "seriesname": "2013",
-        "data": [{
-            "value": "22400"
-        }, {
-            "value": "24800"
-        }, {
-            "value": "21800"
-        }, {
-            "value": "21800"
-        }, {
-            "value": "24600"
-        }, {
-            "value": "27600"
-        }, {
-            "value": "2+6800"
-        }, {
-            "value": "27700"
-        }, {
-            "value": "23700"
-        }, {
-            "value": "25900"
-        }, {
-            "value": "26800"
-        }, {
-            "value": "24800"
-        }]
-    },
-
-    {
-        "seriesname": "2012",
-        "data": [{
-            "value": "10000"
-        }, {
-            "value": "11500"
-        }, {
-            "value": "12500"
-        }, {
-            "value": "15000"
-        }, {
-            "value": "16000"
-        }, {
-            "value": "17600"
-        }, {
-            "value": "18800"
-        }, {
-            "value": "19700"
-        }, {
-            "value": "21700"
-        }, {
-            "value": "21900"
-        }, {
-            "value": "22900"
-        }, {
-            "value": "20800"
-        }]
-    }
-];
-*/
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME GRAPH
@@ -527,13 +310,6 @@ $scope.dataset = [{
         }
     ]
 };
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME GRAPH
-
-
-
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME GAUGE
@@ -640,14 +416,6 @@ $scope.dataset = [{
             }
         };
 
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME GAUGE
-
-
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME CYLINDER
         $scope.dataSource_cylinder = {
                 "chart": {
@@ -697,9 +465,6 @@ $scope.dataset = [{
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME CYLINDER
-
-
-
 
 $scope.myevents = {
     dataplotclick: function (ev, props) {
@@ -786,19 +551,11 @@ for (var i = 0; i < $draggables.length; i++) {
 			containment: "#drop-target-one"	,
 			stop: function(event, ui)
 			{
-				//alert('stop: dropped  ');
-				// Check value of ui.helper.data('dropped') and handle accordingly...
 			},
 			drag: function(event, ui)
 			{
 			
-				socket.emit('moveObject', {'loggedinUser': loggedinUser, currentId:this.id, positionX:ui.position.left, positionY:ui.position.top});	
-					/*
-					  var xhttp = new XMLHttpRequest();
-					  xhttp.open('POST', '/moveObject', true);
-					  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-					  xhttp.send("loggedinUser=" + loggedinUser + "&currentId=" + this.id + "&positionX=" + ui.position.left+ "&positionY=" + ui.position.top);  
-					*/
+				socket.emit('moveObject', {'loggedinUser': loggedinUser, currentId:this.id, positionX:ui.position.left, positionY:ui.position.top});
 
 			}
 	
@@ -829,19 +586,7 @@ socket.on("tweet", function(notificationData) {
 
 socket.on("added_Html", function(notificationData) {
 
-/*
-var str2DOMElement = function(html) {
-    var frame = document.createElement('iframe');
-    frame.style.display = 'none';
-    document.body.appendChild(frame);             
-    frame.contentDocument.open();
-    frame.contentDocument.write(html);
-    frame.contentDocument.close();
-    var el = frame.contentDocument.body.firstChild;
-    document.body.removeChild(frame);
-    return el;
-}
-*/
+
 	
 	if(notificationData.loggedinUser != loggedinUser){
 			//console.log(notificationData.loggedinUser);		
@@ -1253,26 +998,4 @@ document.addEventListener('click', function(e) {
 </script>
 
 
-
-
-<script>
-
-/*
-var gg = document.getElementById("main_ui");
-
-
-gg.onclick = function(){
-
-		var i = document.getElementById("stylized").style;
-    i.opacity = "0";
-    setTimeout(function() {
-      i.visibility = "hidden";
-    });
-
-
-}
-
-*/
-
-</script>
 
