@@ -63,11 +63,6 @@
   border-bottom: 0;
 }
 
-
-
-
-
-
 /*
 .collapsibleList li{
   list-style-image:url('button.png');
@@ -88,21 +83,21 @@ li.collapsibleListClosed{
 
 
 
-    .left {
-		overflow:auto;
-        position:absolute;
-        left:0; top:0%; bottom: 0;
-        width: 10%;
-    }
-.left { background: grey; }
+.left {
+	overflow:auto;
+    position:absolute;
+    left:0; top:0%; bottom: 0;
+    width: 15%;
+}
+.left { background: #DCDCDC; }
 
-    .main {
-		overflow:auto;
-        position:absolute;
-        left:10%; top:0%; right:0; bottom:0;
-    }
+.main {
+	overflow:auto;
+    position:absolute;
+    left:15%; top:0%; right:0; bottom:0;
+}
 
-.main { background: yellow; }
+.main { background: #F3FFB2; }
 
 /* Layout */
 .container {
@@ -136,11 +131,9 @@ li.collapsibleListClosed{
 }
 
 .drag-elements {
-
 	list-style: none;
 	padding: 0;
 	margin: 0 0 1em;
-
 }
 
 .drag-elements-li {
@@ -164,12 +157,22 @@ li.collapsibleListClosed{
 
 
 .drag-elements-new-li{
-        position:relative;
+    position:relative;
 	display: inline-block;
 	padding: 0.5em 1em;
 	margin: 0 1em 1em 0;
 	border: 1px solid #D9D9D9;
 	background: #F7F7F7;
+	border-radius: 3px;
+}
+
+.drag-elements-new-li::selection{
+    position:relative;
+	display: inline-block;
+	padding: 0.5em 1em;
+	margin: 0 1em 1em 0;
+	border: 1px solid #D9D9D9;
+	background: #AEAEAE;
 	border-radius: 3px;
 }
 
