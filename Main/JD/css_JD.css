@@ -1,0 +1,93 @@
+html{
+  font-family: serif;
+}
+
+#WrapDiv{
+  position: absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width: 100%;
+  z-index: 1;
+  background: url('../JD/background-image3.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+}
+
+.left{
+  position: relative;
+  opacity: 1;
+  background-color: hsla(43, 100%, 50%, 0.8);
+  height:100%;
+}
+
+.dropdown-menu {
+  background-color: hsla(43, 100%, 50%, 0.8);
+
+}
+
+#drop-target-one img{
+  position: absolute;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;;
+
+}
+
+.TitleText, uib-accordion-heading{
+  font-size: 10px;
+  font-weight: lighter;
+  display: inline-block;;
+  background-color: #2F2F2F;
+  color:hsla(43, 100%, 50%, 0.8);
+  letter-spacing: 2px;
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: center;
+  text-transform: uppercase;
+
+}
+#main_ui{
+  background-color: rgba(255, 255, 255, 0.8);
+
+}
+
+/*.collapsibleList{
+  padding-left: 20px;
+}*/
+
+ul{
+  padding-left: 20px;
+}
+
+#menu, #menu1, #sampleform{
+  display: none;
+}
+
+
+.subtext1 {
+  background: #2F2F2F;
+  border: 3px solid #fff;
+  border-radius: 3px;
+  color: hsla(43, 100%, 50%, 0.8);
+  font-size: 12px;
+  font-family: serif;
+  padding: 4px;
+  width: auto;
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+
+#angular_elements{
+  padding: 0;
+}

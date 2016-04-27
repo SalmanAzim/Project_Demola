@@ -6,8 +6,14 @@
 	<meta charset="utf-8">
 	<title>Factory Visualiztion</title>
 
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+
 	<link rel="stylesheet" href="js/controllers/reset.css">
 	<link rel="stylesheet" type="text/css" href="js/controllers/main.css">
+
+	<link rel="stylesheet" type="text/css" href="../JD/css_JD.css">
+
 	<link rel="stylesheet" href="js/controllers/bootstrap.min.css">
 	<script type="text/javascript" src="js/controllers/angular.js"></script>
 	<script type="text/javascript" src="js/controllers/angular-fusioncharts.min.js"></script>
@@ -22,6 +28,9 @@
 	</script>
 	<script src="js/controllers/demo.js"></script>
 	<script type="text/javascript" src="js/controllers/test.js"></script>
+
+	<script type="text/javascript" src="../JD/jd.js"></script>
+
 	<script type="text/javascript" src="js/controllers/svg_script.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
@@ -35,6 +44,7 @@
 	<script src="js/controllers/CollapsibleLists.js"></script>
 	<script src="js/controllers/bootstrap.min.js"></script>
 	<script src="js/controllers/angularCodes.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 	<script>
 		function menu(x, y,i) {
@@ -55,7 +65,7 @@
 					var posY = e.clientY;
 					menu(posX, posY,i);
 					e.preventDefault();
-				
+
 			}
 	</script>
 
@@ -68,7 +78,7 @@
 						   return (num <= 9)? ("0"+num) : num;
 					 }
 				var chart_id = document.getElementById(right_global.id).children[0].id;
-				function updateData() {					
+				function updateData() {
 					mychart = FusionCharts(chart_id);
 					currDate = new Date(),
 					label = addLeadingZero(currDate.getHours()) + ":" +
@@ -81,10 +91,10 @@
 					else if(chartType == "realtimeline"){
 						randomValue = Math.floor(Math.random() * 50) / 100 + 35.25,
 						strData = "&label=" + label  + "&value=" + randomValue;
-					}		
+					}
 					test_data = strData;
 					mychart.feedData(strData);
-				}						
+				}
 				var myVar = setInterval(function () {
 					updateData();
 				}, 1000);
@@ -102,10 +112,10 @@
 				setTimeout(function() {
 				  i.visibility = "hidden";
 				});
-				
-				
+
+
 			right_global = null;
-				
+
 			}
 	</script>
 
@@ -119,19 +129,19 @@
 
 	<script>
 		var socket = io();
-		
+
 			//this is pinged inorder to delete the old HTML element and update with the new element
 			socket.on("prop_Changed", function(data){
 				//remove the older element
-				double_Click.remove();						
+				double_Click.remove();
 				double_Click.innerHTML = data.objectHtml;
-				//replace with the newer element		
-				$("#drop-target-one").append(double_Click);			
-			});	
-			
+				//replace with the newer element
+				$("#drop-target-one").append(double_Click);
+			});
+
 			socket.on("added_Html", function(notificationData) {
-			
-				if(notificationData.loggedinUser != loggedinUser){		
+
+				if(notificationData.loggedinUser != loggedinUser){
 
 					if(notificationData.isAngular){
 						var $htmlObject = $(notificationData.currentHtml);
@@ -147,36 +157,36 @@
 						angular.injector(['ng', 'myApp']).invoke(function ($compile) {
 							var $scope = angular.element(document.body).scope();
 							var dataSource = notificationData.dataSource;
-										
+
 							var to_compile = angular_obj;
 							//var to_compile = notificationData.currentHtml;
 							var $compiled = $compile(to_compile)($scope);
 							$scope.$digest();
 							// Append the compiled output to the page.
 							$("#drop-target-one").append($compiled[0]);
-						});	
+						});
 					}else{
 						var $htmlObject = $(notificationData.currentHtml);
 						$("#drop-target-one").append($htmlObject);
-					}			
+					}
 
-					setAllDrags();					
+					setAllDrags();
 				}
-				
+
 			});
 
 			socket.on("moved_Html", function(notificationData) {
 
-				if(notificationData.loggedinUser != loggedinUser){				
+				if(notificationData.loggedinUser != loggedinUser){
 					console.log(notificationData);
-					console.log("pinged");		
+					console.log("pinged");
 					//loggedinUser=" + loggedinUser + "&currentId=" + this.id + "&positionX=" + ui.position.left+ "&positionY=" + ui.position.top;
 					var nodes_test = document.getElementById(notificationData.currentId);
 					nodes_test.style.top=(notificationData.positionY)+ "px";
-					nodes_test.style.left=(notificationData.positionX)+ "px";				
-						
+					nodes_test.style.left=(notificationData.positionX)+ "px";
+
 				}
-				
+
 			});
 	</script>
 
@@ -184,6 +194,8 @@
 
 <body id="my_body" ng-app="myApp" ng-controller="MyController">
 
+
+<div id='WrapDiv'>
 	<div class="left">
 
 		<uib-tabset active="activeJustified" justified="true">
@@ -196,11 +208,11 @@
 							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
 						</uib-accordion-heading>
 						<ul id="drag-elements1" class="drag-elements">
-							<li class="drag-elements-li obstacle" draggable="true">Element One</li>
+							<li class="drag-elements-li obstacle " draggable="true">Element One</li>
 							<li class="drag-elements-li obstacle" draggable="true">Element Two</li>
-							<li class="drag-elements-li" draggable="true">Element Three</li>
-							<li class="drag-elements-li" draggable="true">Element Four</li>
-							<li class="drag-elements-li" draggable="true">Element Five</li>
+							<li class="drag-elements-li " draggable="true">Element Three</li>
+							<li class="drag-elements-li " draggable="true">Element Four</li>
+							<li class="drag-elements-li " draggable="true">Element Five</li>
 						</ul>
 					</uib-accordion-group>
 					<uib-accordion-group is-open="status4.open">
@@ -238,6 +250,18 @@
 						</ul>
 					</uib-accordion-group>
 				</uib-accordion>
+				<div class="dropdown" >
+					<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">Change Background
+					<span class="caret"></span></button>
+
+						<div class="dropdown-menu " >
+							 <input type = "text" ng-model="newimagepath" placeholder="Image URL" />
+							 <button class='btn subtext1' ng-click = "setBackground()">CHANGE</button>
+						</div>
+
+				</div>
+
+
 			</uib-tab>
 			<uib-tab select="tabAlert()">
 				<uib-tab-heading>
@@ -292,11 +316,15 @@
 
 
 		<div id="drop-target-one">
+			<img ng-src="{{imagepath}}">
 
 		</div>
 
 
 	</div>
+</div>
+
+
 
 	<div class="bottom" ng-show="bottomPropPanel.panelShow" ng-style="bottomPanelStyle">
 		<div class="row">
@@ -321,7 +349,7 @@
 		</div>
 		<div ng-show="bottomPropPanel.fontPropShow">
 			<span ng-show="!bottomPropPanel.minMaxShow">
-				Color &nbsp; &nbsp;&nbsp;&nbsp; 
+				Color &nbsp; &nbsp;&nbsp;&nbsp;
 			</span>
 			<select class="input-sm" ng-model="bottomPropPanel.colorSelect" ng-show="!bottomPropPanel.minMaxShow">
 				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
