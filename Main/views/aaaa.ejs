@@ -1,6 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<<<<<<< HEAD
+<head>
+
+	<meta charset="utf-8">
+	<title>Factory Visualiztion</title>
+
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+
+	<link rel="stylesheet" href="js/controllers/reset.css">
+	<link rel="stylesheet" type="text/css" href="js/controllers/main.css">
+
+	<link rel="stylesheet" type="text/css" href="../JD/css_JD.css">
+
+	<link rel="stylesheet" href="js/controllers/bootstrap.min.css">
+	<script type="text/javascript" src="js/controllers/angular.js"></script>
+	<script type="text/javascript" src="js/controllers/angular-fusioncharts.min.js"></script>
+	<script type="text/javascript" src="js/controllers/fusioncharts.js"></script>
+	<script type="text/javascript" src="js/controllers/fusioncharts.widgets.js"></script>
+	<script type="text/javascript" src="js/controllers/fusioncharts.theme.fint.js"></script>
+	<script>
+		var elementDragged = null;	var right_global; var test_data; var double_Click
+	</script>
+	<script>
+		var loggedinUser = <%- JSON.stringify(user) %>;
+	</script>
+	<script src="js/controllers/demo.js"></script>
+	<script type="text/javascript" src="js/controllers/test.js"></script>
+
+	<script type="text/javascript" src="../JD/jd.js"></script>
+
+	<script type="text/javascript" src="js/controllers/svg_script.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+	<script src="js/controllers/jquery.ui.core.js"></script>
+	<script src="js/controllers/jquery.ui.widget.js"></script>
+	<script src="js/controllers/jquery.ui.mouse.js"></script>
+	<script src="js/controllers/jquery.ui.draggable.js"></script>
+	<script src="js/controllers/jquery-collision.min.js"></script>
+	<script src="js/controllers/jquery-ui-draggable-collision.js"></script>
+	<script src="js/controllers/ui-bootstrap-tpls-1.3.2.min.js"></script>
+	<script src="js/controllers/CollapsibleLists.js"></script>
+	<script src="js/controllers/bootstrap.min.js"></script>
+	<script src="js/controllers/angularCodes.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+=======
 	<head>
 
 		<meta charset="utf-8">
@@ -32,6 +78,7 @@
         <script src="js/controllers/bootstrap.min.js"></script>
 
 		<script>
+>>>>>>> parent of 7b2aad8... TextBox_Prop
 
 		function menu(x, y,i) {
 		  i.top = y + "px";
@@ -52,7 +99,7 @@
 					var posY = e.clientY;
 					menu(posX, posY,i);
 					e.preventDefault();
-				
+
 			}
 		</script>
 
@@ -66,6 +113,29 @@
 					function addLeadingZero(num){
 						   return (num <= 9)? ("0"+num) : num;
 					 }
+<<<<<<< HEAD
+				var chart_id = document.getElementById(right_global.id).children[0].id;
+				function updateData() {
+					mychart = FusionCharts(chart_id);
+					currDate = new Date(),
+					label = addLeadingZero(currDate.getHours()) + ":" +
+								addLeadingZero(currDate.getMinutes()) + ":" +
+								addLeadingZero(currDate.getSeconds());
+					if(chartType == 'angulargauge' || chartType == 'cylinder'){
+						randomValue = Math.floor(Math.random() * 200) + 50,
+						strData ="&value=" + randomValue;
+					}
+					else if(chartType == "realtimeline"){
+						randomValue = Math.floor(Math.random() * 50) / 100 + 35.25,
+						strData = "&label=" + label  + "&value=" + randomValue;
+					}
+					test_data = strData;
+					mychart.feedData(strData);
+				}
+				var myVar = setInterval(function () {
+					updateData();
+				}, 1000);
+=======
 
 			var chart_id = document.getElementById(right_global.id).children[0].id;
 					function updateData() {
@@ -79,6 +149,7 @@
 			if(chartType == 'angulargauge' || chartType == 'cylinder'){
 			randomValue = Math.floor(Math.random() * 200) + 50,
 			strData ="&value=" + randomValue;
+>>>>>>> parent of 7b2aad8... TextBox_Prop
 			}
 			else if(chartType == "realtimeline"){
 			randomValue = Math.floor(Math.random() * 50) / 100 + 35.25,
@@ -109,10 +180,10 @@
 				setTimeout(function() {
 				  i.visibility = "hidden";
 				});
-				
-				
+
+
 			right_global = null;
-				
+
 			}
 		</script>
 
@@ -122,6 +193,20 @@
 					
 			}
 
+<<<<<<< HEAD
+	<script>
+		var socket = io();
+
+			//this is pinged inorder to delete the old HTML element and update with the new element
+			socket.on("prop_Changed", function(data){
+				//remove the older element
+				double_Click.remove();
+				double_Click.innerHTML = data.objectHtml;
+				//replace with the newer element
+				$("#drop-target-one").append(double_Click);
+			});
+
+=======
 		</script>
 
 		<script>
@@ -672,9 +757,10 @@
 
 			var socket = io();
 			
+>>>>>>> parent of 7b2aad8... TextBox_Prop
 			socket.on("added_Html", function(notificationData) {
-			
-				if(notificationData.loggedinUser != loggedinUser){		
+
+				if(notificationData.loggedinUser != loggedinUser){
 
 					if(notificationData.isAngular){
 						var $htmlObject = $(notificationData.currentHtml);
@@ -690,7 +776,7 @@
 						angular.injector(['ng', 'myApp']).invoke(function ($compile) {
 							var $scope = angular.element(document.body).scope();
 							var dataSource = notificationData.dataSource;
-										
+
 							var to_compile = angular_obj;
 							//var to_compile = notificationData.currentHtml;
 							var $compiled = $compile(to_compile)($scope);
@@ -698,29 +784,34 @@
 							// Append the compiled output to the page.
 							//$compiled.appendTo(document.body);
 							$("#drop-target-one").append($compiled[0]);
-						});	
+						});
 					}else{
 						var $htmlObject = $(notificationData.currentHtml);
 						$("#drop-target-one").append($htmlObject);
-					}			
+					}
 
-					setAllDrags();					
+					setAllDrags();
 				}
-				
+
 			});
 
 			socket.on("moved_Html", function(notificationData) {
 
 				if(notificationData.loggedinUser != loggedinUser){
+<<<<<<< HEAD
+					console.log(notificationData);
+					console.log("pinged");
+=======
 				
 					console.log(notificationData);		
+>>>>>>> parent of 7b2aad8... TextBox_Prop
 					//loggedinUser=" + loggedinUser + "&currentId=" + this.id + "&positionX=" + ui.position.left+ "&positionY=" + ui.position.top;
 					var nodes_test = document.getElementById(notificationData.currentId);
 					nodes_test.style.top=(notificationData.positionY)+ "px";
-					nodes_test.style.left=(notificationData.positionX)+ "px";				
-						
+					nodes_test.style.left=(notificationData.positionX)+ "px";
+
 				}
-				
+
 			});
 
 		</script>
@@ -729,6 +820,8 @@
 
 	<body id="my_body"  ng-app="myApp" ng-controller="MyController">
 
+
+<div id='WrapDiv'>
 	<div class="left">
 		
 		<uib-tabset active="activeJustified" justified="true">
@@ -741,11 +834,29 @@
 							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
 						</uib-accordion-heading>						
 						<ul id="drag-elements1" class="drag-elements">
+<<<<<<< HEAD
+							<li class="drag-elements-li obstacle " draggable="true">Element One</li>
+							<li class="drag-elements-li obstacle" draggable="true">Element Two</li>
+							<li class="drag-elements-li " draggable="true">Element Three</li>
+							<li class="drag-elements-li " draggable="true">Element Four</li>
+							<li class="drag-elements-li " draggable="true">Element Five</li>
+						</ul>
+					</uib-accordion-group>
+					<uib-accordion-group is-open="status4.open">
+						<uib-accordion-heading>
+							General
+							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status4.open, 'glyphicon-chevron-right': !status4.open}"></i>
+						</uib-accordion-heading>
+						<ul id="drag-elements1" class="drag-elements">
+							<li data-objectid="label" draggable="true"><label for='label' style=' font-family: Verdana; color: black; '> textLabel </label></li>
+							<li data-objectid="textBox" draggable="true"><label class='mock-text-box' for='textBox' style=' font-family: Verdana; color: black; '>SimpleTextBox</label></li>
+=======
 							<li id="aaa" class="drag-elements-li obstacle" draggable="true">Element One</li>
 							<li id="bbb" class="drag-elements-li obstacle" draggable="true">Element Two</li>
 							<li class="drag-elements-li"  draggable="true">Element Three</li>
 							<li class="drag-elements-li"  draggable="true">Element Four</li>
 							<li class="drag-elements-li"  draggable="true">Element Five</li>
+>>>>>>> parent of 7b2aad8... TextBox_Prop
 						</ul>
 					</uib-accordion-group>
 					<uib-accordion-group is-open="status2.open">
@@ -773,6 +884,18 @@
 						</ul>
 					</uib-accordion-group>
 				</uib-accordion>
+				<div class="dropdown" >
+					<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">Change Background
+					<span class="caret"></span></button>
+
+						<div class="dropdown-menu " >
+							 <input type = "text" ng-model="newimagepath" placeholder="Image URL" />
+							 <button class='btn subtext1' ng-click = "setBackground()">CHANGE</button>
+						</div>
+
+				</div>
+
+
 			</uib-tab>
 			<uib-tab select="tabAlert()">
 				<uib-tab-heading>
@@ -826,12 +949,83 @@
 	<div id="main_ui" class="main">
 
 
+<<<<<<< HEAD
+	<div id="main_ui" class="main" ng-style="mainPanelStyle">
+
+
+		<div id="drop-target-one">
+			<img ng-src="{{imagepath}}">
+
+		</div>
+
+
+	</div>
+</div>
+
+
+
+	<div class="bottom" ng-show="bottomPropPanel.panelShow" ng-style="bottomPanelStyle">
+		<div class="row">
+			<div class="col-md-6 col-lg-6">
+				Id &nbsp; &nbsp; &nbsp; &nbsp;
+				<input type="text" ng-model="bottomPropPanel.name">
+			</div>
+			<div class="col-md-6 col-lg-6 text-right" ng-show="bottomPropPanel.minMaxButton">
+				<button type="button" class="btn btn-primary" ng-model="bottomPropPanel.minMaxShow" uib-btn-checkbox>
+        			min-max
+    			</button>
+			</div>
+		</div>
+		<div ng-show="bottomPropPanel.dpSelectShow">
+			Parent &nbsp;
+			<select class="input-sm" ng-model="bottomPropPanel.parentSelect" ng-change="generatePropDP()">
+				<option ng-repeat="i in allDP">{{i.id}}</option>
+			</select> &nbsp;&nbsp;&nbsp; Data Point &nbsp;
+			<select class="input-sm" ng-model="bottomPropPanel.dpSelect">
+				<option ng-repeat="i in bottomPropPanel.dpList">{{i}}</option>
+			</select>
+		</div>
+		<div ng-show="bottomPropPanel.fontPropShow">
+			<span ng-show="!bottomPropPanel.minMaxShow">
+				Color &nbsp; &nbsp;&nbsp;&nbsp;
+			</span>
+			<select class="input-sm" ng-model="bottomPropPanel.colorSelect" ng-show="!bottomPropPanel.minMaxShow">
+				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
+			</select> Font &nbsp;
+			<select class="input-sm" ng-model="bottomPropPanel.fontSelect">
+				<option ng-repeat="i in bottomPropPanel.fontList">{{i}}</option>
+			</select> &nbsp;&nbsp;&nbsp; Size &nbsp;
+			<input type="number" ng-model="bottomPropPanel.fontSize" min="1" max="100">
+		</div>
+		<div ng-show="bottomPropPanel.minMaxShow">
+			Maximum Value &nbsp;
+			<input type="number" ng-model="bottomPropPanel.value" min="1" max="100"> &nbsp;&nbsp;&nbsp; Max-Color &nbsp;
+			<select class="input-sm" ng-model="bottomPropPanel.maxColorSelect">
+				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
+			</select> &nbsp;&nbsp;&nbsp; Max-% &nbsp;
+			<input type="number" ng-model="bottomPropPanel.maxPercent" min="1" max="100"> &nbsp;&nbsp;&nbsp; Min-Color &nbsp;
+			<select class="input-sm" ng-model="bottomPropPanel.minColorSelect">
+				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
+			</select> &nbsp;&nbsp;&nbsp; Min-% &nbsp;
+			<input type="number" ng-model="bottomPropPanel.minPercent" min="1" max="100"> &nbsp;&nbsp;&nbsp; Nom-Color &nbsp;
+			<select class="input-sm" ng-model="bottomPropPanel.nomColorSelect">
+				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
+			</select>
+		</div>
+		<div class="text-right">
+			<a type="button" class="btn btn-primary" ng-click="assignProperties()">
+				<span> OK</span>
+			</a>
+		</div>
+	</div>
+=======
 				<div id="drop-target-one">
 
 				</div>
 
 				
 	</div>	
+>>>>>>> parent of 7b2aad8... TextBox_Prop
 
 	<div id="menu">
 	  <a onclick = "removeCustomMenu(this)">
@@ -906,3 +1100,7 @@
 
 
 
+<<<<<<< HEAD
+</script>
+=======
+>>>>>>> parent of 7b2aad8... TextBox_Prop
