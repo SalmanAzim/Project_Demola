@@ -58,7 +58,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 		panelShow: false,
 		dpSelectShow: false,
 		fontPropShow: false,
-		minMaxButton:false,
+		minMaxButton: false,
 		minMaxShow: false,
 		parentSelect: '',
 		dpSelect: '',
@@ -168,7 +168,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 			panelShow: false,
 			dpSelectShow: false,
 			fontPropShow: false,
-			minMaxButton:false,
+			minMaxButton: false,
 			minMaxShow: false,
 			parentSelect: '',
 			dpSelect: '',
@@ -699,10 +699,32 @@ app.controller('MyController', function ($scope, socket, $window) {
 	// Function that generates the list of Data points based on the parent (Phase) selection				
 	$scope.generatePropDP = function () {
 		$scope.bottomPropPanel.dpList.length = 0;
-		if ($scope.bottomPropPanel.parentSelect !== '') {
+		if (($scope.bottomPropPanel.parentSelect !== '') && ($scope.currentObject !== '')) {
+			var objectId = '';
+			for (i = 0; len = $scope.objectDetails.length, i < len; i++) {
+				if ($scope.objectDetails[i].id === "\"" + $scope.currentObject + "\"") {
+					objectId = $scope.objectDetails[i].objectId;
+				}
+			}
 			for (i = 0; len = $scope.allDP.length, len > i; i++) {
 				if ($scope.allDP[i].id === $scope.bottomPropPanel.parentSelect) {
-					$scope.bottomPropPanel.dpList = Object.keys($scope.allDP[i].data);
+					switch (objectId) {
+						case 'label':
+							break;
+						case 'textBox':
+							var dataPointArray = [];
+							dataPointArray = Object.keys($scope.allDP[i].data);
+							for (j = 0; lenJ = dataPointArray.length, lenJ > j; j++) {
+								console.log($scope.allDP[i].data[dataPointArray[j]]);
+								if(($scope.allDP[i].data[dataPointArray[j]] === 'string') || ($scope.allDP[i].data[dataPointArray[j]] === 'integer') || ($scope.allDP[i].data[dataPointArray[j]] === 'double') || ($scope.allDP[i].data[dataPointArray[j]] === 'long')){
+									$scope.bottomPropPanel.dpList = dataPointArray[j];									
+								}
+							}
+							break;
+						default:
+							$scope.bottomPropPanel.dpList = Object.keys($scope.allDP[i].data);
+							break;
+					}
 				}
 			}
 		}
@@ -758,7 +780,6 @@ app.controller('MyController', function ($scope, socket, $window) {
 					socket.emit('propChanged', $scope.objectDetails[i]);
 				}
 			}
-			console.log($scope.objectDetails);
 		}
 	};
 

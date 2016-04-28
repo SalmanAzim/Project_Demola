@@ -151,14 +151,23 @@ app.post('/getNewObject', function(req, res) {
 
 io.on("connection", function (socket) {
 	
+	socket.on('propChanged', function(data){
+		io.sockets.emit('prop_Changed',data);
+	});
+	
 	socket.on('initialConfig', function(data){
 		//Calling the function to get the data point and associate them
 		initialConfig();
 	});
+	
+	//masking the panel visible on double clicks
+	socket.on('panelVisibility', function(data){
+		io.sockets.emit('panel_Visibility',data);
+	});
 
 	socket.on('moveObject', function(data){
 		io.sockets.emit('moved_Html',data);
-		console.log(data);			
+		//console.log(data);			
 	  });
 	  
 	socket.on('newObject', function(data){
@@ -172,10 +181,8 @@ io.on("connection", function (socket) {
 		if(isAngular){
 			angularId = JSON.parse(data.id);
 		}
-	
-		console.log(isAngular);
-		console.log(dataSource);
-		console.log(el2);
+		
+		io.sockets.emit("added_Object",data);
 	
 		//////////////////sample test
 		var document = jsdom.jsdom();

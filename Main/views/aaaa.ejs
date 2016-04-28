@@ -1,20 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<<<<<<< HEAD
 <head>
 
 	<meta charset="utf-8">
 	<title>Factory Visualiztion</title>
 
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-
 	<link rel="stylesheet" href="js/controllers/reset.css">
 	<link rel="stylesheet" type="text/css" href="js/controllers/main.css">
-
-	<link rel="stylesheet" type="text/css" href="../JD/css_JD.css">
-
 	<link rel="stylesheet" href="js/controllers/bootstrap.min.css">
 	<script type="text/javascript" src="js/controllers/angular.js"></script>
 	<script type="text/javascript" src="js/controllers/angular-fusioncharts.min.js"></script>
@@ -29,9 +22,6 @@
 	</script>
 	<script src="js/controllers/demo.js"></script>
 	<script type="text/javascript" src="js/controllers/test.js"></script>
-
-	<script type="text/javascript" src="../JD/jd.js"></script>
-
 	<script type="text/javascript" src="js/controllers/svg_script.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
@@ -45,52 +35,18 @@
 	<script src="js/controllers/CollapsibleLists.js"></script>
 	<script src="js/controllers/bootstrap.min.js"></script>
 	<script src="js/controllers/angularCodes.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-=======
-	<head>
 
-		<meta charset="utf-8">
-		<title>Factory Visualiztion</title>
-		
-		<link rel="stylesheet" href="js/controllers/reset.css">
-		<link rel="stylesheet" type="text/css" href="js/controllers/main.css">	
-        <link rel="stylesheet" href="js/controllers/bootstrap.min.css">
-		<script type="text/javascript" src="js/controllers/angular.js"></script>
-		<script type="text/javascript" src="js/controllers/angular-fusioncharts.min.js"></script>
-		<script type="text/javascript" src="js/controllers/fusioncharts.js"></script>
-		<script type="text/javascript" src="js/controllers/fusioncharts.widgets.js"></script>
-		<script type="text/javascript" src="js/controllers/fusioncharts.theme.fint.js"></script>
-		<script> var elementDragged = null;	var right_global; var test_data</script>
-		<script>var loggedinUser = <%- JSON.stringify(user) %>;</script>
-		<script src="js/controllers/demo.js"></script>
-		<script type="text/javascript" src="js/controllers/test.js"></script>
-		<script type="text/javascript" src="js/controllers/svg_script.js"></script>
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
-		<script src="js/controllers/jquery.ui.core.js"></script>
-		<script src="js/controllers/jquery.ui.widget.js"></script>
-		<script src="js/controllers/jquery.ui.mouse.js"></script>
-		<script src="js/controllers/jquery.ui.draggable.js"></script>
-		<script src="js/controllers/jquery-collision.min.js"></script>
-		<script src="js/controllers/jquery-ui-draggable-collision.js"></script>
-		<script src="js/controllers/ui-bootstrap-tpls-1.3.2.min.js"></script>
-		<script src="js/controllers/CollapsibleLists.js"></script>
-        <script src="js/controllers/bootstrap.min.js"></script>
-
-		<script>
->>>>>>> parent of 7b2aad8... TextBox_Prop
-
+	<script>
 		function menu(x, y,i) {
-		  i.top = y + "px";
-		  i.left = x + "px";
-		  i.visibility = "visible";
-		  i.opacity = "1";
-		}
+				i.top = y + "px";
+				i.left = x + "px";
+				i.visibility = "visible";
+				i.opacity = "1";
+			}
+	</script>
 
-		</script>
-
-		<script>
-			function showCustomMenu(currElement) {
+	<script>
+		function showCustomMenu(currElement) {
 
 					right_global = currElement;
 					var e = window.event;
@@ -99,23 +55,20 @@
 					var posY = e.clientY;
 					menu(posX, posY,i);
 					e.preventDefault();
-
+				
 			}
-		</script>
+	</script>
 
-		<script>
-
-			function feedDataToElement(currElement){
-
-			var mychart;
-			var chartType = right_global.getAttribute("type");
-			console.log(right_global.getAttribute("type"));
-					function addLeadingZero(num){
+	<script>
+		function feedDataToElement(currElement){
+				var mychart;
+				var chartType = right_global.getAttribute("type");
+				console.log(right_global.getAttribute("type"));
+				function addLeadingZero(num){
 						   return (num <= 9)? ("0"+num) : num;
 					 }
-<<<<<<< HEAD
 				var chart_id = document.getElementById(right_global.id).children[0].id;
-				function updateData() {
+				function updateData() {					
 					mychart = FusionCharts(chart_id);
 					currDate = new Date(),
 					label = addLeadingZero(currDate.getHours()) + ":" +
@@ -128,49 +81,18 @@
 					else if(chartType == "realtimeline"){
 						randomValue = Math.floor(Math.random() * 50) / 100 + 35.25,
 						strData = "&label=" + label  + "&value=" + randomValue;
-					}
+					}		
 					test_data = strData;
 					mychart.feedData(strData);
-				}
+				}						
 				var myVar = setInterval(function () {
 					updateData();
 				}, 1000);
-=======
-
-			var chart_id = document.getElementById(right_global.id).children[0].id;
-					function updateData() {
-
-					
-					mychart = FusionCharts(chart_id);
-									currDate = new Date(),
-									label = addLeadingZero(currDate.getHours()) + ":" +
-											addLeadingZero(currDate.getMinutes()) + ":" +
-											addLeadingZero(currDate.getSeconds());
-			if(chartType == 'angulargauge' || chartType == 'cylinder'){
-			randomValue = Math.floor(Math.random() * 200) + 50,
-			strData ="&value=" + randomValue;
->>>>>>> parent of 7b2aad8... TextBox_Prop
 			}
-			else if(chartType == "realtimeline"){
-			randomValue = Math.floor(Math.random() * 50) / 100 + 35.25,
-			strData = "&label=" + label  + "&value=" + randomValue;
-			}		
-								test_data = strData;
-								mychart.feedData(strData);
-						}
-						
-									   var myVar = setInterval(function () {
-							   updateData();
-						   }, 1000);
+	</script>
 
-						   
-
-			}
-
-		</script>
-
-		<script>
-			function removeCustomMenu(currElement) {
+	<script>
+		function removeCustomMenu(currElement) {
 
 			right_global.remove();
 
@@ -180,587 +102,36 @@
 				setTimeout(function() {
 				  i.visibility = "hidden";
 				});
-
-
+				
+				
 			right_global = null;
-
+				
 			}
-		</script>
+	</script>
 
-		<script>
-
-			function showDoubleMenu(currElement) {
-					
+	<script>
+		function showDoubleMenu(currElement) {
+				double_Click = currElement;
+				var socket = io();
+				socket.emit("panelVisibility",{'elementId':currElement.id});
 			}
+	</script>
 
-<<<<<<< HEAD
 	<script>
 		var socket = io();
-
+		
 			//this is pinged inorder to delete the old HTML element and update with the new element
 			socket.on("prop_Changed", function(data){
 				//remove the older element
-				double_Click.remove();
+				double_Click.remove();						
 				double_Click.innerHTML = data.objectHtml;
-				//replace with the newer element
-				$("#drop-target-one").append(double_Click);
-			});
-
-=======
-		</script>
-
-		<script>
-
-			var xsd;
-			var mychart;
-			var app = angular.module("myApp", ['ng-fusioncharts', 'test', 'app', 'ui.bootstrap']);
+				//replace with the newer element		
+				$("#drop-target-one").append(double_Click);			
+			});	
 			
-			app.factory('socket', function ($rootScope) {
-				  var socket = io.connect();
-				  return {
-					on: function (eventName, callback) {
-					  socket.on(eventName, function () {  
-						var args = arguments;
-						$rootScope.$apply(function () {
-						  callback.apply(socket, args);
-						});
-					  });
-					},
-					emit: function (eventName, data, callback) {
-					  socket.emit(eventName, data, function () {
-						var args = arguments;
-						$rootScope.$apply(function () {
-						  if (callback) {
-							callback.apply(socket, args);
-						  }
-						});
-					  })
-					}
-				  };
-				});
-			
-			app.controller('MyController', function($scope, socket, $window) {
-				//:::::::::::::::::::::::::::::::Balaji:::::::::::::::::::::::::::::
-				
-				//Variables=========================================================
-				
-				$scope.booleanDP = [];
-				$scope.doubleDP = [];
-				$scope.longDP = [];
-				$scope.stringDP = [];
-				$scope.integerDP = [];
-				$scope.allDP = [];
-				
-				// Variables with respect to Datapoint based Object selection panel 
-				$scope.dpSelectPanel ={
-					parentSelect : '',
-					dpSelect : '',
-					dpList:[],
-					booleanShow: false,
-					integerShow: false,
-					doubleShow: false,
-					stringShow: false,
-					longShow: false
-				};
-				
-				//Initialization Functions===========================================
-				
-				$scope.initializeObjectDisplay = function(){
-					$scope.dpSelectPanel.booleanShow = false;
-					$scope.dpSelectPanel.integerShow = false;
-					$scope.dpSelectPanel.doubleShow = false;
-					$scope.dpSelectPanel.stringShow = false;
-					$scope.dpSelectPanel.longShow = false;					
-				};
-				
-				//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-				
-				//Define the `myDataSource` scope variable.
-				$scope.myDataSource = {
-					chart: {
-						//Define the chart attributes.
-						"caption": "Monthly revenue for last year",
-						"subCaption": "Harry's SuperMart",
-						"xAxisName": "Month",
-						"yAxisName": "Revenues (In USD)",
-						"theme": "fint"
-					},
-					data: [
-						//Define the data labels and data values for the data plots.
-						{
-						   "label": "Jan",
-						   "value": "420000"
-						},
-						{
-						   "label": "Feb",
-						   "value": "810000"
-						},
-						{
-						   "label": "Mar",
-						   "value": "720000"
-						},
-						{
-						   "label": "Apr",
-						   "value": "550000"
-						},
-						{
-						   "label": "May",
-						   "value": "910000"
-						},
-						{
-						   "label": "Jun",
-						   "value": "510000"
-						},
-						{
-						   "label": "Jul",
-						   "value": "680000"
-						},
-						{
-						   "label": "Aug",
-						   "value": "620000"
-						},
-						{
-						   "label": "Sep",
-						   "value": "610000"
-						},
-						{
-						   "label": "Oct",
-						   "value": "490000"
-						},
-						{
-						   "label": "Nov",
-						   "value": "900000"
-						},
-						{
-						   "label": "Dec",
-						   "value": "730000"
-						}
-					]
-				};
-				
-				////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-				$scope.updateMyChartData = function() {
-					}
-					
-				$scope.updateMyChartData_new = function() {
-					
-								var test = {label:"13"};
-								$scope.categories[0]["category"].push(test);
-								$scope.dataset[0].data.push({"value": "10400"});
-								$scope.dataset[1].data.push({"value": "15400"});					
-								
-								var test = {label:"14"};
-								$scope.categories[0]["category"].push(test);
-								$scope.dataset[0].data.push({"value": "10400"});
-								$scope.dataset[1].data.push({"value": "15400"});
-								
-								var test = {label:"15"};
-								$scope.categories[0]["category"].push(test);					
-								$scope.dataset[0].data.push({"value": "10400"});
-								$scope.dataset[1].data.push({"value": "15400"});
-									
-					}
-					
-				$scope.updateMyChartData_real = function(){
-				//////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME GRAPH
-
-				$scope.myRealTimeData = {
-				'chart': {
-					'caption': 'Real',
-					'subCaption': 'LABEL',
-					'xAxisName': 'x-axis',
-					'yAxisName': 'y-axis',
-					'numberPrefix': '$',
-					'refreshinterval': '5',
-					'yaxisminvalue': '35',
-					'yaxismaxvalue': '36',
-					'numdisplaysets': '10',
-					'labeldisplay': 'rotate',
-					'showValues': '0',
-					'showRealTimeValue': '0',
-					'theme': 'fint'
-				},
-				'categories': [
-					{
-						'category': [
-							{
-								'label': 'Day Start'
-							}
-						]
-					}
-				],
-				'dataset': [
-					{
-						'data': [
-							{
-								'value': '37.27'
-							}
-						]
-					}
-				]
-			};
-
-
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME GAUGE
-					$scope.dataSource_gauge = {
-						"chart": {
-							"caption" : "Speedometer",
-							"captionFont":"Arial",
-							"captionFontColor" : "#333333",
-							"manageresize": "1",
-							"origw": "320",
-							"origh": "320",
-							"tickvaluedistance": "-10",
-							"bgcolor": "#FFFFFF",
-							"upperlimit": "240",
-							"lowerlimit": "0",
-							"basefontcolor": "#FFFFFF",
-							"majortmnumber": "9",
-							"majortmcolor": "#FFFFFF",
-							"majortmheight": "8",
-							"majortmthickness": "5",
-							"minortmnumber": "5",
-							"minortmcolor": "#FFFFFF",
-							"minortmheight": "3",
-							"minortmthickness": "2",
-							"pivotradius": "10",
-							"pivotbgcolor": "#000000",
-							"pivotbordercolor": "#FFFFFF",
-							"pivotborderthickness": "2",
-							"tooltipbordercolor": "#FFFFFF",
-							"tooltipbgcolor": "#333333",
-							"gaugeouterradius": "115",
-							"gaugestartangle": "240",
-							"gaugeendangle": "-60",
-							"gaugealpha": "0",
-							"decimals": "0",
-							"showcolorrange": "0",
-							"placevaluesinside": "1",
-							"pivotfillmix": "",
-							"showpivotborder": "1",
-							"annrenderdelay": "0",
-							"gaugeoriginx": "160",
-							"gaugeoriginy": "160",
-							"showborder": "0"
-						},
-						"dials": {
-							"dial": [
-								{
-									"value": "0",
-									"bgcolor": "000000",
-									"bordercolor": "#FFFFFF",
-									"borderalpha": "100",
-									"basewidth": "4",
-									"topwidth": "4",
-									"borderthickness": "2",
-									"valuey": "260"
-								}
-							]
-						},
-						"annotations": {
-							"groups": [
-								{
-									"x": "160",
-									"y": "160",
-									"items": [
-										{
-											"type": "circle",
-											"radius": "130",
-											"fillasgradient": "1",
-											"fillcolor": "#4B4B4B,#AAAAAA",
-											"fillalpha": "100,100",
-											"fillratio": "95,5"
-										},
-										{
-											"type": "circle",
-											"x": "0",
-											"y": "0",
-											"radius": "120",
-											"showborder": "1",
-											"bordercolor": "cccccc",
-											"fillasgradient": "1",
-											"fillcolor": "#ffffff,#000000",
-											"fillalpha": "50,100",
-											"fillratio": "1,99"
-										}
-									]
-								},
-								{
-									"x": "160",
-									"y": "160",
-									"showbelow": "0",
-									"scaletext": "1",
-									"items": [
-										{
-											"type": "text",
-											"y": "100",
-											"label": "KPH",
-											"fontcolor": "#FFFFFF",
-											"fontsize": "14",
-											"bold": "1"
-										}
-									]
-								}
-							]
-						}
-					};
-
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME CYLINDER
-					$scope.dataSource_cylinder = {
-							"chart": {
-								"theme": "fint",
-								"caption": "Diesel Level in Generator",
-								"subcaption": "Bakersfield Central",
-								"lowerLimit": "0",
-								"upperLimit": "220",
-								"lowerLimitDisplay": "Empty",
-								"upperLimitDisplay": "Full",
-								"numberSuffix": " ltrs",
-								"showValue": "1",
-								"chartBottomMargin": "25" 
-							},
-							"value": "110",
-								"annotations": {
-					"origw": "400",
-					"origh": "190",
-					"autoscale": "1",
-					"groups": [
-						{
-							"id": "range",
-							"items": [
-								{
-									"id": "rangeBg",
-									"type": "rectangle",
-									"x": "$canvasCenterX-45",
-									"y": "$chartEndY-30",
-									"tox": "$canvasCenterX +45",
-									"toy": "$chartEndY-75",
-									"fillcolor": "#6caa03"
-								},
-								{
-									"id": "rangeText",
-									"type": "Text",
-									"fontSize": "11",
-									"fillcolor": "#333333",
-									//"text": "80 ltrs",
-									"x": "$chartCenterX-45",
-									"y": "$chartEndY-50"
-								}
-							]
-						}
-					]
-				}
-						};
-
-
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME CYLINDER
-
-			$scope.myevents = {
-				dataplotclick: function (ev, props) {
-					$scope.$apply(function () {
-						$scope.selectedValue = props.displayValue;
-					});
-				},
-				chartClick: function (eventObj, argsObj) {
-							console.log('Chart clicked at ' + argsObj.chartX + ',' + argsObj.chartY);
-				}
-				
-			/*
-				"initialized": function (e) {
-						   function addLeadingZero(num){
-							   return (num <= 9)? ("0"+num) : num;
-						   }
-						   function updateData() {
-								// Get reference to the chart using its ID
-								var chartRef = FusionCharts("chartobject-1"),
-									// We need to create a querystring format incremental update, containing
-									// label in hh:mm:ss format
-									// and a value (random).
-									currDate = new Date(),
-									label = addLeadingZero(currDate.getHours()) + ":" +
-											addLeadingZero(currDate.getMinutes()) + ":" +
-											addLeadingZero(currDate.getSeconds()),
-									// Get random number between 35.25 & 35.75 - rounded to 2 decimal places
-									randomValue = Math.floor(Math.random()     
-															  * 50) / 100 + 35.25,
-									// Build Data String in format &label=...&value=...
-									strData = "&label=" + label 
-												+ "&value=" 
-												+ randomValue;
-								// Feed it to chart.
-								chartRef.feedData(strData);
-							}
-
-						   var myVar = setInterval(function () {
-							   updateData();
-						   }, 5000);
-					   }
-			*/
-				
-				
-			}
-				
-				
-			}
-				
-				//:::::::::::::::::::::::::::::::Balaji:::::::::::::::::::::::::::::
-				
-				//-------------------------------Socket Functions-------------------
-				
-				// Initially contatct the initial configuration socket for getting the each individual type data points
-				// The reply will also be using socket.io
-				socket.emit('initialConfig', {
-					'hi': 'hello',
-				});
-				
-				//Boolean data point socket
-				socket.on('boolean_DataPoint', function (data) {
-					$scope.booleanDP = data;
-				});
-				
-				//Integer data point socket
-				socket.on('integer_DataPoint', function (data) {
-					$scope.integerDP = data;
-				});
-				
-				//Double data point socket
-				socket.on('double_DataPoint', function (data) {
-					$scope.doubleDP = data;
-				});
-				
-				//Long data point socket
-				socket.on('long_DataPoint', function (data) {
-					$scope.longDP = data;
-				});
-				
-				//String data point socket
-				socket.on('string_DataPoint', function (data) {
-					$scope.stringDP = data;
-				});
-				
-				//All data point socket
-				socket.on('all_DataPoint', function (data) {
-					$scope.allDP = data;
-				});				
-				
-				//------------------------------------------------------------------
-				
-				//-----------------------------Tab Alert Function-------------------
-				
-				// Function that generates alert when the Object Tab is clicked				
-				$scope.tabAlert = function() {
-					setTimeout(function() {
-						$window.alert('The Objects will be displayed based on the Datapoint you select');
-					});
-				};
-				
-				//------------------------------------------------------------------
-				
-				//-----------------------------Object Panel Functions-------------------
-				
-				// Function that generates the list of Data points based on the parent (Phase) selection				
-				$scope.generateDP = function() {
-					$scope.dpSelectPanel.dpList.length = 0;
-					if($scope.dpSelectPanel.parentSelect !== ''){
-						for(i=0; len = $scope.allDP.length, len>i;i++ ){
-							if($scope.allDP[i].id === $scope.dpSelectPanel.parentSelect){							
-								$scope.dpSelectPanel.dpList =  Object.keys($scope.allDP[i].data);								
-							}
-						}	
-					}
-				};
-				
-				
-				// Function that generates the list of Objects based on the DataPoint selection				
-				$scope.generateObject = function() {
-					if(($scope.dpSelectPanel.parentSelect !== '') && ($scope.dpSelectPanel.dpSelect !== '')){
-						for(i=0; len = $scope.allDP.length, len>i;i++ ){
-							if($scope.allDP[i].id === $scope.dpSelectPanel.parentSelect){
-								switch($scope.allDP[i].data[$scope.dpSelectPanel.dpSelect]){
-									case 'boolean':
-										$scope.initializeObjectDisplay();
-										$scope.dpSelectPanel.booleanShow = true;
-										break;
-									case 'integer':
-										$scope.initializeObjectDisplay();
-										$scope.dpSelectPanel.integerShow = true;
-										break;
-									case 'string':
-										$scope.initializeObjectDisplay();
-										$scope.dpSelectPanel.doubleShow = true;
-										break;
-									case 'double':
-										$scope.initializeObjectDisplay();
-										$scope.dpSelectPanel.longShow = true;
-										break;
-									case 'long':
-										$scope.initializeObjectDisplay();
-										$scope.dpSelectPanel.stringShow = true;
-										break;
-									default:
-										$scope.initializeObjectDisplay();
-										break;
-								}
-							}
-						}	
-					}
-				};
-				
-				//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-				
-			});
-				
-					
-		</script>
-
-		<script>
-
-			function setAllDrags() {
-				//var $draggables = $("li.drag-elements-new-li");
-				var $draggables_p = $("#drop-target-one");
-				var $draggables = $draggables_p.children();
-				var id, $draggableItem;
-				//var $my_test_array = new Array();
-				for (var i = 0; i < $draggables.length; i++) {
-					//$draggableItem = $draggables.eq(i);
-					//id = $draggableItem.attr("id");
-						
-					var $my_test_array = new Array();
-							
-					for(var j=0;j<$draggables.length; j++){
-							
-						if($draggables.eq(i)[0] != $draggables.eq(j)[0] ){
-							$draggableItem = $draggables.eq(j);
-							$my_test_array.push($draggableItem);
-						}
-							
-					}
-						
-					$($draggables.eq(i)).draggable({
-						obstacle: $my_test_array,
-						preventCollision: true,
-						containment: "#drop-target-one"	,
-						stop: function(event, ui)
-						{
-						},
-						drag: function(event, ui)
-						{
-							socket.emit('moveObject', {'loggedinUser': loggedinUser, currentId:this.id, positionX:ui.position.left, positionY:ui.position.top});
-						}
-					});
-				}
-			}
-
-		</script>
-
-		<script>
-
-			var socket = io();
-			
->>>>>>> parent of 7b2aad8... TextBox_Prop
 			socket.on("added_Html", function(notificationData) {
-
-				if(notificationData.loggedinUser != loggedinUser){
+			
+				if(notificationData.loggedinUser != loggedinUser){		
 
 					if(notificationData.isAngular){
 						var $htmlObject = $(notificationData.currentHtml);
@@ -776,70 +147,60 @@
 						angular.injector(['ng', 'myApp']).invoke(function ($compile) {
 							var $scope = angular.element(document.body).scope();
 							var dataSource = notificationData.dataSource;
-
+										
 							var to_compile = angular_obj;
 							//var to_compile = notificationData.currentHtml;
 							var $compiled = $compile(to_compile)($scope);
 							$scope.$digest();
 							// Append the compiled output to the page.
-							//$compiled.appendTo(document.body);
 							$("#drop-target-one").append($compiled[0]);
-						});
+						});	
 					}else{
 						var $htmlObject = $(notificationData.currentHtml);
 						$("#drop-target-one").append($htmlObject);
-					}
+					}			
 
-					setAllDrags();
+					setAllDrags();					
 				}
-
+				
 			});
 
 			socket.on("moved_Html", function(notificationData) {
 
-				if(notificationData.loggedinUser != loggedinUser){
-<<<<<<< HEAD
+				if(notificationData.loggedinUser != loggedinUser){				
 					console.log(notificationData);
-					console.log("pinged");
-=======
-				
-					console.log(notificationData);		
->>>>>>> parent of 7b2aad8... TextBox_Prop
+					console.log("pinged");		
 					//loggedinUser=" + loggedinUser + "&currentId=" + this.id + "&positionX=" + ui.position.left+ "&positionY=" + ui.position.top;
 					var nodes_test = document.getElementById(notificationData.currentId);
 					nodes_test.style.top=(notificationData.positionY)+ "px";
-					nodes_test.style.left=(notificationData.positionX)+ "px";
-
+					nodes_test.style.left=(notificationData.positionX)+ "px";				
+						
 				}
-
+				
 			});
+	</script>
 
-		</script>
-		
-	</head>
+</head>
 
-	<body id="my_body"  ng-app="myApp" ng-controller="MyController">
+<body id="my_body" ng-app="myApp" ng-controller="MyController">
 
-
-<div id='WrapDiv'>
 	<div class="left">
-		
+
 		<uib-tabset active="activeJustified" justified="true">
 			<uib-tab index="0" heading="Object">
-				<br>			
+				<br>
 				<uib-accordion close-others="true">
 					<uib-accordion-group is-open="status1.open">
 						<uib-accordion-heading>
-							Elements 
+							Elements
 							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
-						</uib-accordion-heading>						
+						</uib-accordion-heading>
 						<ul id="drag-elements1" class="drag-elements">
-<<<<<<< HEAD
-							<li class="drag-elements-li obstacle " draggable="true">Element One</li>
+							<li class="drag-elements-li obstacle" draggable="true">Element One</li>
 							<li class="drag-elements-li obstacle" draggable="true">Element Two</li>
-							<li class="drag-elements-li " draggable="true">Element Three</li>
-							<li class="drag-elements-li " draggable="true">Element Four</li>
-							<li class="drag-elements-li " draggable="true">Element Five</li>
+							<li class="drag-elements-li" draggable="true">Element Three</li>
+							<li class="drag-elements-li" draggable="true">Element Four</li>
+							<li class="drag-elements-li" draggable="true">Element Five</li>
 						</ul>
 					</uib-accordion-group>
 					<uib-accordion-group is-open="status4.open">
@@ -850,13 +211,6 @@
 						<ul id="drag-elements1" class="drag-elements">
 							<li data-objectid="label" draggable="true"><label for='label' style=' font-family: Verdana; color: black; '> textLabel </label></li>
 							<li data-objectid="textBox" draggable="true"><label class='mock-text-box' for='textBox' style=' font-family: Verdana; color: black; '>SimpleTextBox</label></li>
-=======
-							<li id="aaa" class="drag-elements-li obstacle" draggable="true">Element One</li>
-							<li id="bbb" class="drag-elements-li obstacle" draggable="true">Element Two</li>
-							<li class="drag-elements-li"  draggable="true">Element Three</li>
-							<li class="drag-elements-li"  draggable="true">Element Four</li>
-							<li class="drag-elements-li"  draggable="true">Element Five</li>
->>>>>>> parent of 7b2aad8... TextBox_Prop
 						</ul>
 					</uib-accordion-group>
 					<uib-accordion-group is-open="status2.open">
@@ -879,36 +233,24 @@
 						</uib-accordion-heading>
 						<ul id="angular_elements">
 							<p style="background-color:lightgrey;font-size : 10px" class="angular_elements_child" id="real_time_graph" draggable='true'>Drag to add Real Time Graph</p>
-							<p style="background-color:lightgrey;font-size : 10px" class="angular_elements_child" id="real_time_gauge" draggable='true'>Drag to add Gauge</p>	
+							<p style="background-color:lightgrey;font-size : 10px" class="angular_elements_child" id="real_time_gauge" draggable='true'>Drag to add Gauge</p>
 							<p style="background-color:lightgrey;font-size : 10px" class="angular_elements_child" id="real_time_tank" draggable='true'>Drag to add Tank</p>
 						</ul>
 					</uib-accordion-group>
 				</uib-accordion>
-				<div class="dropdown" >
-					<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">Change Background
-					<span class="caret"></span></button>
-
-						<div class="dropdown-menu " >
-							 <input type = "text" ng-model="newimagepath" placeholder="Image URL" />
-							 <button class='btn subtext1' ng-click = "setBackground()">CHANGE</button>
-						</div>
-
-				</div>
-
-
 			</uib-tab>
 			<uib-tab select="tabAlert()">
 				<uib-tab-heading>
 					<i class="glyphicon glyphicon-bell"></i> DataPoint
 				</uib-tab-heading>
 				<br>
-				 <div>
-					Parent &nbsp;				
+				<div>
+					Parent &nbsp;
 				</div>
 				<div>
 					<select class="input-sm" ng-model="dpSelectPanel.parentSelect" ng-change="generateDP()">
-                        <option ng-repeat="i in allDP">{{i.id}}</option>
-                    </select>
+							<option ng-repeat="i in allDP">{{i.id}}</option>
+						</select>
 				</div>
 				<br>
 				<div>
@@ -916,8 +258,8 @@
 				</div>
 				<div>
 					<select class="input-sm" ng-model="dpSelectPanel.dpSelect" ng-change="generateObject()">
-                        <option ng-repeat="i in dpSelectPanel.dpList">{{i}}</option>
-                    </select>
+							<option ng-repeat="i in dpSelectPanel.dpList">{{i}}</option>
+						</select>
 				</div>
 				<br>
 				<br>
@@ -929,9 +271,9 @@
 					<ul id="drag-elements1" class="drag-elements">
 						<li id="aaa" class="drag-elements-li obstacle" draggable="true" ng-show="dpSelectPanel.booleanShow">Element One</li>
 						<li id="bbb" class="drag-elements-li obstacle" draggable="true" ng-show="dpSelectPanel.integerShow">Element Two</li>
-						<li class="drag-elements-li"  draggable="true" ng-show="dpSelectPanel.doubleShow">Element Three</li>
-						<li class="drag-elements-li"  draggable="true" ng-show="dpSelectPanel.stringShow">Element Four</li>
-						<li class="drag-elements-li"  draggable="true"ng-show="dpSelectPanel.longShow">Element Five</li>
+						<li class="drag-elements-li" draggable="true" ng-show="dpSelectPanel.doubleShow">Element Three</li>
+						<li class="drag-elements-li" draggable="true" ng-show="dpSelectPanel.stringShow">Element Four</li>
+						<li class="drag-elements-li" draggable="true" ng-show="dpSelectPanel.longShow">Element Five</li>
 					</ul>
 					<ul>
 						<svg-icon p="bookmark" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
@@ -942,27 +284,19 @@
 					</ul>
 				</div>
 			</uib-tab>
-		</uib-tabset>		
+		</uib-tabset>
 	</div>
-		
-		
-	<div id="main_ui" class="main">
 
 
-<<<<<<< HEAD
 	<div id="main_ui" class="main" ng-style="mainPanelStyle">
 
 
 		<div id="drop-target-one">
-			<img ng-src="{{imagepath}}">
 
 		</div>
 
 
 	</div>
-</div>
-
-
 
 	<div class="bottom" ng-show="bottomPropPanel.panelShow" ng-style="bottomPanelStyle">
 		<div class="row">
@@ -987,7 +321,7 @@
 		</div>
 		<div ng-show="bottomPropPanel.fontPropShow">
 			<span ng-show="!bottomPropPanel.minMaxShow">
-				Color &nbsp; &nbsp;&nbsp;&nbsp;
+				Color &nbsp; &nbsp;&nbsp;&nbsp; 
 			</span>
 			<select class="input-sm" ng-model="bottomPropPanel.colorSelect" ng-show="!bottomPropPanel.minMaxShow">
 				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
@@ -1018,76 +352,52 @@
 			</a>
 		</div>
 	</div>
-=======
-				<div id="drop-target-one">
-
-				</div>
-
-				
-	</div>	
->>>>>>> parent of 7b2aad8... TextBox_Prop
 
 	<div id="menu">
-	  <a onclick = "removeCustomMenu(this)">
-		<img src="http://puu.sh/nr60s/42df867bf3.png"/> Delete Element
-	  </a>
-	  <a  onclick = "removeCustomMenu(this)">
-		<img src="http://puu.sh/nr5Z6/4360098fc1.png" /> Option 1
-	  </a>
-	  <hr />
-	  <a  onclick = "showDoubleMenu(this)">
-		<i class="fa fa-fort-awesome"></i> Option 2
-	  </a >
-	  <a  onclick = "feedDataToElement(this)">
-		<i class="fa fa-flag"></i> Bind Data
-	  </a>
+		<a onclick="removeCustomMenu(this)">
+			<img src="http://puu.sh/nr60s/42df867bf3.png" /> Delete Element
+		</a>
+		<a onclick="showDoubleMenu(this)" ng-click="testFunction(this)">
+			<img src="http://puu.sh/nr5Z6/4360098fc1.png" /> Properties
+		</a>
+		<hr />
+		<a onclick="showDoubleMenu(this)">
+			<i class="fa fa-fort-awesome"></i> Option 2
+		</a>
+		<a onclick="feedDataToElement(this)">
+			<i class="fa fa-flag"></i> Bind Data
+		</a>
 	</div>
-		
-		
+
+
 	<div id="menu1">
-	  <a>
-		<img src="http://puu.sh/nr60s/42df867bf3.png"/> Delete Element
-	  </a>
-	  <a>
-		<img src="http://puu.sh/nr5Z6/4360098fc1.png" /> Option 1
-	  </a>
-	  <hr />
-	  <a>
-		<i class="fa fa-fort-awesome"></i> Option 2
-	  </a >
-	  <a>
-		<i class="fa fa-flag"></i> Option 3
-	  </a>
+		<a>
+			<img src="http://puu.sh/nr60s/42df867bf3.png" /> Delete Element
+		</a>
+		<a>
+			<img src="http://puu.sh/nr5Z6/4360098fc1.png" /> Option 1
+		</a>
+		<hr />
+		<a>
+			<i class="fa fa-fort-awesome"></i> Option 2
+		</a>
+		<a>
+			<i class="fa fa-flag"></i> Option 3
+		</a>
 	</div>
-		
-		
-	<form id='sampleform' method='post' action='' >
-	   <p>
-	   Name: <input type='text' name='Name' />
-	   </p>
-	   <p>
-	   Email: <input type='text' name='Email' />
-	   </p>
-	   <p>
-	   <input type='submit' name='Submit' value='Submit' />
-	   </p>
-	</form>
 
+</body>
 
-		
-	<!-- <button onclick="myFunction()">Click me</button> -->
-
-	</body>
-
-	<script>
-		//CollapsibleLists.applyTo(document.getElementById('drag-elements'));
+<script>
+	//CollapsibleLists.applyTo(document.getElementById('drag-elements'));
 		CollapsibleLists.apply();
-	</script>
+
+</script>
 
 </html>
 
 <script>
-
+	// The functionality is used in order to hide the drop down menu while some item is being clicked
 	var menu_item = document.getElementById("menu").style;
 	document.addEventListener('click', function(e) {
 		menu_item.opacity = "0";
@@ -1095,12 +405,5 @@
 			menu_item.visibility = "hidden";
 		});
 	}, false);
-  
+
 </script>
-
-
-
-<<<<<<< HEAD
-</script>
-=======
->>>>>>> parent of 7b2aad8... TextBox_Prop
