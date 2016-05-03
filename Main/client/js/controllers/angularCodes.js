@@ -40,6 +40,25 @@ app.controller('MyController', function ($scope, socket, $window) {
 	$scope.testObject = '';
 	$scope.currentObject = '';
 
+    $scope.imagepath = '../images/background-image3.jpg';
+
+	// Variables with respect to grid
+	$scope.gridDetails = {
+		value: 'hide',
+		hide: false,
+		colorSelect: 'black',
+		color: 'rgba(0, 0, 0, .20)' // Lalter the opacity of the color also can be modified
+	};
+
+	// Variables with main drag drop panel
+	$scope.dropTargetOne = {
+		style: {
+			'background-color': 'transparent',
+			'background-image': 'linear-gradient(0deg, transparent 24%, ' + $scope.gridDetails.color + ' 25%, ' + $scope.gridDetails.color + ' 26%, transparent 27%, transparent 74%, ' + $scope.gridDetails.color + ' 75%, ' + $scope.gridDetails.color + ' 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, ' + $scope.gridDetails.color + ' 25%, ' + $scope.gridDetails.color + ' 26%, transparent 27%, transparent 74%, ' + $scope.gridDetails.color + ' 75%, ' + $scope.gridDetails.color + ' 76%, transparent 77%, transparent)',
+			'background-size': '30px 30px'
+		}
+	};
+
 	// Variables with respect to Datapoint based Object selection panel 
 	$scope.dpSelectPanel = {
 		parentSelect: '',
@@ -57,29 +76,41 @@ app.controller('MyController', function ($scope, socket, $window) {
 		name: '',
 		panelShow: false,
 		dpSelectShow: false,
+		imageDetailsShow: false,
 		fontPropShow: false,
 		minMaxButton: false,
 		minMaxShow: false,
+		rowSelectionShow: false,
+		rowNos: 2,
+		minMaxValue: 'Min-Max',
 		parentSelect: '',
 		dpSelect: '',
 		colorSelect: 'black',
+		backColorList: ['transparent', 'red', 'orange', 'blue', 'green', 'black', 'white', '#DCDCDC'],
 		colorList: ['red', 'orange', 'blue', 'green', 'black', 'white', '#DCDCDC'],
 		fontSelect: 'Verdana',
 		fontList: ['Arial', 'Impact', 'Times New Roman', 'Verdana', 'Tahoma'],
 		dpList: [],
 		fontSize: 8,
+		backColorSelect: 'white',
 		value: 0,
 		maxColorSelect: 'red',
 		minColorSelect: 'orange',
 		nomColorSelect: 'green',
 		maxPercent: 75,
-		minPercent: 35
+		minPercent: 35,
+		width: '100%',
+		height: '100%',
+		url: '../images/leanware-logo.png'
 	};
 
 	// Variables with respect to main panel style
 	$scope.mainPanelStyle = {
 		'overflow': 'auto', 'position': 'absolute',
-		'left': '15%', 'top': '0%', 'right': '0', 'bottom': '0%'
+		'left': '15%', 'top': '0%', 'right': '0', 'bottom': '0%',
+		'background': 'url(' + $scope.imagepath + ')',
+		'background-size': '100% 100%',
+		'background-repeat': 'no-repeat'
 	};
 
 	// Variables with respect to main panel style
@@ -117,7 +148,53 @@ app.controller('MyController', function ($scope, socket, $window) {
 		name: '',
 		font: 'Verdana',
 		color: 'black',
-		fontSize: '8px'
+		backColor: 'white',
+		fontSize: '8px',
+		minMaxPresence: false,
+		value: 0,
+		maxColor: 'red',
+		minColor: 'orange',
+		nomColor: 'green',
+		maxPercent: 75,
+		minPercent: 35
+	};
+
+	//listBox property model
+	$scope.listBoxProperties = {
+		id: '',
+		objectId: '',
+		parent: '',
+		dataPoint: '',
+		html: '',
+		objectHtml: '',
+		name: '',
+		font: 'Verdana',
+		color: 'black',
+		backColor: 'white',
+		fontSize: '8px',
+		typeMap: false,
+		rows: 2,
+		minMaxPresence: false,
+		maxColor: 'red',
+		maxColorValue: 2,
+		minColor: 'orange',
+		minColorValue: 0,
+		nomColor: 'green',
+		nomColorValue: 1
+	};
+
+	//image property model
+	$scope.imageBoxProperties = {
+		id: '',
+		objectId: '',
+		parent: '',
+		dataPoint: '',
+		html: '',
+		objectHtml: '',
+		name: '',
+		url: '../images/leanware-logo.png',
+		width: '100%',
+		height: '100%'
 	};
 
 	//Initialization Functions===========================================
@@ -151,6 +228,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 			name: '',
 			font: 'Verdana',
 			color: 'black',
+			backColor: 'white',
 			fontSize: '8px',
 			minMaxPresence: false,
 			value: 0,
@@ -160,6 +238,40 @@ app.controller('MyController', function ($scope, socket, $window) {
 			maxPercent: 75,
 			minPercent: 35
 		};
+		$scope.listBoxProperties = {
+			id: '',
+			objectId: '',
+			parent: '',
+			dataPoint: '',
+			html: '',
+			objectHtml: '',
+			name: '',
+			font: 'Verdana',
+			color: 'black',
+			backColor: 'white',
+			fontSize: '8px',
+			typeMap: false,
+			rows: 2,
+			minMaxPresence: false,
+			maxColor: 'red',
+			maxColorValue: 2,
+			minColor: 'orange',
+			minColorValue: 0,
+			nomColor: 'green',
+			nomColorValue: 1
+		};
+		$scope.imageBoxProperties = {
+			id: '',
+			objectId: '',
+			parent: '',
+			dataPoint: '',
+			html: '',
+			objectHtml: '',
+			name: '',
+			url: '../images/leanware-logo.png',
+			width: '100%',
+			height: '100%'
+		};
 	};
 
 	$scope.initializeProperyitems = function () {
@@ -167,23 +279,32 @@ app.controller('MyController', function ($scope, socket, $window) {
 			name: '',
 			panelShow: false,
 			dpSelectShow: false,
+			imageDetailsShow: false,
 			fontPropShow: false,
 			minMaxButton: false,
 			minMaxShow: false,
+			rowSelectionShow: false,
+			rowNos: 2,
+			minMaxValue: 'Min-Max',
 			parentSelect: '',
 			dpSelect: '',
 			colorSelect: 'black',
+			backColorList: ['transparent', 'red', 'orange', 'blue', 'green', 'black', 'white', '#DCDCDC'],
 			colorList: ['red', 'orange', 'blue', 'green', 'black', 'white', '#DCDCDC'],
 			fontSelect: 'Verdana',
 			fontList: ['Arial', 'Impact', 'Times New Roman', 'Verdana', 'Tahoma'],
 			dpList: [],
 			fontSize: 8,
+			backColorSelect: 'white',
 			value: 0,
 			maxColorSelect: 'red',
 			minColorSelect: 'orange',
 			nomColorSelect: 'green',
 			maxPercent: 75,
-			minPercent: 35
+			minPercent: 35,
+			width: '100%',
+			height: '100%',
+			url: '../images/leanware-logo.png'
 		};
 	};
 
@@ -478,38 +599,6 @@ app.controller('MyController', function ($scope, socket, $window) {
 				console.log('Chart clicked at ' + argsObj.chartX + ',' + argsObj.chartY);
 			}
 
-			/*
-				"initialized": function (e) {
-						   function addLeadingZero(num){
-							   return (num <= 9)? ("0"+num) : num;
-						   }
-						   function updateData() {
-								// Get reference to the chart using its ID
-								var chartRef = FusionCharts("chartobject-1"),
-									// We need to create a querystring format incremental update, containing
-									// label in hh:mm:ss format
-									// and a value (random).
-									currDate = new Date(),
-									label = addLeadingZero(currDate.getHours()) + ":" +
-											addLeadingZero(currDate.getMinutes()) + ":" +
-											addLeadingZero(currDate.getSeconds()),
-									// Get random number between 35.25 & 35.75 - rounded to 2 decimal places
-									randomValue = Math.floor(Math.random()     
-															  * 50) / 100 + 35.25,
-									// Build Data String in format &label=...&value=...
-									strData = "&label=" + label 
-												+ "&value=" 
-												+ randomValue;
-								// Feed it to chart.
-								chartRef.feedData(strData);
-							}
-
-						   var myVar = setInterval(function () {
-							   updateData();
-						   }, 5000);
-					   }
-			*/
-
 
 		};
 
@@ -556,37 +645,59 @@ app.controller('MyController', function ($scope, socket, $window) {
 	});
 
 	// Socket Function which makes the bottom property panel visible
+	socket.on('panel_Visibility_OnClick', function (data) {
+		$scope.bottomPropPanel.panelShow = false;
+		$scope.mainPanelStyle = {
+			'overflow': 'auto', 'position': 'absolute',
+			'left': '15%', 'top': '0%', 'right': '0', 'bottom': '0%',
+			'background': 'url(' + $scope.imagepath + ')',
+			'background-size': '100% 100%',
+			'background-repeat': 'no-repeat'
+		};
+	});
+
+	// Socket Function which makes the bottom property panel visible and assign the default values
 	socket.on('panel_Visibility', function (data) {
 		$scope.initializeProperyitems();
 		$scope.bottomPropPanel.panelShow = !$scope.bottomPropPanel.panelShow;
 		if ($scope.bottomPropPanel.panelShow) {
 			$scope.mainPanelStyle = {
 				'overflow': 'auto', 'position': 'absolute',
-				'left': '15%', 'top': '0%', 'right': '0', 'bottom': '15%'
+				'left': '15%', 'top': '0%', 'right': '0', 'bottom': '15%',
+				'background': 'url(' + $scope.imagepath + ')',
+				'background-size': '100% 100%',
+				'background-repeat': 'no-repeat'
 			};
 		} else {
 			$scope.mainPanelStyle = {
 				'overflow': 'auto', 'position': 'absolute',
-				'left': '15%', 'top': '0%', 'right': '0', 'bottom': '0%'
+				'left': '15%', 'top': '0%', 'right': '0', 'bottom': '0%',
+				'background': 'url(' + $scope.imagepath + ')',
+				'background-size': '100% 100%',
+				'background-repeat': 'no-repeat'
 			};
 		}
 		for (i = 0; len = $scope.objectDetails.length, i < len; i++) {
+			//Check the element Id and assign the properties to the options in properties panel
+			//If the property has already been assigned earlier it displays them elase it displays the default values.
 			if ($scope.objectDetails[i].id === "\"" + data.elementId + "\"") {
 				$scope.bottomPropPanel.parentSelect = $scope.objectDetails[i].parent;
 				$scope.bottomPropPanel.dpSelect = $scope.objectDetails[i].dataPoint;
 				$scope.bottomPropPanel.colorSelect = $scope.objectDetails[i].color;
 				$scope.bottomPropPanel.fontSelect = $scope.objectDetails[i].font;
 				$scope.bottomPropPanel.name = $scope.objectDetails[i].name;
-				$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
 				switch ($scope.objectDetails[i].objectId) {
 					case 'label':
 						$scope.bottomPropPanel.fontPropShow = true;
 						$scope.bottomPropPanel.minMaxShow = false;
+				$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
 						break;
 					case 'textBox':
 						$scope.bottomPropPanel.dpSelectShow = true;
 						$scope.bottomPropPanel.minMaxButton = true;
 						$scope.bottomPropPanel.fontPropShow = true;
+				$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
+						$scope.bottomPropPanel.backColorSelect = $scope.objectDetails[i].backColor;
 						$scope.bottomPropPanel.minMaxShow = $scope.objectDetails[i].minMaxPresence;
 						$scope.bottomPropPanel.value = $scope.objectDetails[i].value;
 						$scope.bottomPropPanel.maxColorSelect = $scope.objectDetails[i].maxColor;
@@ -595,6 +706,27 @@ app.controller('MyController', function ($scope, socket, $window) {
 						$scope.bottomPropPanel.minPercent = $scope.objectDetails[i].minPercent;
 						$scope.bottomPropPanel.nomColorSelect = $scope.objectDetails[i].nomColor;
 						break;
+					case 'listBox':
+						$scope.bottomPropPanel.dpSelectShow = true;
+						$scope.bottomPropPanel.minMaxButton = true;
+						$scope.bottomPropPanel.fontPropShow = true;
+				$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
+						$scope.bottomPropPanel.rowSelectionShow = !$scope.objectDetails[i].typeMap;
+						$scope.bottomPropPanel.minMaxValue = 'Map';
+						$scope.bottomPropPanel.backColorSelect = $scope.objectDetails[i].backColor;
+						$scope.bottomPropPanel.minMaxShow = $scope.objectDetails[i].minMaxPresence;
+						$scope.bottomPropPanel.value = $scope.objectDetails[i].value;
+						$scope.bottomPropPanel.maxColorSelect = $scope.objectDetails[i].maxColor;
+						$scope.bottomPropPanel.maxPercent = $scope.objectDetails[i].maxPercent;
+						$scope.bottomPropPanel.minColorSelect = $scope.objectDetails[i].minColor;
+						$scope.bottomPropPanel.minPercent = $scope.objectDetails[i].minPercent;
+						$scope.bottomPropPanel.nomColorSelect = $scope.objectDetails[i].nomColor;
+						break;
+					case 'image':
+						$scope.bottomPropPanel.imageDetailsShow = true;
+						$scope.bottomPropPanel.url = $scope.objectDetails[i].url;
+						$scope.bottomPropPanel.width = $scope.objectDetails[i].width;
+						$scope.bottomPropPanel.height = $scope.objectDetails[i].height;						
 				}
 			}
 		}
@@ -627,6 +759,20 @@ app.controller('MyController', function ($scope, socket, $window) {
 					$scope.textBoxProperties.objectHtml = data.objectHtml;
 					$scope.objectDetails.push($scope.textBoxProperties);
 					break;
+				case 'listBox':
+					$scope.listBoxProperties.id = String(data.id);
+					$scope.listBoxProperties.objectId = data.objectId;
+					$scope.listBoxProperties.html = data.currentHtml;
+					$scope.listBoxProperties.objectHtml = data.objectHtml;
+					$scope.objectDetails.push($scope.listBoxProperties);
+					break;
+				case 'image':
+					$scope.imageBoxProperties.id = String(data.id);
+					$scope.imageBoxProperties.objectId = data.objectId;
+					$scope.imageBoxProperties.html = data.currentHtml;
+					$scope.imageBoxProperties.objectHtml = data.objectHtml;
+					$scope.objectDetails.push($scope.imageBoxProperties);
+					break;
 			}
 		}
 	});
@@ -644,7 +790,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 
 	//------------------------------------------------------------------
 
-	//-----------------------------Object Panel Functions-------------------
+	//-----------------------------Object left Panel Functions-------------------
 
 	// Function that generates the list of Data points based on the parent (Phase) selection				
 	$scope.generateDP = function () {
@@ -694,6 +840,49 @@ app.controller('MyController', function ($scope, socket, $window) {
 		}
 	};
 
+	//------------------------------------------------------------------
+
+	//-----------------------------left Panel Functions-------------------
+
+	//Function that shows or hides the grid depending upon the user requirements
+	$scope.showHideGrid = function () {
+		if ($scope.gridDetails.hide) {
+			$scope.dropTargetOne.style = {};
+			$scope.gridDetails.value = 'show';
+		} else {
+			$scope.dropTargetOne.style = {
+				'background-color': 'transparent',
+				'background-image': 'linear-gradient(0deg, transparent 24%, ' + $scope.gridDetails.color + ' 25%, ' + $scope.gridDetails.color + ' 26%, transparent 27%, transparent 74%, ' + $scope.gridDetails.color + ' 75%, ' + $scope.gridDetails.color + ' 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, ' + $scope.gridDetails.color + ' 25%, ' + $scope.gridDetails.color + ' 26%, transparent 27%, transparent 74%, ' + $scope.gridDetails.color + ' 75%, ' + $scope.gridDetails.color + ' 76%, transparent 77%, transparent)',
+				'background-size': '30px 30px'
+			};
+			$scope.gridDetails.value = 'hide';
+		}
+	};
+
+	//Function that changes the grid color
+	$scope.gridColorChange = function () {
+		if ($scope.gridDetails.colorSelect === 'black') {
+			$scope.gridDetails.color = 'rgba(0, 0, 0, .20)';
+			$scope.dropTargetOne.style = {
+				'background-color': 'transparent',
+				'background-image': 'linear-gradient(0deg, transparent 24%, ' + $scope.gridDetails.color + ' 25%, ' + $scope.gridDetails.color + ' 26%, transparent 27%, transparent 74%, ' + $scope.gridDetails.color + ' 75%, ' + $scope.gridDetails.color + ' 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, ' + $scope.gridDetails.color + ' 25%, ' + $scope.gridDetails.color + ' 26%, transparent 27%, transparent 74%, ' + $scope.gridDetails.color + ' 75%, ' + $scope.gridDetails.color + ' 76%, transparent 77%, transparent)',
+				'background-size': '30px 30px'
+			};
+		} else {
+			$scope.gridDetails.color = 'rgba(255, 255, 255, .20)';
+			$scope.dropTargetOne.style = {
+				'background-color': 'transparent',
+				'background-image': 'linear-gradient(0deg, transparent 24%, ' + $scope.gridDetails.color + ' 25%, ' + $scope.gridDetails.color + ' 26%, transparent 27%, transparent 74%, ' + $scope.gridDetails.color + ' 75%, ' + $scope.gridDetails.color + ' 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, ' + $scope.gridDetails.color + ' 25%, ' + $scope.gridDetails.color + ' 26%, transparent 27%, transparent 74%, ' + $scope.gridDetails.color + ' 75%, ' + $scope.gridDetails.color + ' 76%, transparent 77%, transparent)',
+				'background-size': '30px 30px'
+			};
+		}
+	};
+
+	//Function that changes the backgroud image depending on the user configurations
+	$scope.setBackground = function () {
+		$scope.imagepath = $scope.newimagepath;
+    };
+
 	//-----------------------------Bottom Property Panel Functions-------------------
 
 	// Function that generates the list of Data points based on the parent (Phase) selection				
@@ -715,9 +904,8 @@ app.controller('MyController', function ($scope, socket, $window) {
 							var dataPointArray = [];
 							dataPointArray = Object.keys($scope.allDP[i].data);
 							for (j = 0; lenJ = dataPointArray.length, lenJ > j; j++) {
-								console.log($scope.allDP[i].data[dataPointArray[j]]);
-								if(($scope.allDP[i].data[dataPointArray[j]] === 'string') || ($scope.allDP[i].data[dataPointArray[j]] === 'integer') || ($scope.allDP[i].data[dataPointArray[j]] === 'double') || ($scope.allDP[i].data[dataPointArray[j]] === 'long')){
-									$scope.bottomPropPanel.dpList = dataPointArray[j];									
+								if (($scope.allDP[i].data[dataPointArray[j]] === 'string') || ($scope.allDP[i].data[dataPointArray[j]] === 'integer') || ($scope.allDP[i].data[dataPointArray[j]] === 'double') || ($scope.allDP[i].data[dataPointArray[j]] === 'long')) {
+									$scope.bottomPropPanel.dpList.push(dataPointArray[j]);
 								}
 							}
 							break;
@@ -758,10 +946,11 @@ app.controller('MyController', function ($scope, socket, $window) {
 							htmlElement[0].style.fontSize = $scope.bottomPropPanel.fontSize + "px";
 							break;
 						case 'textBox':
-							//Textbox Assigns Name,
+							//Textbox Assigns properties to DOM
 							htmlElement[0].innerHTML = dummyName;
 							htmlElement[0].style.fontFamily = $scope.bottomPropPanel.fontSelect;
 							htmlElement[0].style.color = $scope.bottomPropPanel.colorSelect;
+							htmlElement[0].style.backgroundColor = $scope.bottomPropPanel.backColorSelect;
 							htmlElement[0].style.fontSize = $scope.bottomPropPanel.fontSize + "px";
 							if ($scope.bottomPropPanel.minMaxShow) {
 								$scope.objectDetails[i].minMaxPresence = $scope.bottomPropPanel.minMaxShow;
@@ -772,6 +961,11 @@ app.controller('MyController', function ($scope, socket, $window) {
 								$scope.objectDetails[i].minPercent = $scope.bottomPropPanel.minPercent;
 								$scope.objectDetails[i].nomColor = $scope.bottomPropPanel.nomColorSelect;
 							}
+							break;
+							case 'image':
+							htmlElement[0].url = $scope.bottomPropPanel.url;
+							htmlElement[0].width = $scope.bottomPropPanel.width;
+							htmlElement[0].height = $scope.bottomPropPanel.height;
 							break;
 					}
 					//convert HTML DOM Element to String and assign it to 'ObjectHTML'

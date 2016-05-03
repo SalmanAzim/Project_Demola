@@ -93,9 +93,7 @@ window.onload = function () {
 		cln.style.left = (ess.clientX - 140) + "px";
 
 
-		if (cln.class == "drag-elements-li") {
-			cln.setAttribute("class", "drag-elements-new-li");
-		}
+		
 		if (cln.getAttribute("class") == "angular_elements_child") {
 
 			var to_compile;
@@ -134,14 +132,22 @@ window.onload = function () {
 				isAngular = true;
 			});
 		}
+
+		if (cln.getAttribute("data-objectid") == "image") {
+			var $clnJQuery = $(cln);
+			$clnJQuery
+			var img = document.createElement("img");
+			img.setAttribute("src", "../images/leanware-logo.png");
+			img.setAttribute("height", "100%");
+			img.setAttribute("width", "100%");
+			//cln.appendChild(img);
+			//cln.removeChild(childNode);			
+			console.log($clnJQuery);
+		}
+
 		cln.setAttribute("oncontextmenu", "showCustomMenu(this)");
 		cln.setAttribute("ondblclick", "showDoubleMenu(this)");
 		nodes_test.appendChild(cln);
-		var cln_test = $(cln);
-		cln_test.css({
-			position: 'absolute',
-			cursor: 'pointer'
-		});
 		var $draggables_p = $("#drop-target-one");
 		var $draggables = $draggables_p.children();
 		var id, $draggableItem;
@@ -159,22 +165,23 @@ window.onload = function () {
 				preventCollision: true,
 				containment: "#drop-target-one",
 				stop: function (event, ui) {
-					
+
 				},
 				drag: function (event, ui) {
-					socket.emit('moveObject', { 'loggedinUser': loggedinUser, currentId: this.id, positionX: ui.position.left, positionY: ui.position.top});
+					socket.emit('moveObject', { 'loggedinUser': loggedinUser, currentId: this.id, positionX: ui.position.left, positionY: ui.position.top });
 				}
 			});
 		}
+		var aaa
 		xhttp.onreadystatechange = function () {
 			if (xhttp.readyState == 4 && xhttp.status == 200) {
-				var aaa = xhttp.responseText;
+				aaa = xhttp.responseText;
 				cln.setAttribute("id", JSON.parse(aaa));
 				if (isAngular) {
 					socket.emit('newObject', { 'loggedinUser': loggedinUser, 'currentHtml': angular_to_be_sent, 'isAngular': isAngular, 'dataSource': dataSource, 'id': aaa });
 				}
 				else {
-					socket.emit('newObject', { 'loggedinUser': loggedinUser, 'currentHtml': cln.outerHTML, 'isAngular': isAngular, 'dataSource': null, 'id':xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml':cln.innerHTML});
+					socket.emit('newObject', { 'loggedinUser': loggedinUser, 'currentHtml': cln.outerHTML, 'isAngular': isAngular, 'dataSource': null, 'id': xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml': cln.innerHTML });
 				}
 			}
 		};
