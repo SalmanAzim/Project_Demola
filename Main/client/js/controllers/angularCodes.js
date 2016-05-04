@@ -1,6 +1,6 @@
 var xsd;
 var mychart;
-var app = angular.module("myApp", ['ng-fusioncharts', 'test', 'app', 'ui.bootstrap']);
+var app = angular.module("myApp", ['test', 'app', 'angular.morris-chart', 'ui.bootstrap', 'angular-dialgauge']);
 
 app.factory('socket', function ($rootScope) {
 	var socket = io.connect();
@@ -40,6 +40,24 @@ app.controller('MyController', function ($scope, socket, $window) {
 	$scope.testObject = '';
 	$scope.currentObject = '';
 
+	$scope.gaugeValue = 50;
+
+	$scope.data = [
+		{ y: "2006", a: 100, b: 90 },
+		{ y: "2007", a: 75, b: 65 },
+		{ y: "2008", a: 50, b: 40 },
+		{ y: "2009", a: 75, b: 65 },
+		{ y: "2010", a: 50, b: 40 },
+		{ y: "2011", a: 75, b: 65 },
+		{ y: "2012", a: 100, b: 90 }
+	];
+
+	$scope.donutData = [
+		{ label: "Download Sales", value: 12 },
+		{ label: "In-Store Sales", value: 30 },
+		{ label: "Mail-Order Sales", value: 20 }
+	];
+
     $scope.imagepath = '../images/background-image3.jpg';
 
 	// Variables with respect to grid
@@ -68,7 +86,8 @@ app.controller('MyController', function ($scope, socket, $window) {
 		integerShow: false,
 		doubleShow: false,
 		stringShow: false,
-		longShow: false
+		longShow: false,
+		arrayShow:false
 	};
 
 	// Variables with respect to bottom panel
@@ -99,8 +118,8 @@ app.controller('MyController', function ($scope, socket, $window) {
 		nomColorSelect: 'green',
 		maxPercent: 75,
 		minPercent: 35,
-		width: '100%',
-		height: '100%',
+		width: 100,
+		height: 100,
 		url: '../images/leanware-logo.png'
 	};
 
@@ -193,8 +212,8 @@ app.controller('MyController', function ($scope, socket, $window) {
 		objectHtml: '',
 		name: '',
 		url: '../images/leanware-logo.png',
-		width: '100%',
-		height: '100%'
+		width: 100,
+		height: 100
 	};
 
 	//Initialization Functions===========================================
@@ -205,6 +224,8 @@ app.controller('MyController', function ($scope, socket, $window) {
 		$scope.dpSelectPanel.doubleShow = false;
 		$scope.dpSelectPanel.stringShow = false;
 		$scope.dpSelectPanel.longShow = false;
+		$scope.dpSelectPanel.arrayShow = false;
+		$scope.dpSelectPanel.mapShow = false;
 	};
 
 	$scope.initializeObjectProperties = function () {
@@ -269,8 +290,8 @@ app.controller('MyController', function ($scope, socket, $window) {
 			objectHtml: '',
 			name: '',
 			url: '../images/leanware-logo.png',
-			width: '100%',
-			height: '100%'
+			width: 100,
+			height: 100
 		};
 	};
 
@@ -302,307 +323,13 @@ app.controller('MyController', function ($scope, socket, $window) {
 			nomColorSelect: 'green',
 			maxPercent: 75,
 			minPercent: 35,
-			width: '100%',
-			height: '100%',
+			width: 100,
+			height: 100,
 			url: '../images/leanware-logo.png'
 		};
 	};
 
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-	//Define the `myDataSource` scope variable.
-	$scope.myDataSource = {
-		chart: {
-			//Define the chart attributes.
-			"caption": "Monthly revenue for last year",
-			"subCaption": "Harry's SuperMart",
-			"xAxisName": "Month",
-			"yAxisName": "Revenues (In USD)",
-			"theme": "fint"
-		},
-		data: [
-			//Define the data labels and data values for the data plots.
-			{
-				"label": "Jan",
-				"value": "420000"
-			},
-			{
-				"label": "Feb",
-				"value": "810000"
-			},
-			{
-				"label": "Mar",
-				"value": "720000"
-			},
-			{
-				"label": "Apr",
-				"value": "550000"
-			},
-			{
-				"label": "May",
-				"value": "910000"
-			},
-			{
-				"label": "Jun",
-				"value": "510000"
-			},
-			{
-				"label": "Jul",
-				"value": "680000"
-			},
-			{
-				"label": "Aug",
-				"value": "620000"
-			},
-			{
-				"label": "Sep",
-				"value": "610000"
-			},
-			{
-				"label": "Oct",
-				"value": "490000"
-			},
-			{
-				"label": "Nov",
-				"value": "900000"
-			},
-			{
-				"label": "Dec",
-				"value": "730000"
-			}
-		]
-	};
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	$scope.updateMyChartData = function () {
-	}
-
-	$scope.updateMyChartData_new = function () {
-
-		var test = { label: "13" };
-		$scope.categories[0]["category"].push(test);
-		$scope.dataset[0].data.push({ "value": "10400" });
-		$scope.dataset[1].data.push({ "value": "15400" });
-
-		var test = { label: "14" };
-		$scope.categories[0]["category"].push(test);
-		$scope.dataset[0].data.push({ "value": "10400" });
-		$scope.dataset[1].data.push({ "value": "15400" });
-
-		var test = { label: "15" };
-		$scope.categories[0]["category"].push(test);
-		$scope.dataset[0].data.push({ "value": "10400" });
-		$scope.dataset[1].data.push({ "value": "15400" });
-
-	}
-
-	$scope.updateMyChartData_real = function () {
-
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME GRAPH
-		$scope.myRealTimeData = {
-			'chart': {
-				'caption': 'Real',
-				'subCaption': 'LABEL',
-				'xAxisName': 'x-axis',
-				'yAxisName': 'y-axis',
-				'numberPrefix': '$',
-				'refreshinterval': '5',
-				'yaxisminvalue': '35',
-				'yaxismaxvalue': '36',
-				'numdisplaysets': '10',
-				'labeldisplay': 'rotate',
-				'showValues': '0',
-				'showRealTimeValue': '0',
-				'theme': 'fint'
-			},
-			'categories': [
-				{
-					'category': [
-						{
-							'label': 'Day Start'
-						}
-					]
-				}
-			],
-			'dataset': [
-				{
-					'data': [
-						{
-							'value': '37.27'
-						}
-					]
-				}
-			]
-		};
-
-
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME GAUGE
-		$scope.dataSource_gauge = {
-			"chart": {
-				"caption": "Speedometer",
-				"captionFont": "Arial",
-				"captionFontColor": "#333333",
-				"manageresize": "1",
-				"origw": "320",
-				"origh": "320",
-				"tickvaluedistance": "-10",
-				"bgcolor": "#FFFFFF",
-				"upperlimit": "240",
-				"lowerlimit": "0",
-				"basefontcolor": "#FFFFFF",
-				"majortmnumber": "9",
-				"majortmcolor": "#FFFFFF",
-				"majortmheight": "8",
-				"majortmthickness": "5",
-				"minortmnumber": "5",
-				"minortmcolor": "#FFFFFF",
-				"minortmheight": "3",
-				"minortmthickness": "2",
-				"pivotradius": "10",
-				"pivotbgcolor": "#000000",
-				"pivotbordercolor": "#FFFFFF",
-				"pivotborderthickness": "2",
-				"tooltipbordercolor": "#FFFFFF",
-				"tooltipbgcolor": "#333333",
-				"gaugeouterradius": "115",
-				"gaugestartangle": "240",
-				"gaugeendangle": "-60",
-				"gaugealpha": "0",
-				"decimals": "0",
-				"showcolorrange": "0",
-				"placevaluesinside": "1",
-				"pivotfillmix": "",
-				"showpivotborder": "1",
-				"annrenderdelay": "0",
-				"gaugeoriginx": "160",
-				"gaugeoriginy": "160",
-				"showborder": "0"
-			},
-			"dials": {
-				"dial": [
-					{
-						"value": "0",
-						"bgcolor": "000000",
-						"bordercolor": "#FFFFFF",
-						"borderalpha": "100",
-						"basewidth": "4",
-						"topwidth": "4",
-						"borderthickness": "2",
-						"valuey": "260"
-					}
-				]
-			},
-			"annotations": {
-				"groups": [
-					{
-						"x": "160",
-						"y": "160",
-						"items": [
-							{
-								"type": "circle",
-								"radius": "130",
-								"fillasgradient": "1",
-								"fillcolor": "#4B4B4B,#AAAAAA",
-								"fillalpha": "100,100",
-								"fillratio": "95,5"
-							},
-							{
-								"type": "circle",
-								"x": "0",
-								"y": "0",
-								"radius": "120",
-								"showborder": "1",
-								"bordercolor": "cccccc",
-								"fillasgradient": "1",
-								"fillcolor": "#ffffff,#000000",
-								"fillalpha": "50,100",
-								"fillratio": "1,99"
-							}
-						]
-					},
-					{
-						"x": "160",
-						"y": "160",
-						"showbelow": "0",
-						"scaletext": "1",
-						"items": [
-							{
-								"type": "text",
-								"y": "100",
-								"label": "KPH",
-								"fontcolor": "#FFFFFF",
-								"fontsize": "14",
-								"bold": "1"
-							}
-						]
-					}
-				]
-			}
-		};
-
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME CYLINDER
-		$scope.dataSource_cylinder = {
-			"chart": {
-				"theme": "fint",
-				"caption": "Diesel Level in Generator",
-				"subcaption": "Bakersfield Central",
-				"lowerLimit": "0",
-				"upperLimit": "220",
-				"lowerLimitDisplay": "Empty",
-				"upperLimitDisplay": "Full",
-				"numberSuffix": " ltrs",
-				"showValue": "1",
-				"chartBottomMargin": "25"
-			},
-			"value": "110",
-			"annotations": {
-				"origw": "400",
-				"origh": "190",
-				"autoscale": "1",
-				"groups": [
-					{
-						"id": "range",
-						"items": [
-							{
-								"id": "rangeBg",
-								"type": "rectangle",
-								"x": "$canvasCenterX-45",
-								"y": "$chartEndY-30",
-								"tox": "$canvasCenterX +45",
-								"toy": "$chartEndY-75",
-								"fillcolor": "#6caa03"
-							},
-							{
-								"id": "rangeText",
-								"type": "Text",
-								"fontSize": "11",
-								"fillcolor": "#333333",
-								//"text": "80 ltrs",
-								"x": "$chartCenterX-45",
-								"y": "$chartEndY-50"
-							}
-						]
-					}
-				]
-			}
-		};
-
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////FOR REAL TIME CYLINDER
-
-		$scope.myevents = {
-			dataplotclick: function (ev, props) {
-				$scope.$apply(function () {
-					$scope.selectedValue = props.displayValue;
-				});
-			},
-			chartClick: function (eventObj, argsObj) {
-				console.log('Chart clicked at ' + argsObj.chartX + ',' + argsObj.chartY);
-			}
-
-
-		};
-
-	}
 
 	//:::::::::::::::::::::::::::::::Balaji:::::::::::::::::::::::::::::
 
@@ -690,13 +417,13 @@ app.controller('MyController', function ($scope, socket, $window) {
 					case 'label':
 						$scope.bottomPropPanel.fontPropShow = true;
 						$scope.bottomPropPanel.minMaxShow = false;
-				$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
+						$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
 						break;
 					case 'textBox':
 						$scope.bottomPropPanel.dpSelectShow = true;
 						$scope.bottomPropPanel.minMaxButton = true;
 						$scope.bottomPropPanel.fontPropShow = true;
-				$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
+						$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
 						$scope.bottomPropPanel.backColorSelect = $scope.objectDetails[i].backColor;
 						$scope.bottomPropPanel.minMaxShow = $scope.objectDetails[i].minMaxPresence;
 						$scope.bottomPropPanel.value = $scope.objectDetails[i].value;
@@ -710,7 +437,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 						$scope.bottomPropPanel.dpSelectShow = true;
 						$scope.bottomPropPanel.minMaxButton = true;
 						$scope.bottomPropPanel.fontPropShow = true;
-				$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
+						$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
 						$scope.bottomPropPanel.rowSelectionShow = !$scope.objectDetails[i].typeMap;
 						$scope.bottomPropPanel.minMaxValue = 'Map';
 						$scope.bottomPropPanel.backColorSelect = $scope.objectDetails[i].backColor;
@@ -726,7 +453,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 						$scope.bottomPropPanel.imageDetailsShow = true;
 						$scope.bottomPropPanel.url = $scope.objectDetails[i].url;
 						$scope.bottomPropPanel.width = $scope.objectDetails[i].width;
-						$scope.bottomPropPanel.height = $scope.objectDetails[i].height;						
+						$scope.bottomPropPanel.height = $scope.objectDetails[i].height;
 				}
 			}
 		}
@@ -830,6 +557,14 @@ app.controller('MyController', function ($scope, socket, $window) {
 						case 'long':
 							$scope.initializeObjectDisplay();
 							$scope.dpSelectPanel.stringShow = true;
+							break;
+						case 'array(string)':
+							$scope.initializeObjectDisplay();
+							$scope.dpSelectPanel.arrayShow = true;
+							break;
+						case 'hashmap(string, boolean)':
+							$scope.initializeObjectDisplay();
+							$scope.dpSelectPanel.mapShow = true;
 							break;
 						default:
 							$scope.initializeObjectDisplay();
@@ -962,8 +697,9 @@ app.controller('MyController', function ($scope, socket, $window) {
 								$scope.objectDetails[i].nomColor = $scope.bottomPropPanel.nomColorSelect;
 							}
 							break;
-							case 'image':
-							htmlElement[0].url = $scope.bottomPropPanel.url;
+						case 'image':
+							//Assign image properties to DOM 
+							htmlElement[0].src = $scope.bottomPropPanel.url;
 							htmlElement[0].width = $scope.bottomPropPanel.width;
 							htmlElement[0].height = $scope.bottomPropPanel.height;
 							break;

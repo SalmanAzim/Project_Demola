@@ -93,61 +93,29 @@ window.onload = function () {
 		cln.style.left = (ess.clientX - 140) + "px";
 
 
-		
-		if (cln.getAttribute("class") == "angular_elements_child") {
-
-			var to_compile;
-
-			angular.injector(['ng', 'myApp']).invoke(function ($compile) {
-				// Create a scope.
-				var $scope = angular.element(document.body).scope();
-				// Specify what it is we'll be compiling.
-				dataSource = $scope.myRealTimeData;
-				dataSource_gauge = $scope.dataSource_gauge;
-				dataSource_cylinder = $scope.dataSource_cylinder;
-				if (cln.id == "real_time_graph") {
-					dataSource = $scope.myRealTimeData;
-					angular_to_be_sent = "<div id='firstChart' fusioncharts=''  width='300' height='200'  type='realtimeline'> </div>";
-					to_compile = "<div fusioncharts=''  width='300' height='200'  type='realtimeline'  dataSource='" + JSON.stringify(dataSource) + "'> </div>";
-				}
-				else if (cln.id == "real_time_gauge") {
-					dataSource = $scope.dataSource_gauge;
-					angular_to_be_sent = "<div id='firstChart' fusioncharts=''  width='200' height='200'  type='angulargauge'> </div>";
-					to_compile = "<div fusioncharts=''  width='200' height='200'  type='angulargauge' dataSource='" + JSON.stringify(dataSource_gauge) + "'> </div>";
-				}
-				else if (cln.id == "real_time_tank") {
-					dataSource = $scope.dataSource_cylinder;
-					angular_to_be_sent = "<div id='firstChart' fusioncharts=''  width='200' height='200'  type='cylinder'> </div>";
-					to_compile = "<div fusioncharts=''  width='200' height='200'  type='cylinder' dataSource='" + JSON.stringify(dataSource_cylinder) + "'> </div>";
-				}
-				// Compile the tag, retrieving the compiled output.
-				var $compiled = $compile(to_compile)($scope);
-				// Ensure the scope and been signalled to digest our data.
-				$scope.$digest();
-				// Append the compiled output to the page.
-				cln = $compiled[0];
-
-				cln.style.top = (ess.clientY - 60) + "px";
-				cln.style.left = (ess.clientX - 140) + "px";
-				isAngular = true;
-			});
+		//Functionality specifically for image element 
+		switch (cln.getAttribute("data-objectid")) {
+			case "image":
+				var img = cln.childNodes[0];
+				img.setAttribute("src", "../images/leanware-logo.png");
+				img.setAttribute("width", "100px");
+				img.setAttribute("height", "100px");
+				break;
+			case "lineChart":
+				var lineChrt = cln.childNodes[1];
+				lineChrt.setAttribute("style","width:300px;height:150px");
+				console.log(lineChrt);
+				break;
+								
 		}
-
-		if (cln.getAttribute("data-objectid") == "image") {
-			var $clnJQuery = $(cln);
-			$clnJQuery
-			var img = document.createElement("img");
-			img.setAttribute("src", "../images/leanware-logo.png");
-			img.setAttribute("height", "100%");
-			img.setAttribute("width", "100%");
-			//cln.appendChild(img);
-			//cln.removeChild(childNode);			
-			console.log($clnJQuery);
-		}
-
 		cln.setAttribute("oncontextmenu", "showCustomMenu(this)");
 		cln.setAttribute("ondblclick", "showDoubleMenu(this)");
 		nodes_test.appendChild(cln);
+		var cln_test = $(cln);
+		cln_test.css({
+			position: 'absolute',
+			cursor: 'pointer'
+		});
 		var $draggables_p = $("#drop-target-one");
 		var $draggables = $draggables_p.children();
 		var id, $draggableItem;

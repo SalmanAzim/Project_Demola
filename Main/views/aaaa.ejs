@@ -7,11 +7,9 @@
 	<title>Factory Visualiztion</title>
 
 	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/angular-chart.css">
 	<script type="text/javascript" src="js/controllers/angular.js"></script>
-	<script type="text/javascript" src="js/controllers/angular-fusioncharts.min.js"></script>
-	<script type="text/javascript" src="js/controllers/fusioncharts.js"></script>
-	<script type="text/javascript" src="js/controllers/fusioncharts.widgets.js"></script>
-	<script type="text/javascript" src="js/controllers/fusioncharts.theme.fint.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-sanitize.min.js"></script>
 	<script>
 		var elementDragged = null;	var right_global; var test_data; var double_Click
 	</script>
@@ -30,6 +28,10 @@
 	<script src="js/controllers/ui-bootstrap-tpls-1.3.2.min.js"></script>
 	<script src="js/controllers/CollapsibleLists.js"></script>
 	<script src="js/controllers/bootstrap.min.js"></script>
+	<script src="js/controllers/angular-dialgauge.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-morris-chart/1.2.0/angular-morris-chart.min.js"></script>
 	<script src="js/controllers/angularCodes.js"></script>
 
 
@@ -195,9 +197,7 @@
 							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
 						</uib-accordion-heading>
 						<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-							<li data-objectid="image" draggable="true">
-								<p class="dummy" style="background-color:lightgrey;font-size : 10px;">Image</p>
-							</li>
+							<li data-objectid="image" draggable="true"><img src="../images/image.png" height="30px" width="40px"></li>
 						</ul>
 					</uib-accordion-group>
 					<uib-accordion-group is-open="status4.open">
@@ -234,10 +234,41 @@
 							Charts & Widgets
 							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
 						</uib-accordion-heading>
-						<ul id="angular_elements">
-							<p style="background-color:lightgrey;font-size : 10px" class="angular_elements_child" id="real_time_graph" draggable='true'>Drag to add Real Time Graph</p>
-							<p style="background-color:lightgrey;font-size : 10px" class="angular_elements_child" id="real_time_gauge" draggable='true'>Drag to add Gauge</p>
-							<p style="background-color:lightgrey;font-size : 10px" class="angular_elements_child" id="real_time_tank" draggable='true'>Drag to add Tank</p>
+						<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
+							<li data-objectid="gauge1" draggable="true">
+								<div class="dg" style="width:100px;height:100px;background-color:white;">
+									<ng-dial-gauge id="gauge1" scale-min="25" scale-max="75" border-width="1" ng-model="gaugeValue" bar-color="pink" bar-width="6"
+										units="%" angle="135" rotate="180" line-cap="round" style="stroke:blue;font-weight:100;"></ng-dial-gauge>
+								</div>
+							</li>
+							<li data-objectid="gauge2" draggable="true">
+								<div class="dg" style="width:100px;height:100px;background-color:white;">
+									<ng-dial-gauge id="gauge2" scale-min="0" scale-max="100" border-color="grey" border-width="1" ng-model="gaugeValue" bar-color="green"
+										bar-width="3" title="Temperature" angle="270" rotate="180" line-cap="round" style="stroke:blue;font-weight:100;height:450px;">
+									</ng-dial-gauge>
+								</div>
+							</li>
+							<li data-objectid="gauge3" draggable="true">
+								<div class="dg" style="width:100px;height:100px;background-color:white;">
+									<ng-dial-gauge id="gauge3" scale-min="0" scale-max="50" border-width="0" ng-model="gaugeValue" track-color="none" bar-color="red"
+										bar-width="3" units="DegC" angle="135" rotate="0" line-cap="round" style="stroke:blue;font-weight:100;height:450px;">
+									</ng-dial-gauge>
+								</div>
+							</li>
+							<li data-objectid="lineChart" draggable="true">
+								<div line-chart line-data='data' line-xkey='y' line-ykeys='["a", "b"]' line-labels='["Serie A", "Serie B"]' line-colors='["#31C0BE", "#c7254e"]'
+									style="width:150px;height:80px;background-color:white;">
+								</div>
+							</li>
+							<li data-objectid="barChart" draggable="true">
+								<div bar-chart bar-data='data' bar-x='y' bar-y='["a", "b"]' bar-labels='["Series A", "Series B"]' bar-colors='["#31C0BE", "#c7254e"]'
+									style="width:150px;height:80px;background-color:white;">
+								</div>
+							</li>
+							<li data-objectid="donutChart" draggable="true">
+								<div donut-chart donut-data='donutData' donut-colors='["#31C0BE","#c7254e","#98a0d3"]' donut-formatter='"currency"' style="width:150px;height:80px;background-color:white;">
+								</div>
+							</li>
 						</ul>
 					</uib-accordion-group>
 				</uib-accordion>
@@ -252,8 +283,8 @@
 				</div>
 				<div>
 					<select class="input-sm" ng-model="dpSelectPanel.parentSelect" ng-change="generateDP()">
-							<option ng-repeat="i in allDP">{{i.id}}</option>
-						</select>
+						<option ng-repeat="i in allDP">{{i.id}}</option>
+					</select>
 				</div>
 				<br>
 				<div>
@@ -272,24 +303,54 @@
 				<br>
 				<div style="background: #FFFFFF;border-style: inset;">
 					<ul id="drag-elements1" class="drag-elements">
-						<li id="aaa" class="drag-elements-li obstacle" draggable="true" ng-show="dpSelectPanel.booleanShow">Element One</li>
-						<li id="bbb" class="drag-elements-li obstacle" draggable="true" ng-show="dpSelectPanel.integerShow">Element Two</li>
-						<li class="drag-elements-li" draggable="true" ng-show="dpSelectPanel.doubleShow">Element Three</li>
-						<li class="drag-elements-li" draggable="true" ng-show="dpSelectPanel.stringShow">Element Four</li>
-						<li class="drag-elements-li" draggable="true" ng-show="dpSelectPanel.longShow">Element Five</li>
-						<li data-objectid="label" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.stringShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)|| (dpSelectPanel.booleanShow)"><label for='label' style=' font-family: Verdana; color: black; '> textLabel </label></li>
+						<li data-objectid="gauge1" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)">
+							<div class="dg" style="width:100px;height:100px;background-color:white;">
+								<ng-dial-gauge id="gauge1" scale-min="25" scale-max="75" border-width="1" ng-model="gaugeValue" bar-color="pink" bar-width="6"
+									units="%" angle="135" rotate="180" line-cap="round" style="stroke:blue;font-weight:100;"></ng-dial-gauge>
+							</div>
+						</li>
+						<li data-objectid="gauge2" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)">
+							<div class="dg" style="width:100px;height:100px;background-color:white;">
+								<ng-dial-gauge id="gauge2" scale-min="0" scale-max="100" border-color="grey" border-width="1" ng-model="gaugeValue" bar-color="green"
+									bar-width="3" title="Temperature" angle="270" rotate="180" line-cap="round" style="stroke:blue;font-weight:100;height:450px;">
+								</ng-dial-gauge>
+							</div>
+						</li>
+						<li data-objectid="gauge3" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)">
+							<div class="dg" style="width:100px;height:100px;background-color:white;">
+								<ng-dial-gauge id="gauge3" scale-min="0" scale-max="50" border-width="0" ng-model="gaugeValue" track-color="none" bar-color="red"
+									bar-width="3" units="DegC" angle="135" rotate="0" line-cap="round" style="stroke:blue;font-weight:100;height:450px;">
+								</ng-dial-gauge>
+							</div>
+						</li>
+						<li data-objectid="lineChart" draggable="true" ng-show="(dpSelectPanel.arrayShow) || (dpSelectPanel.mapShow)">
+							<div line-chart line-data='data' line-xkey='y' line-ykeys='["a", "b"]' line-labels='["Serie A", "Serie B"]' line-colors='["#31C0BE", "#c7254e"]'
+								style="width:150px;height:80px;background-color:white;">
+							</div>
+						</li>
+						<li data-objectid="barChart" draggable="true" ng-show="(dpSelectPanel.arrayShow) || (dpSelectPanel.mapShow)">
+							<div bar-chart bar-data='data' bar-x='y' bar-y='["a", "b"]' bar-labels='["Series A", "Series B"]' bar-colors='["#31C0BE", "#c7254e"]'
+								style="width:150px;height:80px;background-color:white;">
+							</div>
+						</li>
+						<li data-objectid="donutChart" draggable="true" ng-show="(dpSelectPanel.arrayShow) || (dpSelectPanel.mapShow)">
+							<div donut-chart donut-data='donutData' donut-colors='["#31C0BE","#c7254e","#98a0d3"]' donut-formatter='"currency"' style="width:150px;height:80px;background-color:white;">
+							</div>
+						</li>
 						<li data-objectid="textBox" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.stringShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)|| (dpSelectPanel.booleanShow)"><label class='mock-text-box' for='textBox' style=' font-family: Verdana; color: black; '>SimpleTextBox</label></li>
 					</ul>
 					<ul>
 						<svg-icon p="bookmark" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
-						<svg-icon p="calendar" draggable="true" ng-show="dpSelectPanel.integerShow"></svg-icon>
-						<svg-icon p="camera" draggable="true" ng-show="dpSelectPanel.doubleShow"></svg-icon>
-						<svg-icon p="chat" draggable="true" ng-show="dpSelectPanel.stringShow"></svg-icon>
-						<svg-icon p="check" draggable="true" ng-show="dpSelectPanel.longShow"></svg-icon>
+						<svg-icon p="calendar" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
+						<svg-icon p="camera" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
+						<svg-icon p="chat" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
+						<svg-icon p="check" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
 					</ul>
 				</div>
 			</uib-tab>
 		</uib-tabset>
+		</br>
+		</br>
 		<div style="border-style: inset;">
 			<span>Grid</span>
 			<button type="button" class="btn btn-primary" ng-model="gridDetails.hide" ng-click="showHideGrid()" uib-btn-checkbox>
@@ -317,7 +378,7 @@
 		<div id="drop-target-one" ng-style="dropTargetOne.style">
 		</div>
 	</div>
-
+	<!-- Options with respect to bottom panel. These will be hide/shown based on the selected object-->
 	<div class="bottom" ng-show="bottomPropPanel.panelShow" ng-style="bottomPanelStyle">
 		<div class="row">
 			<div class="col-md-6 col-lg-6">
@@ -358,12 +419,10 @@
 			</select>
 		</div>
 		<div ng-show="bottomPropPanel.imageDetailsShow">
-			url &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
-			<input type="text" ng-model="bottomPropPanel.url">
-			Width(%) &nbsp;
-			<input type="text" ng-model="bottomPropPanel.width"> 
-			&nbsp;&nbsp;&nbsp; Height(%) &nbsp;
-			<input type="text" ng-model="bottomPropPanel.height">
+			url &nbsp; &nbsp;&nbsp;&nbsp;
+			<input type="text" ng-model="bottomPropPanel.url"> &nbsp;&nbsp;&nbsp; Width(%) &nbsp;
+			<input type="number" ng-model="bottomPropPanel.width" min="1" max="700"> &nbsp;&nbsp;&nbsp; Height(%) &nbsp;
+			<input type="number" ng-model="bottomPropPanel.height" min="1" max="700">
 		</div>
 		<div ng-show="(bottomPropPanel.rowSelectionShow) && (!bottomPropPanel.minMaxShow)">
 			No of Rows &nbsp; &nbsp;&nbsp;&nbsp;
@@ -398,32 +457,7 @@
 		<a onclick="showDoubleMenu(this)" ng-click="testFunction(this)">
 			<img src="http://puu.sh/nr5Z6/4360098fc1.png" /> Properties
 		</a>
-		<hr />
-		<a onclick="showDoubleMenu(this)">
-			<i class="fa fa-fort-awesome"></i> Option 2
-		</a>
-		<a onclick="feedDataToElement(this)">
-			<i class="fa fa-flag"></i> Bind Data
-		</a>
 	</div>
-
-
-	<div id="menu1">
-		<a>
-			<img src="http://puu.sh/nr60s/42df867bf3.png" /> Delete Element
-		</a>
-		<a>
-			<img src="http://puu.sh/nr5Z6/4360098fc1.png" /> Option 1
-		</a>
-		<hr />
-		<a>
-			<i class="fa fa-fort-awesome"></i> Option 2
-		</a>
-		<a>
-			<i class="fa fa-flag"></i> Option 3
-		</a>
-	</div>
-
 </body>
 
 <script>

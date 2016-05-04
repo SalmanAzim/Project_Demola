@@ -44,10 +44,6 @@ ul{
   padding-left: 20px;
 }
 
-#menu, #menu1, #sampleform{
-  display: none;
-}
-
 
 .subtext1 {
   background: #2F2F2F;
@@ -370,3 +366,38 @@ p {
     right: .55em;
     color: #aaa;
 }
+
+.dg {
+            display: inline-block;
+        }
+
+        .dialgauge-value {
+            font-size: 18px;
+            font-weight: 200;
+        }
+
+        .dialgauge-unit {
+            font-size: 12px;
+            stroke: green;
+            fill: pink;
+            font-weight: 100;
+        }
+
+        .dialgauge-title {
+            font-size: 12px;
+            stroke: green;
+            fill: pink;
+            font-weight: 100;
+        }
+
+        .dg1 {
+            display: inline-block;
+            width: 140px;
+        }
+
+        .dg1 .dialgauge-value {
+            font-size: 30px;
+            font-weight: 400;
+            stroke: grey;
+            fill: grey;
+        }
