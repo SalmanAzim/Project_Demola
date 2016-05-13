@@ -23,6 +23,9 @@ var client = new restClient();
 
 var configDB = require('./config/database.js');
 app.use('/js', express.static(__dirname + '/client/js'));
+app.use('/css', express.static(__dirname + '/client/css'));
+app.use('/images', express.static(__dirname + '/client/images'));
+app.use('/fonts', express.static(__dirname + '/client/fonts'));
 app.use('/styles', express.static(__dirname + '/public/stylesheets'));
 
 
@@ -158,6 +161,11 @@ io.on("connection", function (socket) {
 	socket.on('initialConfig', function(data){
 		//Calling the function to get the data point and associate them
 		initialConfig();
+	});
+	
+	//masking the panel visible on double clicks
+	socket.on('panelVisibilityOnClick', function(data){
+		io.sockets.emit('panel_Visibility_OnClick',data);
 	});
 	
 	//masking the panel visible on double clicks

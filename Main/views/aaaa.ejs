@@ -6,9 +6,7 @@
 	<meta charset="utf-8">
 	<title>Factory Visualiztion</title>
 
-	<link rel="stylesheet" href="js/controllers/reset.css">
-	<link rel="stylesheet" type="text/css" href="js/controllers/main.css">
-	<link rel="stylesheet" href="js/controllers/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script type="text/javascript" src="js/controllers/angular.js"></script>
 	<script type="text/javascript" src="js/controllers/angular-fusioncharts.min.js"></script>
 	<script type="text/javascript" src="js/controllers/fusioncharts.js"></script>
@@ -29,12 +27,16 @@
 	<script src="js/controllers/jquery.ui.widget.js"></script>
 	<script src="js/controllers/jquery.ui.mouse.js"></script>
 	<script src="js/controllers/jquery.ui.draggable.js"></script>
-	<script src="js/controllers/jquery-collision.min.js"></script>
-	<script src="js/controllers/jquery-ui-draggable-collision.js"></script>
 	<script src="js/controllers/ui-bootstrap-tpls-1.3.2.min.js"></script>
 	<script src="js/controllers/CollapsibleLists.js"></script>
 	<script src="js/controllers/bootstrap.min.js"></script>
 	<script src="js/controllers/angularCodes.js"></script>
+
+
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/css_JD.css">
+	<script type="text/javascript" src="js/controllers/jd.js"></script>
 
 	<script>
 		function menu(x, y,i) {
@@ -55,7 +57,7 @@
 					var posY = e.clientY;
 					menu(posX, posY,i);
 					e.preventDefault();
-				
+
 			}
 	</script>
 
@@ -68,7 +70,7 @@
 						   return (num <= 9)? ("0"+num) : num;
 					 }
 				var chart_id = document.getElementById(right_global.id).children[0].id;
-				function updateData() {					
+				function updateData() {
 					mychart = FusionCharts(chart_id);
 					currDate = new Date(),
 					label = addLeadingZero(currDate.getHours()) + ":" +
@@ -81,10 +83,10 @@
 					else if(chartType == "realtimeline"){
 						randomValue = Math.floor(Math.random() * 50) / 100 + 35.25,
 						strData = "&label=" + label  + "&value=" + randomValue;
-					}		
+					}
 					test_data = strData;
 					mychart.feedData(strData);
-				}						
+				}
 				var myVar = setInterval(function () {
 					updateData();
 				}, 1000);
@@ -102,10 +104,10 @@
 				setTimeout(function() {
 				  i.visibility = "hidden";
 				});
-				
-				
+
+
 			right_global = null;
-				
+
 			}
 	</script>
 
@@ -119,19 +121,19 @@
 
 	<script>
 		var socket = io();
-		
+
 			//this is pinged inorder to delete the old HTML element and update with the new element
 			socket.on("prop_Changed", function(data){
 				//remove the older element
-				double_Click.remove();						
+				double_Click.remove();
 				double_Click.innerHTML = data.objectHtml;
-				//replace with the newer element		
-				$("#drop-target-one").append(double_Click);			
-			});	
-			
+				//replace with the newer element
+				$("#drop-target-one").append(double_Click);
+			});
+
 			socket.on("added_Html", function(notificationData) {
-			
-				if(notificationData.loggedinUser != loggedinUser){		
+
+				if(notificationData.loggedinUser != loggedinUser){
 
 					if(notificationData.isAngular){
 						var $htmlObject = $(notificationData.currentHtml);
@@ -147,36 +149,36 @@
 						angular.injector(['ng', 'myApp']).invoke(function ($compile) {
 							var $scope = angular.element(document.body).scope();
 							var dataSource = notificationData.dataSource;
-										
+
 							var to_compile = angular_obj;
 							//var to_compile = notificationData.currentHtml;
 							var $compiled = $compile(to_compile)($scope);
 							$scope.$digest();
 							// Append the compiled output to the page.
 							$("#drop-target-one").append($compiled[0]);
-						});	
+						});
 					}else{
 						var $htmlObject = $(notificationData.currentHtml);
 						$("#drop-target-one").append($htmlObject);
-					}			
+					}
 
-					setAllDrags();					
+					setAllDrags();
 				}
-				
+
 			});
 
 			socket.on("moved_Html", function(notificationData) {
 
-				if(notificationData.loggedinUser != loggedinUser){				
+				if(notificationData.loggedinUser != loggedinUser){
 					console.log(notificationData);
-					console.log("pinged");		
+					console.log("pinged");
 					//loggedinUser=" + loggedinUser + "&currentId=" + this.id + "&positionX=" + ui.position.left+ "&positionY=" + ui.position.top;
 					var nodes_test = document.getElementById(notificationData.currentId);
 					nodes_test.style.top=(notificationData.positionY)+ "px";
-					nodes_test.style.left=(notificationData.positionX)+ "px";				
-						
+					nodes_test.style.left=(notificationData.positionX)+ "px";
+
 				}
-				
+
 			});
 	</script>
 
@@ -184,64 +186,79 @@
 
 <body id="my_body" ng-app="myApp" ng-controller="MyController">
 
-	<div class="left">
-
+	<div class="left" id='LeftPan'>
+				<span class='TitleText2'>Factory <button  id='LeftPanAdjustButton' type="button" class="btn btn-default" aria-label="Left Align">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					</button><br />Visualization</span>
 		<uib-tabset active="activeJustified" justified="true">
 			<uib-tab index="0" heading="Object">
 				<br>
 				<uib-accordion close-others="true">
-					<uib-accordion-group is-open="status1.open">
-						<uib-accordion-heading>
-							Elements
-							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
-						</uib-accordion-heading>
-						<ul id="drag-elements1" class="drag-elements">
-							<li class="drag-elements-li obstacle" draggable="true">Element One</li>
-							<li class="drag-elements-li obstacle" draggable="true">Element Two</li>
-							<li class="drag-elements-li" draggable="true">Element Three</li>
-							<li class="drag-elements-li" draggable="true">Element Four</li>
-							<li class="drag-elements-li" draggable="true">Element Five</li>
-						</ul>
-					</uib-accordion-group>
-					<uib-accordion-group is-open="status4.open">
-						<uib-accordion-heading>
-							General
-							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status4.open, 'glyphicon-chevron-right': !status4.open}"></i>
-						</uib-accordion-heading>
-						<ul id="drag-elements1" class="drag-elements">
-							<li data-objectid="label" draggable="true"><label for='label' style=' font-family: Verdana; color: black; '> textLabel </label></li>
-							<li data-objectid="textBox" draggable="true"><label class='mock-text-box' for='textBox' style=' font-family: Verdana; color: black; '>SimpleTextBox</label></li>
-						</ul>
-					</uib-accordion-group>
-					<uib-accordion-group is-open="status2.open">
-						<uib-accordion-heading>
-							Elements SVG
-							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
-						</uib-accordion-heading>
-						<ul>
-							<svg-icon p="bookmark" draggable="true"></svg-icon>
-							<svg-icon p="calendar" draggable="true"></svg-icon>
-							<svg-icon p="camera" draggable="true"></svg-icon>
-							<svg-icon p="chat" draggable="true"></svg-icon>
-							<svg-icon p="check" draggable="true"></svg-icon>
-						</ul>
-					</uib-accordion-group>
-					<uib-accordion-group is-open="status3.open">
-						<uib-accordion-heading>
-							Charts & Widgets
-							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
-						</uib-accordion-heading>
-						<ul id="angular_elements">
-							<p style="background-color:lightgrey;font-size : 10px" class="angular_elements_child" id="real_time_graph" draggable='true'>Drag to add Real Time Graph</p>
-							<p style="background-color:lightgrey;font-size : 10px" class="angular_elements_child" id="real_time_gauge" draggable='true'>Drag to add Gauge</p>
-							<p style="background-color:lightgrey;font-size : 10px" class="angular_elements_child" id="real_time_tank" draggable='true'>Drag to add Tank</p>
-						</ul>
-					</uib-accordion-group>
+
+
+					<div class="dropdown" >
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">Elements
+						<span class="caret"></span></button>
+
+							<div class="dropdown-menu " >
+								<ul id="drag-elements1" class="drag-elements">
+									<li  data-objectid="image" class=" dummy" draggable="true">Image</li>
+
+								</ul>
+							</div>
+					</div>
+
+					<div class="dropdown" >
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">General
+						<span class="caret"></span></button>
+
+							<div class="dropdown-menu " >
+								<ul id="drag-elements1" class="drag-elements">
+									<li  data-objectid="label" class="" draggable="true"><label for='label'> textLabel </label></li>
+									<li  data-objectid="textBox" class=" " draggable="true"><label class='mock-text-box' for='textBox' style='font-family: Verdana; color: black; background-color: #FFFFFF;'>SimpleTextBox</label></li>
+									<li data-objectid="listBox" class=" "  draggable="true"><ul style='font-family: Verdana; color: black; background-color: #FFFFFF; list-style-type:none; border-style: inset;'>
+										<li>Item1</li>
+										<li>Item2</li>
+									</ul></li>
+								</ul>
+							</div>
+					</div>
+
+					<div class="dropdown" >
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">SVG Elements
+						<span class="caret"></span></button>
+
+							<div class="dropdown-menu " >
+								<ul>
+
+									<svg-icon p="bookmark" draggable="true"></svg-icon>
+									<svg-icon p="calendar" draggable="true"></svg-icon>
+									<svg-icon p="camera" draggable="true"></svg-icon>
+									<svg-icon p="chat" draggable="true"></svg-icon>
+									<svg-icon p="check" draggable="true"></svg-icon>
+
+								</ul>
+							</div>
+
+					</div>
+
+					<div class="dropdown" >
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">Charts & Widgets
+						<span class="caret"></span></button>
+
+							<div class="dropdown-menu " >
+								<p  class="subtext1 angular_elements_child" id="real_time_graph" draggable='true'>Real Time Graph</p>
+								<p  class="subtext1 angular_elements_child" id="real_time_gauge" draggable='true'>Gauge</p>
+								<p  class=" subtext1 angular_elements_child" id="real_time_tank" draggable='true'>Tank</p>
+							</div>
+
+					</div>
+
 				</uib-accordion>
 			</uib-tab>
 			<uib-tab select="tabAlert()">
 				<uib-tab-heading>
-					<i class="glyphicon glyphicon-bell"></i> DataPoint
+					DataPoint
 				</uib-tab-heading>
 				<br>
 				<div>
@@ -274,6 +291,8 @@
 						<li class="drag-elements-li" draggable="true" ng-show="dpSelectPanel.doubleShow">Element Three</li>
 						<li class="drag-elements-li" draggable="true" ng-show="dpSelectPanel.stringShow">Element Four</li>
 						<li class="drag-elements-li" draggable="true" ng-show="dpSelectPanel.longShow">Element Five</li>
+						<li data-objectid="label" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.stringShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)|| (dpSelectPanel.booleanShow)"><label for='label' style=' font-family: Verdana; color: black; '> textLabel </label></li>
+						<li data-objectid="textBox" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.stringShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)|| (dpSelectPanel.booleanShow)"><label class='mock-text-box' for='textBox' style=' font-family: Verdana; color: black; '>SimpleTextBox</label></li>
 					</ul>
 					<ul>
 						<svg-icon p="bookmark" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
@@ -285,17 +304,35 @@
 				</div>
 			</uib-tab>
 		</uib-tabset>
-	</div>
-
-
-	<div id="main_ui" class="main" ng-style="mainPanelStyle">
-
-
-		<div id="drop-target-one">
-
+		<div style="border-style: inset;">
+			<span>Grid</span>
+			<button type="button" class="btn btn-primary" ng-model="gridDetails.hide" ng-click="showHideGrid()" uib-btn-checkbox>
+        			{{gridDetails.value}}
+    			</button>
+			</br>
+			<span>Grid Color</span>
+			<select class="input-sm" ng-model="gridDetails.colorSelect" ng-change="gridColorChange()">
+					<option ng-repeat="i in ['white','black']">{{i}}</option>
+			</select>
+			<div class="dropdown">
+				<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
+						Change Background
+						<span class="caret"></span>
+					</button>
+				<div class="dropdown-menu ">
+					<input type="text" ng-model="newimagepath" placeholder="Image URL" />
+					<button class='btn subtext1' ng-click="setBackground()">CHANGE</button>
+				</div>
+			</div>
 		</div>
 
-
+	</div>
+	<div id="main_ui" class="main" ng-style="mainPanelStyle">
+		<div id="drop-target-one" ng-style="dropTargetOne.style">
+			<button id='LeftPanAdjustButton2' type="button" class="btn btn-default not" aria-label="Left Align">
+	<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+</button>
+		</div>
 	</div>
 
 	<div class="bottom" ng-show="bottomPropPanel.panelShow" ng-style="bottomPanelStyle">
@@ -306,7 +343,7 @@
 			</div>
 			<div class="col-md-6 col-lg-6 text-right" ng-show="bottomPropPanel.minMaxButton">
 				<button type="button" class="btn btn-primary" ng-model="bottomPropPanel.minMaxShow" uib-btn-checkbox>
-        			min-max
+        			{{bottomPropPanel.minMaxValue}}
     			</button>
 			</div>
 		</div>
@@ -321,7 +358,7 @@
 		</div>
 		<div ng-show="bottomPropPanel.fontPropShow">
 			<span ng-show="!bottomPropPanel.minMaxShow">
-				Color &nbsp; &nbsp;&nbsp;&nbsp; 
+				Color &nbsp; &nbsp;&nbsp;&nbsp;
 			</span>
 			<select class="input-sm" ng-model="bottomPropPanel.colorSelect" ng-show="!bottomPropPanel.minMaxShow">
 				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
@@ -330,6 +367,24 @@
 				<option ng-repeat="i in bottomPropPanel.fontList">{{i}}</option>
 			</select> &nbsp;&nbsp;&nbsp; Size &nbsp;
 			<input type="number" ng-model="bottomPropPanel.fontSize" min="1" max="100">
+			<span ng-show="!bottomPropPanel.minMaxShow">
+				Background-Color &nbsp; &nbsp;&nbsp;&nbsp;
+			</span>
+			<select class="input-sm" ng-model="bottomPropPanel.backColorSelect" ng-show="!bottomPropPanel.minMaxShow">
+				<option ng-repeat="i in bottomPropPanel.backColorList">{{i}}</option>
+			</select>
+		</div>
+		<div ng-show="bottomPropPanel.imageDetailsShow">
+			url &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+			<input type="text" ng-model="bottomPropPanel.url">
+			Width(%) &nbsp;
+			<input type="text" ng-model="bottomPropPanel.width">
+			&nbsp;&nbsp;&nbsp; Height(%) &nbsp;
+			<input type="text" ng-model="bottomPropPanel.height">
+		</div>
+		<div ng-show="(bottomPropPanel.rowSelectionShow) && (!bottomPropPanel.minMaxShow)">
+			No of Rows &nbsp; &nbsp;&nbsp;&nbsp;
+			<input type="number" ng-model="bottomPropPanel.rowNos" min="1" max="100">
 		</div>
 		<div ng-show="bottomPropPanel.minMaxShow">
 			Maximum Value &nbsp;
@@ -405,5 +460,9 @@
 			menu_item.visibility = "hidden";
 		});
 	}, false);
+
+	$('div.main').click(function(){
+		socket.emit("panelVisibilityOnClick",{});
+	});
 
 </script>
