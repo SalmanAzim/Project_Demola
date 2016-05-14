@@ -42,11 +42,13 @@ app.controller('MyController', function ($scope, socket, $window) {
 
     $scope.imagepath = '../images/background-image3.jpg';
 
+		$scope.i='Select Color';
+
 	// Variables with respect to grid
 	$scope.gridDetails = {
-		value: 'hide',
+		value: 'Hide Grid',
 		hide: false,
-		colorSelect: 'black',
+		colorSelect: 'Grid Color: BLACK',
 		color: 'rgba(0, 0, 0, .20)' // Lalter the opacity of the color also can be modified
 	};
 
@@ -59,7 +61,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 		}
 	};
 
-	// Variables with respect to Datapoint based Object selection panel 
+	// Variables with respect to Datapoint based Object selection panel
 	$scope.dpSelectPanel = {
 		parentSelect: '',
 		dpSelect: '',
@@ -373,7 +375,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 		]
 	};
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	$scope.updateMyChartData = function () {
 	}
 
@@ -726,7 +728,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 						$scope.bottomPropPanel.imageDetailsShow = true;
 						$scope.bottomPropPanel.url = $scope.objectDetails[i].url;
 						$scope.bottomPropPanel.width = $scope.objectDetails[i].width;
-						$scope.bottomPropPanel.height = $scope.objectDetails[i].height;						
+						$scope.bottomPropPanel.height = $scope.objectDetails[i].height;
 				}
 			}
 		}
@@ -781,7 +783,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 
 	//-----------------------------Tab Alert Function-------------------
 
-	// Function that generates alert when the Object Tab is clicked				
+	// Function that generates alert when the Object Tab is clicked
 	$scope.tabAlert = function () {
 		setTimeout(function () {
 			$window.alert('The Objects will be displayed based on the Datapoint you select');
@@ -792,7 +794,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 
 	//-----------------------------Object left Panel Functions-------------------
 
-	// Function that generates the list of Data points based on the parent (Phase) selection				
+	// Function that generates the list of Data points based on the parent (Phase) selection
 	$scope.generateDP = function () {
 		$scope.dpSelectPanel.dpList.length = 0;
 		if ($scope.dpSelectPanel.parentSelect !== '') {
@@ -805,7 +807,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 	};
 
 
-	// Function that generates the list of Objects based on the DataPoint selection				
+	// Function that generates the list of Objects based on the DataPoint selection
 	$scope.generateObject = function () {
 		if (($scope.dpSelectPanel.parentSelect !== '') && ($scope.dpSelectPanel.dpSelect !== '')) {
 			for (i = 0; len = $scope.allDP.length, len > i; i++) {
@@ -848,20 +850,20 @@ app.controller('MyController', function ($scope, socket, $window) {
 	$scope.showHideGrid = function () {
 		if ($scope.gridDetails.hide) {
 			$scope.dropTargetOne.style = {};
-			$scope.gridDetails.value = 'show';
+			$scope.gridDetails.value = 'Show Grid ';
 		} else {
 			$scope.dropTargetOne.style = {
 				'background-color': 'transparent',
 				'background-image': 'linear-gradient(0deg, transparent 24%, ' + $scope.gridDetails.color + ' 25%, ' + $scope.gridDetails.color + ' 26%, transparent 27%, transparent 74%, ' + $scope.gridDetails.color + ' 75%, ' + $scope.gridDetails.color + ' 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, ' + $scope.gridDetails.color + ' 25%, ' + $scope.gridDetails.color + ' 26%, transparent 27%, transparent 74%, ' + $scope.gridDetails.color + ' 75%, ' + $scope.gridDetails.color + ' 76%, transparent 77%, transparent)',
 				'background-size': '30px 30px'
 			};
-			$scope.gridDetails.value = 'hide';
+			$scope.gridDetails.value = 'Hide Grid';
 		}
 	};
 
 	//Function that changes the grid color
 	$scope.gridColorChange = function () {
-		if ($scope.gridDetails.colorSelect === 'black') {
+		if ($scope.gridDetails.colorSelect === 'Grid Color: BLACK') {
 			$scope.gridDetails.color = 'rgba(0, 0, 0, .20)';
 			$scope.dropTargetOne.style = {
 				'background-color': 'transparent',
@@ -885,7 +887,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 
 	//-----------------------------Bottom Property Panel Functions-------------------
 
-	// Function that generates the list of Data points based on the parent (Phase) selection				
+	// Function that generates the list of Data points based on the parent (Phase) selection
 	$scope.generatePropDP = function () {
 		$scope.bottomPropPanel.dpList.length = 0;
 		if (($scope.bottomPropPanel.parentSelect !== '') && ($scope.currentObject !== '')) {
@@ -936,7 +938,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 					if ($scope.bottomPropPanel.name !== '') {
 						dummyName = $scope.bottomPropPanel.name;
 					}
-					//Assign values for DOM elements					
+					//Assign values for DOM elements
 					switch ($scope.objectDetails[i].objectId) {
 						case 'label':
 							//Label Assigns Name, color and Font family

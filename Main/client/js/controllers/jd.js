@@ -51,19 +51,3 @@ $('#LeftPanAdjustButton2').addClass('not');
 
 
 });
-
-function fullscreen() {
-
-    $('#LeftPan').addClass('lefthide');
-
-    $('#main_ui').addClass('mainhide');
-
-
-
-
-}
-
-function exitFullscreen() {
-      $('#LeftPan').removeClass('lefthide');
-      $('#main_ui').removeClass('mainshow');
-}

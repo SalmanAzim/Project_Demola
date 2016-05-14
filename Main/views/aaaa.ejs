@@ -256,7 +256,7 @@
 
 				</uib-accordion>
 			</uib-tab>
-			<uib-tab select="tabAlert()">
+			<uib-tab index='1' select="tabAlert()">
 				<uib-tab-heading>
 					DataPoint
 				</uib-tab-heading>
@@ -304,15 +304,55 @@
 				</div>
 			</uib-tab>
 		</uib-tabset>
-		<div style="border-style: inset;">
+
+		<hr />
+
+
+		<uib-tabset active="active" justified="true" id='LeftSettings'>
+			<uib-tab index='0' heading="GRID">
+
+				<button type="button" class="TitleText" ng-model="gridDetails.hide" ng-click="showHideGrid()" uib-btn-checkbox>
+								{{gridDetails.value}}
+						</button>
+				</br>
+				<!-- <span>Grid Color</span> -->
+				<select class="input-sm TitleText" ng-model="gridDetails.colorSelect" ng-change="gridColorChange()">
+						<option selected="selected" >Grid Color: BLACK</option>
+						<option  >Grid Color: WHITE</option>
+				</select>
+
+			</uib-tab>
+
+			<uib-tab index='1' heading="Background">
+
+					<input id='BackImageInput' type="text" ng-model="newimagepath" placeholder="Image URL" />
+					<button class='btn subtext1' ng-click="setBackground()">CHANGE</button>
+				<!-- <div class="dropdown">
+					<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
+							Change Background
+							<span class="caret"></span>
+						</button>
+					<div class="dropdown-menu ">
+						<input type="text" ng-model="newimagepath" placeholder="Image URL" />
+						<button class='btn subtext1' ng-click="setBackground()">CHANGE</button>
+					</div>
+				</div> -->
+
+
+			</uib-tab>
+
+		</uib-tabset>
+
+
+		<!-- <div style="border-style: inset;" >
 			<span>Grid</span>
-			<button type="button" class="btn btn-primary" ng-model="gridDetails.hide" ng-click="showHideGrid()" uib-btn-checkbox>
+			<button type="button" class="TitleText" ng-model="gridDetails.hide" ng-click="showHideGrid()" uib-btn-checkbox>
         			{{gridDetails.value}}
     			</button>
 			</br>
 			<span>Grid Color</span>
-			<select class="input-sm" ng-model="gridDetails.colorSelect" ng-change="gridColorChange()">
-					<option ng-repeat="i in ['white','black']">{{i}}</option>
+			<select class="input-sm TitleText" ng-model="gridDetails.colorSelect" ng-change="gridColorChange()">
+					<option ng-repeat="i in ['Grid Color: WHITE','Grid Color: BLACK']">{{i}}</option>
 			</select>
 			<div class="dropdown">
 				<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
@@ -324,14 +364,28 @@
 					<button class='btn subtext1' ng-click="setBackground()">CHANGE</button>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
 	</div>
 	<div id="main_ui" class="main" ng-style="mainPanelStyle">
 		<div id="drop-target-one" ng-style="dropTargetOne.style">
 			<button id='LeftPanAdjustButton2' type="button" class="btn btn-default not" aria-label="Left Align">
-	<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-</button>
+				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			</button>
+
+
+			<nav role="navigation" id='UIMenu' >
+			  <h1><span id="MenuText">Menu</span></h1>
+			  <ol id='mainUImenu'>
+			    <li class='list'><a href="#">Create</a></li>
+			    <li class='list'><a href="#">Save</a></li>
+			    <li class='list'><a href="#">Cancel</a></li>
+			   </ol>
+			</nav>
+
+
+
+
 		</div>
 	</div>
 
@@ -402,7 +456,7 @@
 			</select>
 		</div>
 		<div class="text-right">
-			<a type="button" class="btn btn-primary" ng-click="assignProperties()">
+			<a type="button" class="btn btn-default" ng-click="assignProperties()">
 				<span> OK</span>
 			</a>
 		</div>
