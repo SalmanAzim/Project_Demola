@@ -174,8 +174,8 @@ io.on("connection", function (socket) {
 	});
 
 	socket.on('moveObject', function(data){
-		io.sockets.emit('moved_Html',data);
-		//console.log(data);			
+		io.sockets.emit('moved_Html',data);	
+		io.sockets.emit('moved_Object',data);			
 	  });
 	  
 	socket.on('newObject', function(data){

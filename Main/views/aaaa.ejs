@@ -33,10 +33,14 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-morris-chart/1.2.0/angular-morris-chart.min.js"></script>
 	<script src="js/controllers/angularCodes.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="js/controllers/multidraggable.js"></script>
 
 
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css">
 
 	<script>
 		function menu(x, y,i) {
@@ -198,6 +202,9 @@
 						</uib-accordion-heading>
 						<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
 							<li data-objectid="image" draggable="true"><img src="../images/image.png" height="30px" width="40px"></li>
+							<li class="drag-elements-li" draggable="true">Element Three</li>
+							<li class="drag-elements-li" draggable="true">Element Four</li>
+							<li class="drag-elements-li" draggable="true">Element Five</li>
 						</ul>
 					</uib-accordion-group>
 					<uib-accordion-group is-open="status4.open">
@@ -210,8 +217,8 @@
 							<li data-objectid="textBox" draggable="true"><label class='mock-text-box' for='textBox' style='font-family: Verdana; color: black; background-color: #FFFFFF;'>SimpleTextBox</label></li>
 							<li data-objectid="listBox" draggable="true">
 								<ul style='font-family: Verdana; color: black; background-color: #FFFFFF; list-style-type:none; border-style: inset;'>
+									<li>Item0</li>
 									<li>Item1</li>
-									<li>Item2</li>
 								</ul>
 							</li>
 						</ul>
@@ -222,11 +229,9 @@
 							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
 						</uib-accordion-heading>
 						<ul>
-							<svg-icon p="bookmark" draggable="true"></svg-icon>
-							<svg-icon p="calendar" draggable="true"></svg-icon>
-							<svg-icon p="camera" draggable="true"></svg-icon>
-							<svg-icon p="metsa" draggable="true"></svg-icon>
-							<svg-icon p="robot" draggable="true"></svg-icon>
+							<svg-icon data-objectid="svg-square" p="rectangle" draggable="true"></svg-icon>
+							<svg-icon data-objectid="svg-circle" p="circle" draggable="true"></svg-icon>
+							<svg-icon data-objectid="svg-path" p="arrow" draggable="true"></svg-icon>
 						</ul>
 					</uib-accordion-group>
 					<uib-accordion-group is-open="status3.open">
@@ -340,11 +345,9 @@
 						<li data-objectid="textBox" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.stringShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)|| (dpSelectPanel.booleanShow)"><label class='mock-text-box' for='textBox' style=' font-family: Verdana; color: black; '>SimpleTextBox</label></li>
 					</ul>
 					<ul>
-						<svg-icon p="bookmark" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
-						<svg-icon p="calendar" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
-						<svg-icon p="camera" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
-						<svg-icon p="chat" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
-						<svg-icon p="check" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
+						<svg-icon data-objectid="svg-square" p="rectangle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
+						<svg-icon data-objectid="svg-circle" p="circle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
+						<svg-icon data-objectid="svg-path" p="arrow" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
 					</ul>
 				</div>
 			</uib-tab>
@@ -386,12 +389,13 @@
 				<input type="text" ng-model="bottomPropPanel.name">
 			</div>
 			<div class="col-md-6 col-lg-6 text-right" ng-show="bottomPropPanel.minMaxButton">
-				<button type="button" class="btn btn-primary" ng-model="bottomPropPanel.minMaxShow" uib-btn-checkbox>
+				<button type="button" class="btn btn-primary" ng-model="bottomPropPanel.minMaxShow" uib-btn-checkbox ng-click="arrayMapDPGenerate(bottomPropPanel.minMaxValue)">
         			{{bottomPropPanel.minMaxValue}}
     			</button>
 			</div>
 		</div>
-		<div ng-show="bottomPropPanel.dpSelectShow">
+
+		<div ng-show="(bottomPropPanel.dpSelectShow) && (!bottomPropPanel.justPanel)">
 			Parent &nbsp;
 			<select class="input-sm" ng-model="bottomPropPanel.parentSelect" ng-change="generatePropDP()">
 				<option ng-repeat="i in allDP">{{i.id}}</option>
@@ -400,6 +404,7 @@
 				<option ng-repeat="i in bottomPropPanel.dpList">{{i}}</option>
 			</select>
 		</div>
+
 		<div ng-show="bottomPropPanel.fontPropShow">
 			<span ng-show="!bottomPropPanel.minMaxShow">
 				Color &nbsp; &nbsp;&nbsp;&nbsp; 
@@ -418,36 +423,66 @@
 				<option ng-repeat="i in bottomPropPanel.backColorList">{{i}}</option>
 			</select>
 		</div>
-		<div ng-show="bottomPropPanel.imageDetailsShow">
-			url &nbsp; &nbsp;&nbsp;&nbsp;
-			<input type="text" ng-model="bottomPropPanel.url"> &nbsp;&nbsp;&nbsp; Width(%) &nbsp;
-			<input type="number" ng-model="bottomPropPanel.width" min="1" max="700"> &nbsp;&nbsp;&nbsp; Height(%) &nbsp;
-			<input type="number" ng-model="bottomPropPanel.height" min="1" max="700">
+
+		<!-- property setting options for Image and SVG (while svg Url is made hidden)-->
+		<div ng-show="(bottomPropPanel.imageDetailsShow) || (bottomPropPanel.svgDetailsShow)">
+			<span ng-show="!bottomPropPanel.svgDetailsShow">url &nbsp; &nbsp;&nbsp;&nbsp; </span>
+			<input type="text" ng-model="bottomPropPanel.url" ng-show="!bottomPropPanel.svgDetailsShow">
+			<!-- Property objects for SVG square -->
+			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)"> Width(px) </span>			&nbsp;
+			<input type="number" ng-model="bottomPropPanel.width" min="1" max="500" ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)">			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)"> Height(px) </span>			&nbsp;
+			<input type="number" ng-model="bottomPropPanel.height" min="1" max="500" ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)">
+			<!-- Property objects for SVG Circle -->
+			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.svgSquareShow) && (!bottomPropPanel.svgPathShow) && (!bottomPropPanel.imageDetailsShow)"> radius(px) </span>			&nbsp;
+			<input type="number" ng-model="bottomPropPanel.radius" min="1" max="500" ng-show="(!bottomPropPanel.svgSquareShow) && (!bottomPropPanel.svgPathShow) && (!bottomPropPanel.imageDetailsShow)">
+			<!-- Property objects for SVG Path -->
+			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgSquareShow) && (!bottomPropPanel.imageDetailsShow)"> zoom(%) </span>			&nbsp;
+			<input type="number" ng-model="bottomPropPanel.zoom" min="1" max="500" ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgSquareShow) && (!bottomPropPanel.imageDetailsShow)">
 		</div>
+
+		<!-- property setting options for SVG-->
+		<div ng-show="bottomPropPanel.svgDetailsShow">
+			<input type="checkbox" ng-model="bottomPropPanel.justPanel"> Just Panel<br>
+		</div>
+
+		<!-- property setting options for SVG-->
+		<div ng-show="!bottomPropPanel.justPanel">
+			Normal-Color &nbsp;
+			<select class="input-sm" ng-model="bottomPropPanel.nomColorSelect">
+				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
+			</select> &nbsp;&nbsp;&nbsp;Danger-Color &nbsp;
+			<select class="input-sm" ng-model="bottomPropPanel.dangrColorSelect">
+				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
+			</select>
+		</div>
+
 		<div ng-show="(bottomPropPanel.rowSelectionShow) && (!bottomPropPanel.minMaxShow)">
-			No of Rows &nbsp; &nbsp;&nbsp;&nbsp;
-			<input type="number" ng-model="bottomPropPanel.rowNos" min="1" max="100">
+			<input type="checkbox" ng-model="bottomPropPanel.unfixRowNos"> Unfix Rows<br> No of Rows &nbsp; &nbsp;&nbsp;&nbsp;
+			<input type="number" ng-model="bottomPropPanel.rowNos" min="1" max="100" ng-disabled="bottomPropPanel.unfixRowNos">
 		</div>
+
 		<div ng-show="bottomPropPanel.minMaxShow">
-			Maximum Value &nbsp;
+			{{bottomPropPanel.maxTextBoxDisplayName}} &nbsp;
 			<input type="number" ng-model="bottomPropPanel.value" min="1" max="100"> &nbsp;&nbsp;&nbsp; Max-Color &nbsp;
 			<select class="input-sm" ng-model="bottomPropPanel.maxColorSelect">
 				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
-			</select> &nbsp;&nbsp;&nbsp; Max-% &nbsp;
+			</select> &nbsp;&nbsp;&nbsp; {{bottomPropPanel.minTextBoxDisplayName}} &nbsp;
 			<input type="number" ng-model="bottomPropPanel.maxPercent" min="1" max="100"> &nbsp;&nbsp;&nbsp; Min-Color &nbsp;
 			<select class="input-sm" ng-model="bottomPropPanel.minColorSelect">
 				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
-			</select> &nbsp;&nbsp;&nbsp; Min-% &nbsp;
+			</select> &nbsp;&nbsp;&nbsp; {{bottomPropPanel.nomTextBoxDisplayName}} &nbsp;
 			<input type="number" ng-model="bottomPropPanel.minPercent" min="1" max="100"> &nbsp;&nbsp;&nbsp; Nom-Color &nbsp;
 			<select class="input-sm" ng-model="bottomPropPanel.nomColorSelect">
 				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
 			</select>
 		</div>
+
 		<div class="text-right">
 			<a type="button" class="btn btn-primary" ng-click="assignProperties()">
 				<span> OK</span>
 			</a>
 		</div>
+
 	</div>
 
 	<div id="menu">

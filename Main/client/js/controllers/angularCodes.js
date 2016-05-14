@@ -87,7 +87,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 		doubleShow: false,
 		stringShow: false,
 		longShow: false,
-		arrayShow:false
+		arrayShow: false
 	};
 
 	// Variables with respect to bottom panel
@@ -96,10 +96,16 @@ app.controller('MyController', function ($scope, socket, $window) {
 		panelShow: false,
 		dpSelectShow: false,
 		imageDetailsShow: false,
+		svgDetailsShow: false,
 		fontPropShow: false,
 		minMaxButton: false,
 		minMaxShow: false,
 		rowSelectionShow: false,
+		svgSquareShow: false,
+		svgCircleShow: false,
+		svgPathShow: false,
+		unfixRowNos: false,
+		justPanel: false,
 		rowNos: 2,
 		minMaxValue: 'Min-Max',
 		parentSelect: '',
@@ -112,14 +118,20 @@ app.controller('MyController', function ($scope, socket, $window) {
 		dpList: [],
 		fontSize: 8,
 		backColorSelect: 'white',
+		maxTextBoxDisplayName: 'Maximum Value',
+		minTextBoxDisplayName: 'Max-%',
+		nomTextBoxDisplayName: 'Min-%',
 		value: 0,
 		maxColorSelect: 'red',
 		minColorSelect: 'orange',
 		nomColorSelect: 'green',
+		dangrColorSelect: 'red',
 		maxPercent: 75,
 		minPercent: 35,
 		width: 100,
 		height: 100,
+		radius: 50,
+		zoom: 100,
 		url: '../images/leanware-logo.png'
 	};
 
@@ -148,18 +160,22 @@ app.controller('MyController', function ($scope, socket, $window) {
 	$scope.labelProperties = {
 		id: '',
 		objectId: '',
+		posX: '',
+		posY: '',
 		html: '',
 		objectHtml: '',
 		name: '',
 		font: 'Verdana',
 		color: 'black',
-		fontSize: '8px'
+		fontSize: '14px'
 	};
 
 	//textBox property model
 	$scope.textBoxProperties = {
 		id: '',
 		objectId: '',
+		posX: '',
+		posY: '',
 		parent: '',
 		dataPoint: '',
 		html: '',
@@ -168,7 +184,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 		font: 'Verdana',
 		color: 'black',
 		backColor: 'white',
-		fontSize: '8px',
+		fontSize: '14px',
 		minMaxPresence: false,
 		value: 0,
 		maxColor: 'red',
@@ -183,17 +199,20 @@ app.controller('MyController', function ($scope, socket, $window) {
 		id: '',
 		objectId: '',
 		parent: '',
+		posX: '',
+		posY: '',
 		dataPoint: '',
 		html: '',
 		objectHtml: '',
+		originalHtml: '',
 		name: '',
 		font: 'Verdana',
 		color: 'black',
 		backColor: 'white',
-		fontSize: '8px',
+		fontSize: '14px',
 		typeMap: false,
 		rows: 2,
-		minMaxPresence: false,
+		fixRow: false,
 		maxColor: 'red',
 		maxColorValue: 2,
 		minColor: 'orange',
@@ -207,6 +226,8 @@ app.controller('MyController', function ($scope, socket, $window) {
 		id: '',
 		objectId: '',
 		parent: '',
+		posX: '',
+		posY: '',
 		dataPoint: '',
 		html: '',
 		objectHtml: '',
@@ -214,6 +235,26 @@ app.controller('MyController', function ($scope, socket, $window) {
 		url: '../images/leanware-logo.png',
 		width: 100,
 		height: 100
+	};
+
+	//svg property model
+	$scope.svgProperties = {
+		id: '',
+		name: '',
+		objectId: '',
+		parent: '',
+		dataPoint: '',
+		posX: '',
+		posY: '',
+		html: '',
+		objectHtml: '',
+		justPanel: false,
+		nomColorSelect: 'green',
+		dangrColorSelect: 'red',
+		width: 100,
+		height: 100,
+		radius: 50,
+		zoom: 100
 	};
 
 	//Initialization Functions===========================================
@@ -232,16 +273,20 @@ app.controller('MyController', function ($scope, socket, $window) {
 		$scope.labelProperties = {
 			id: '',
 			objectId: '',
+			posX: '',
+			posY: '',
 			html: '',
 			name: '',
 			objectHtml: '',
 			font: 'Verdana',
 			color: 'black',
-			fontSize: '8px'
+			fontSize: '14px'
 		};
 		$scope.textBoxProperties = {
 			id: '',
 			objectId: '',
+			posX: '',
+			posY: '',
 			parent: '',
 			dataPoint: '',
 			html: '',
@@ -250,7 +295,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 			font: 'Verdana',
 			color: 'black',
 			backColor: 'white',
-			fontSize: '8px',
+			fontSize: '14px',
 			minMaxPresence: false,
 			value: 0,
 			maxColor: 'red',
@@ -262,6 +307,8 @@ app.controller('MyController', function ($scope, socket, $window) {
 		$scope.listBoxProperties = {
 			id: '',
 			objectId: '',
+			posX: '',
+			posY: '',
 			parent: '',
 			dataPoint: '',
 			html: '',
@@ -270,7 +317,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 			font: 'Verdana',
 			color: 'black',
 			backColor: 'white',
-			fontSize: '8px',
+			fontSize: '14px',
 			typeMap: false,
 			rows: 2,
 			minMaxPresence: false,
@@ -284,6 +331,8 @@ app.controller('MyController', function ($scope, socket, $window) {
 		$scope.imageBoxProperties = {
 			id: '',
 			objectId: '',
+			posX: '',
+			posY: '',
 			parent: '',
 			dataPoint: '',
 			html: '',
@@ -293,6 +342,24 @@ app.controller('MyController', function ($scope, socket, $window) {
 			width: 100,
 			height: 100
 		};
+		$scope.svgProperties = {
+			id: '',
+			objectId: '',
+			parent: '',
+			dataPoint: '',
+			posX: '',
+			posY: '',
+			html: '',
+			objectHtml: '',
+			name: '',
+			justPanel: false,
+			nomColorSelect: 'green',
+			dangrColorSelect: 'red',
+			width: 100,
+			height: 100,
+			radius: 50,
+			zoom: 100
+		};
 	};
 
 	$scope.initializeProperyitems = function () {
@@ -300,11 +367,17 @@ app.controller('MyController', function ($scope, socket, $window) {
 			name: '',
 			panelShow: false,
 			dpSelectShow: false,
+			svgDetailsShow: false,
 			imageDetailsShow: false,
 			fontPropShow: false,
 			minMaxButton: false,
 			minMaxShow: false,
 			rowSelectionShow: false,
+			svgSquareShow: false,
+			svgCircleShow: false,
+			svgPathShow: false,
+			unfixRowNos: false,
+			justPanel: false,
 			rowNos: 2,
 			minMaxValue: 'Min-Max',
 			parentSelect: '',
@@ -317,14 +390,20 @@ app.controller('MyController', function ($scope, socket, $window) {
 			dpList: [],
 			fontSize: 8,
 			backColorSelect: 'white',
+			maxTextBoxDisplayName: 'Maximum Value',
+			minTextBoxDisplayName: 'Max-%',
+			nomTextBoxDisplayName: 'Min-%',
 			value: 0,
 			maxColorSelect: 'red',
 			minColorSelect: 'orange',
 			nomColorSelect: 'green',
+			dangrColorSelect: 'red',
 			maxPercent: 75,
 			minPercent: 35,
 			width: 100,
 			height: 100,
+			radius: 50,
+			zoom: 100,
 			url: '../images/leanware-logo.png'
 		};
 	};
@@ -410,19 +489,24 @@ app.controller('MyController', function ($scope, socket, $window) {
 			if ($scope.objectDetails[i].id === "\"" + data.elementId + "\"") {
 				$scope.bottomPropPanel.parentSelect = $scope.objectDetails[i].parent;
 				$scope.bottomPropPanel.dpSelect = $scope.objectDetails[i].dataPoint;
-				$scope.bottomPropPanel.colorSelect = $scope.objectDetails[i].color;
-				$scope.bottomPropPanel.fontSelect = $scope.objectDetails[i].font;
 				$scope.bottomPropPanel.name = $scope.objectDetails[i].name;
 				switch ($scope.objectDetails[i].objectId) {
 					case 'label':
 						$scope.bottomPropPanel.fontPropShow = true;
 						$scope.bottomPropPanel.minMaxShow = false;
+						$scope.bottomPropPanel.colorSelect = $scope.objectDetails[i].color;
+						$scope.bottomPropPanel.fontSelect = $scope.objectDetails[i].font;
 						$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
 						break;
 					case 'textBox':
 						$scope.bottomPropPanel.dpSelectShow = true;
 						$scope.bottomPropPanel.minMaxButton = true;
 						$scope.bottomPropPanel.fontPropShow = true;
+						$scope.bottomPropPanel.maxTextBoxDisplayName = 'Maximum Value';
+						$scope.bottomPropPanel.minTextBoxDisplayName = 'Max-%';
+						$scope.bottomPropPanel.nomTextBoxDisplayName = 'Min-%';
+						$scope.bottomPropPanel.colorSelect = $scope.objectDetails[i].color;
+						$scope.bottomPropPanel.fontSelect = $scope.objectDetails[i].font;
 						$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
 						$scope.bottomPropPanel.backColorSelect = $scope.objectDetails[i].backColor;
 						$scope.bottomPropPanel.minMaxShow = $scope.objectDetails[i].minMaxPresence;
@@ -437,9 +521,14 @@ app.controller('MyController', function ($scope, socket, $window) {
 						$scope.bottomPropPanel.dpSelectShow = true;
 						$scope.bottomPropPanel.minMaxButton = true;
 						$scope.bottomPropPanel.fontPropShow = true;
+						$scope.bottomPropPanel.minMaxValue = 'Map';
+						$scope.bottomPropPanel.maxTextBoxDisplayName = 'Maximum Pos Value';
+						$scope.bottomPropPanel.minTextBoxDisplayName = 'Minimum Pos Value';
+						$scope.bottomPropPanel.nomTextBoxDisplayName = 'Nominal Pos Value';
+						$scope.bottomPropPanel.colorSelect = $scope.objectDetails[i].color;
+						$scope.bottomPropPanel.fontSelect = $scope.objectDetails[i].font;
 						$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
 						$scope.bottomPropPanel.rowSelectionShow = !$scope.objectDetails[i].typeMap;
-						$scope.bottomPropPanel.minMaxValue = 'Map';
 						$scope.bottomPropPanel.backColorSelect = $scope.objectDetails[i].backColor;
 						$scope.bottomPropPanel.minMaxShow = $scope.objectDetails[i].minMaxPresence;
 						$scope.bottomPropPanel.value = $scope.objectDetails[i].value;
@@ -454,6 +543,35 @@ app.controller('MyController', function ($scope, socket, $window) {
 						$scope.bottomPropPanel.url = $scope.objectDetails[i].url;
 						$scope.bottomPropPanel.width = $scope.objectDetails[i].width;
 						$scope.bottomPropPanel.height = $scope.objectDetails[i].height;
+						break;
+					case 'svg-square':
+						$scope.bottomPropPanel.dpSelectShow = true;
+						$scope.bottomPropPanel.svgDetailsShow = true;
+						$scope.bottomPropPanel.svgSquareShow = true;
+						$scope.bottomPropPanel.justPanel = $scope.objectDetails[i].justPanel;
+						$scope.bottomPropPanel.width = $scope.objectDetails[i].width;
+						$scope.bottomPropPanel.height = $scope.objectDetails[i].height;
+						$scope.bottomPropPanel.nomColorSelect = $scope.objectDetails[i].nomColorSelect;
+						$scope.bottomPropPanel.dangrColorSelect = $scope.objectDetails[i].dangrColorSelect;
+						break;
+					case 'svg-circle':
+						$scope.bottomPropPanel.dpSelectShow = true;
+						$scope.bottomPropPanel.svgDetailsShow = true;
+						$scope.bottomPropPanel.svgCircleShow = true;
+						$scope.bottomPropPanel.justPanel = $scope.objectDetails[i].justPanel;
+						$scope.bottomPropPanel.radius = $scope.objectDetails[i].radius;
+						$scope.bottomPropPanel.nomColorSelect = $scope.objectDetails[i].nomColorSelect;
+						$scope.bottomPropPanel.dangrColorSelect = $scope.objectDetails[i].dangrColorSelect;
+						break;
+					case 'svg-path':
+						$scope.bottomPropPanel.dpSelectShow = true;
+						$scope.bottomPropPanel.svgDetailsShow = true;
+						$scope.bottomPropPanel.svgPathShow = true;
+						$scope.bottomPropPanel.justPanel = $scope.objectDetails[i].justPanel;
+						$scope.bottomPropPanel.zoom = $scope.objectDetails[i].zoom;
+						$scope.bottomPropPanel.nomColorSelect = $scope.objectDetails[i].nomColorSelect;
+						$scope.bottomPropPanel.dangrColorSelect = $scope.objectDetails[i].dangrColorSelect;
+						break;
 				}
 			}
 		}
@@ -477,6 +595,8 @@ app.controller('MyController', function ($scope, socket, $window) {
 					$scope.labelProperties.objectId = data.objectId;
 					$scope.labelProperties.html = data.currentHtml;
 					$scope.labelProperties.objectHtml = data.objectHtml;
+					$scope.labelProperties.posX = data.positionX;
+					$scope.labelProperties.posY = data.positionY;
 					$scope.objectDetails.push($scope.labelProperties);
 					break;
 				case 'textBox':
@@ -484,6 +604,8 @@ app.controller('MyController', function ($scope, socket, $window) {
 					$scope.textBoxProperties.objectId = data.objectId;
 					$scope.textBoxProperties.html = data.currentHtml;
 					$scope.textBoxProperties.objectHtml = data.objectHtml;
+					$scope.textBoxProperties.posX = data.positionX;
+					$scope.textBoxProperties.posY = data.positionY;
 					$scope.objectDetails.push($scope.textBoxProperties);
 					break;
 				case 'listBox':
@@ -491,6 +613,9 @@ app.controller('MyController', function ($scope, socket, $window) {
 					$scope.listBoxProperties.objectId = data.objectId;
 					$scope.listBoxProperties.html = data.currentHtml;
 					$scope.listBoxProperties.objectHtml = data.objectHtml;
+					$scope.listBoxProperties.originalHtml = data.objectHtml;
+					$scope.listBoxProperties.posX = data.positionX;
+					$scope.listBoxProperties.posY = data.positionY;
 					$scope.objectDetails.push($scope.listBoxProperties);
 					break;
 				case 'image':
@@ -498,8 +623,46 @@ app.controller('MyController', function ($scope, socket, $window) {
 					$scope.imageBoxProperties.objectId = data.objectId;
 					$scope.imageBoxProperties.html = data.currentHtml;
 					$scope.imageBoxProperties.objectHtml = data.objectHtml;
+					$scope.imageBoxProperties.posX = data.positionX;
+					$scope.imageBoxProperties.posY = data.positionY;
 					$scope.objectDetails.push($scope.imageBoxProperties);
 					break;
+				case 'svg-square':
+					$scope.svgProperties.id = String(data.id);
+					$scope.svgProperties.objectId = data.objectId;
+					$scope.svgProperties.html = data.currentHtml;
+					$scope.svgProperties.objectHtml = data.objectHtml;
+					$scope.svgProperties.posX = data.positionX;
+					$scope.svgProperties.posY = data.positionY;
+					$scope.objectDetails.push($scope.svgProperties);
+					break;
+				case 'svg-circle':
+					$scope.svgProperties.id = String(data.id);
+					$scope.svgProperties.objectId = data.objectId;
+					$scope.svgProperties.html = data.currentHtml;
+					$scope.svgProperties.objectHtml = data.objectHtml;
+					$scope.svgProperties.posX = data.positionX;
+					$scope.svgProperties.posY = data.positionY;
+					$scope.objectDetails.push($scope.svgProperties);
+					break;
+				case 'svg-path':
+					$scope.svgProperties.id = String(data.id);
+					$scope.svgProperties.objectId = data.objectId;
+					$scope.svgProperties.html = data.currentHtml;
+					$scope.svgProperties.objectHtml = data.objectHtml;
+					$scope.svgProperties.posX = data.positionX;
+					$scope.svgProperties.posY = data.positionY;
+					$scope.objectDetails.push($scope.svgProperties);
+					break;
+			}
+		}
+	});
+
+	socket.on('moved_Object', function (data) {
+		for (i = 0; len = $scope.objectDetails.length, i < len; i++) {
+			if ($scope.objectDetails[i].id === data.currentId) {
+				$scope.objectDetails[i].posX = data.positionX;
+				$scope.objectDetails[i].posY = data.positionY;
 			}
 		}
 	});
@@ -644,6 +807,49 @@ app.controller('MyController', function ($scope, socket, $window) {
 								}
 							}
 							break;
+						case 'listBox':
+							var dataPointArray = [];
+							dataPointArray = Object.keys($scope.allDP[i].data);
+							for (j = 0; lenJ = dataPointArray.length, lenJ > j; j++) {
+								if (!$scope.bottomPropPanel.minMaxShow) {
+									if ($scope.allDP[i].data[dataPointArray[j]] === 'array(string)') {
+										$scope.bottomPropPanel.dpList.push(dataPointArray[j]);
+									}
+								} else if ($scope.bottomPropPanel.minMaxShow) {
+									if (
+										$scope.allDP[i].data[dataPointArray[j]] === 'hashmap(string, boolean)') {
+										$scope.bottomPropPanel.dpList.push(dataPointArray[j]);
+									}
+								}
+							}
+							break;
+						case 'svg-square':
+							var dataPointArray = [];
+							dataPointArray = Object.keys($scope.allDP[i].data);
+							for (j = 0; lenJ = dataPointArray.length, lenJ > j; j++) {
+								if (($scope.allDP[i].data[dataPointArray[j]] === 'boolean')) {
+									$scope.bottomPropPanel.dpList.push(dataPointArray[j]);
+								}
+							}
+							break;
+						case 'svg-circle':
+							var dataPointArray = [];
+							dataPointArray = Object.keys($scope.allDP[i].data);
+							for (j = 0; lenJ = dataPointArray.length, lenJ > j; j++) {
+								if (($scope.allDP[i].data[dataPointArray[j]] === 'boolean')) {
+									$scope.bottomPropPanel.dpList.push(dataPointArray[j]);
+								}
+							}
+							break;
+						case 'svg-path':
+							var dataPointArray = [];
+							dataPointArray = Object.keys($scope.allDP[i].data);
+							for (j = 0; lenJ = dataPointArray.length, lenJ > j; j++) {
+								if (($scope.allDP[i].data[dataPointArray[j]] === 'boolean')) {
+									$scope.bottomPropPanel.dpList.push(dataPointArray[j]);
+								}
+							}
+							break;
 						default:
 							$scope.bottomPropPanel.dpList = Object.keys($scope.allDP[i].data);
 							break;
@@ -662,18 +868,19 @@ app.controller('MyController', function ($scope, socket, $window) {
 					//Assign the selected configuration values to the object details
 					$scope.objectDetails[i].parent = $scope.bottomPropPanel.parentSelect;
 					$scope.objectDetails[i].dataPoint = $scope.bottomPropPanel.dpSelect;
-					$scope.objectDetails[i].font = $scope.bottomPropPanel.fontSelect;
-					$scope.objectDetails[i].color = $scope.bottomPropPanel.colorSelect;
-					$scope.objectDetails[i].fontSize = $scope.bottomPropPanel.fontSize + "px";
 					$scope.objectDetails[i].name = $scope.bottomPropPanel.name;
 					//convert 'ObjectHTML' String to HTML DOM Element
 					var htmlElement = angular.element($scope.objectDetails[i].objectHtml);
+					$scope.clean(htmlElement[0]);
 					if ($scope.bottomPropPanel.name !== '') {
 						dummyName = $scope.bottomPropPanel.name;
 					}
 					//Assign values for DOM elements					
 					switch ($scope.objectDetails[i].objectId) {
 						case 'label':
+							$scope.objectDetails[i].font = $scope.bottomPropPanel.fontSelect;
+							$scope.objectDetails[i].color = $scope.bottomPropPanel.colorSelect;
+							$scope.objectDetails[i].fontSize = $scope.bottomPropPanel.fontSize + "px";
 							//Label Assigns Name, color and Font family
 							htmlElement[0].innerHTML = dummyName;
 							htmlElement[0].style.fontFamily = $scope.bottomPropPanel.fontSelect;
@@ -681,6 +888,10 @@ app.controller('MyController', function ($scope, socket, $window) {
 							htmlElement[0].style.fontSize = $scope.bottomPropPanel.fontSize + "px";
 							break;
 						case 'textBox':
+							$scope.objectDetails[i].font = $scope.bottomPropPanel.fontSelect;
+							$scope.objectDetails[i].color = $scope.bottomPropPanel.colorSelect;
+							$scope.objectDetails[i].fontSize = $scope.bottomPropPanel.fontSize + "px";
+							$scope.objectDetails[i].backgroundColor = $scope.bottomPropPanel.backColorSelect;
 							//Textbox Assigns properties to DOM
 							htmlElement[0].innerHTML = dummyName;
 							htmlElement[0].style.fontFamily = $scope.bottomPropPanel.fontSelect;
@@ -698,10 +909,107 @@ app.controller('MyController', function ($scope, socket, $window) {
 							}
 							break;
 						case 'image':
+							$scope.objectDetails[i].url = $scope.bottomPropPanel.url;
+							$scope.objectDetails[i].width = $scope.bottomPropPanel.width;
+							$scope.objectDetails[i].height = $scope.bottomPropPanel.height;
 							//Assign image properties to DOM 
 							htmlElement[0].src = $scope.bottomPropPanel.url;
 							htmlElement[0].width = $scope.bottomPropPanel.width;
 							htmlElement[0].height = $scope.bottomPropPanel.height;
+							break;
+						case 'listBox':
+							$scope.clean(htmlElement[0]);
+							$scope.objectDetails[i].font = $scope.bottomPropPanel.fontSelect;
+							$scope.objectDetails[i].color = $scope.bottomPropPanel.colorSelect;
+							$scope.objectDetails[i].fontSize = $scope.bottomPropPanel.fontSize + "px";
+							$scope.objectDetails[i].backgroundColor = $scope.bottomPropPanel.backColorSelect;
+							$scope.objectDetails[i].rows = $scope.bottomPropPanel.rowNos;
+							$scope.objectDetails[i].fixRow = $scope.bottomPropPanel.unfixRowNos;
+							//Identify if it is a 'map' or an 'array'
+							//After identifying, modify the properties of the DOM element and assign properties to the 'objectDetails' variable 
+							if ($scope.bottomPropPanel.minMaxValue === 'Map') {
+								$scope.objectDetails[i].typeMap = false;
+								htmlElement[0].style.backgroundColor = $scope.bottomPropPanel.backColorSelect;
+								if ((!$scope.bottomPropPanel.unfixRowNos) && ($scope.bottomPropPanel.rowNos > htmlElement[0].childNodes.length)) {
+									var childIncNos = ($scope.bottomPropPanel.rowNos - htmlElement[0].childNodes.length);
+									for (child = 0; childLen = childIncNos, childLen > child; child++) {
+										var node = document.createElement("LI");                 // Create a <li> node
+										var textnode = document.createTextNode("Item" + htmlElement[0].childNodes.length);         // Create a text node
+										node.appendChild(textnode);                              // Append the text to <li>
+										htmlElement[0].appendChild(node);     // Append <li> to <ul> with id="myList"
+									}
+								} else if ((!$scope.bottomPropPanel.unfixRowNos) && ($scope.bottomPropPanel.rowNos < htmlElement[0].childNodes.length)) {
+									var childIncNos = htmlElement[0].childNodes.length - $scope.bottomPropPanel.rowNos;
+									for (child = 0; childLen = childIncNos, childLen > child; child++) {
+										var node = htmlElement[0].lastChild;
+										htmlElement[0].removeChild(node);
+									}
+								} else if ($scope.bottomPropPanel.unfixRowNos) {
+									//Assign the selected configuration values to the object details
+									$scope.objectDetails[i].parent = '';
+									$scope.objectDetails[i].dataPoint = '';
+									$scope.objectDetails[i].font = 'Verdana';
+									$scope.objectDetails[i].color = 'black';
+									$scope.objectDetails[i].backColor = 'white';
+									$scope.objectDetails[i].fontSize = '14px';
+									htmlElement = angular.element($scope.objectDetails[i].originalHtml);
+								}
+							} else if ($scope.bottomPropPanel.minMaxValue === 'Array') {
+								$scope.objectDetails[i].typeMap = true;
+								//Assign property values to the variable
+								$scope.objectDetails[i].maxColor = $scope.bottomPropPanel.maxColorSelect;
+								$scope.objectDetails[i].maxColorValue = $scope.bottomPropPanel.value;
+								$scope.objectDetails[i].minColor = $scope.bottomPropPanel.minColorSelect;
+								$scope.objectDetails[i].minColorValue = $scope.bottomPropPanel.maxPercent;
+								$scope.objectDetails[i].nomColor = $scope.bottomPropPanel.nomColorSelect;
+								$scope.objectDetails[i].nomColorValue = $scope.bottomPropPanel.minPercent;
+								//Since there will be no appearence changes to be displayed as in case of 'Map' the original DOM element can besupplkied to the viewer. 
+								htmlElement = angular.element($scope.objectDetails[i].originalHtml);
+							}
+							htmlElement[0].style.fontFamily = $scope.bottomPropPanel.fontSelect;
+							htmlElement[0].style.color = $scope.bottomPropPanel.colorSelect;
+							htmlElement[0].style.fontSize = $scope.bottomPropPanel.fontSize + "px";
+							break;
+						case 'svg-square':
+							$scope.objectDetails[i].justPanel = $scope.bottomPropPanel.justPanel;
+							$scope.objectDetails[i].width = $scope.bottomPropPanel.width;
+							$scope.objectDetails[i].height = $scope.bottomPropPanel.height;
+							$scope.objectDetails[i].nomColorSelect = $scope.bottomPropPanel.nomColorSelect;
+							$scope.objectDetails[i].dangrColorSelect = $scope.bottomPropPanel.dangrColorSelect;
+							//Initially set the values of the SVG Box
+							htmlElement[0].width.baseVal.value = $scope.bottomPropPanel.width + 1;
+							htmlElement[0].height.baseVal.value = $scope.bottomPropPanel.height + 1;
+							var innerElement = "<rect width="+$scope.bottomPropPanel.width+" height="+$scope.bottomPropPanel.height+" style='fill:rgb(0,0,255);'>";
+							htmlElement[0].innerHTML = innerElement;
+							console.log(htmlElement);
+							break;
+						case 'svg-circle':
+							$scope.objectDetails[i].justPanel = $scope.bottomPropPanel.justPanel;
+							$scope.objectDetails[i].radius = $scope.bottomPropPanel.radius;
+							$scope.objectDetails[i].nomColorSelect = $scope.bottomPropPanel.nomColorSelect;
+							$scope.objectDetails[i].dangrColorSelect = $scope.bottomPropPanel.dangrColorSelect;
+							//Initially set the values of the SVG Box
+							htmlElement[0].width.baseVal.value = $scope.bottomPropPanel.radius * 2;
+							htmlElement[0].height.baseVal.value = $scope.bottomPropPanel.radius * 2;
+							var innerElement = angular.element(htmlElement[0].innerHTML);
+							innerElement[0].cx = $scope.bottomPropPanel.radius;
+							innerElement[0].cy = $scope.bottomPropPanel.radius;
+							innerElement[0].r = $scope.bottomPropPanel.radius;
+							console.log(innerElement);
+							htmlElement[0].innerHTML = innerElement[0].outerHTML;
+							break;
+						case 'svg-path':
+							$scope.objectDetails[i].justPanel = $scope.bottomPropPanel.justPanel;
+							$scope.objectDetails[i].zoom = $scope.bottomPropPanel.zoom;
+							$scope.objectDetails[i].nomColorSelect = $scope.bottomPropPanel.nomColorSelect;
+							$scope.objectDetails[i].dangrColorSelect = $scope.bottomPropPanel.dangrColorSelect;
+							//Initially set the values of the SVG Box
+							//In here particularly it is got from the zoom % and then assigned
+							var calcPixWidth = Math.round(htmlElement[0].width * ($scope.bottomPropPanel.zoom / 100));
+							var calcPixHeight = Math.round(htmlElement[0].width * ($scope.bottomPropPanel.zoom / 100));
+							htmlElement[0].width.baseVal.value = calcPixWidth;
+							htmlElement[0].height.baseVal.value = calcPixHeight;
+							htmlElement[0].style.zoom = $scope.bottomPropPanel.zoom + "%";
 							break;
 					}
 					//convert HTML DOM Element to String and assign it to 'ObjectHTML'
@@ -713,6 +1021,32 @@ app.controller('MyController', function ($scope, socket, $window) {
 		}
 	};
 
+	//Function populates the data points in the selection box according to the option (map|array) selected
+	// this is only executred for the cases of 'List box'
+	$scope.arrayMapDPGenerate = function (data) {
+		//change the alue of the selection button to indicate what to be switched too
+		if (data === 'Array') {
+			$scope.bottomPropPanel.minMaxValue = 'Map';
+		} else if (data === 'Map') {
+			$scope.bottomPropPanel.minMaxValue = 'Array';
+
+		}
+	};
+
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+	//Cleaning the unnecessary linebreaks in the Node
+	$scope.clean = function (node) {
+		for (var n = 0; n < node.childNodes.length; n++) {
+			var child = node.childNodes[n];
+			if ((child.nodeType === 8) || (child.nodeType === 3 && !/\S/.test(child.nodeValue))) {
+				node.removeChild(child);
+				n--;
+			}
+			else if (child.nodeType === 1) {
+				$scope.clean(child);
+			}
+		}
+	}
 
 });

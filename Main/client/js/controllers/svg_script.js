@@ -7,24 +7,19 @@ app.directive('svgIcon', function() {
       }
 
       function renderSVG() {
-          element.html( path(attrs.p) );
+        element.html( path(attrs.p) );
 				element.children().css({
 					  margin: '0 1em 1em 0',
-					  fill: 'rgba(0,0,0,.7)'
-					
-                });
-				
+					  fill: 'rgba(0,0,0,.7)'					
+        });				
       }
       
-      renderSVG();
-	  
-	  
-	  				
+      renderSVG();  				
 				
 			element[0].addEventListener('dragstart', function(e) {
-			e.dataTransfer.effectAllowed = 'move';
-			e.dataTransfer.setData('text', this.innerHTML);
-			elementDragged = this;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text', this.innerHTML);
+        elementDragged = this;
 				});
 			
 	  
@@ -38,6 +33,9 @@ app.directive('svgIcon', function() {
 
 
 var icons = {	
+    rectangle: "<svg width='101' height='101'><rect width='100' height='100' style='fill:rgb(0,0,255);'></svg>",
+    circle:"<svg height='100' width='100' style='zoom: 100%;fill:rgb(0,0,255);'><circle cx='50' cy='50' r='50' fill='red' /></svg>",
+    arrow:"<svg width='164' height='156'><path d='m0,86 h36 v70 h92 V86 h36 L82,0' fill='#0C0'/></svg>",
     bookmark: "<svg viewBox='0 0 32 32'> <path d='M6 2 L26 2 L26 30 L16 24 L6 30 Z'/></svg>",
     calendar: "<svg viewBox='0 0 32 32'> <path d='M2 4 L6 4 L6 2 A2 2 0 0 1 10 2 L10 4 L22 4 L22 2 A2 2 0 0 1 26 2 L26 4 L30 4 L30 10 L2 10 M2 12 L30 12 L30 30 L2 30'/></svg>",
     camera: "<svg viewBox='0 0 32 32'> <path d='M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17'/></svg>",

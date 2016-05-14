@@ -103,19 +103,92 @@ window.onload = function () {
 				break;
 			case "lineChart":
 				var lineChrt = cln.childNodes[1];
-				lineChrt.setAttribute("style","width:300px;height:150px");
+				lineChrt.setAttribute("style", "width:300px;height:150px");
 				console.log(lineChrt);
 				break;
-								
+
 		}
 		cln.setAttribute("oncontextmenu", "showCustomMenu(this)");
 		cln.setAttribute("ondblclick", "showDoubleMenu(this)");
 		nodes_test.appendChild(cln);
 		var cln_test = $(cln);
-		cln_test.css({
-			position: 'absolute',
-			cursor: 'pointer'
-		});
+		//==================================
+		if ($(elementDragged).parent().attr("id") == "drag-elements1") {
+			$(cln).droppable({
+
+				drop: function (event, ui) {
+					$(this).append(ui.draggable.context);
+					ui.draggable.css({
+						position: 'absolute',
+						cursor: 'pointer'
+					});
+
+					var foo = $(this).children();
+					var mul_items = new Array();
+					for (var i = 0; i < foo.length; i++) {
+						//console.log(foo[i].id);
+						if (foo[i].id != "") {
+							//console.log(foo[i].id);
+							mul_items = mul_items + '#' + foo[i].id + ',';
+							//mul_items.push(foo[i]);
+						}
+
+					}
+					console.log("I am in dropable");
+					$(this).resizable({
+
+						//var bar = $('.bar').attr('id');
+						//var bar = $('.bar').attr('id');
+						//var alsos = '#' + foo + ', #' + bar;    
+
+						//alsoResize : '#abc2,#abc3'
+						alsoResize: mul_items
+
+					});
+
+
+				},
+				out: function (event, ui) {
+					$("#drop-target-one").append(ui.draggable.context);
+					ui.draggable.css({
+						position: 'absolute',
+						cursor: 'pointer'
+					});
+					//ui.draggable.context.left="10px";
+					//ui.draggable.context.top="10px";   
+					//console.log("item popped out: ");   
+					//console.log(ui.draggable.context.style.left);    
+				}
+
+			});
+
+
+			$(cln).resizable({});
+
+			cln_test.css({
+				position: 'absolute',
+				cursor: 'pointer'
+			});
+
+
+
+		}
+		else {
+			$(cln).resizable({});
+
+			cln_test.css({
+				position: 'absolute',
+				cursor: 'pointer',
+				zoom: '100%'
+			});
+
+
+		}
+//=========================
+		//cln_test.css({
+		//	position: 'absolute',
+		//	cursor: 'pointer'
+		//});
 		var $draggables_p = $("#drop-target-one");
 		var $draggables = $draggables_p.children();
 		var id, $draggableItem;
@@ -136,7 +209,7 @@ window.onload = function () {
 
 				},
 				drag: function (event, ui) {
-					socket.emit('moveObject', { 'loggedinUser': loggedinUser, currentId: this.id, positionX: ui.position.left, positionY: ui.position.top });
+					socket.emit('moveObject', { 'loggedinUser': loggedinUser, 'currentId': this.id, 'positionX': ui.position.left, 'positionY': ui.position.top });
 				}
 			});
 		}
@@ -149,7 +222,7 @@ window.onload = function () {
 					socket.emit('newObject', { 'loggedinUser': loggedinUser, 'currentHtml': angular_to_be_sent, 'isAngular': isAngular, 'dataSource': dataSource, 'id': aaa });
 				}
 				else {
-					socket.emit('newObject', { 'loggedinUser': loggedinUser, 'currentHtml': cln.outerHTML, 'isAngular': isAngular, 'dataSource': null, 'id': xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml': cln.innerHTML });
+					socket.emit('newObject', { 'loggedinUser': loggedinUser, 'currentHtml': cln.outerHTML, 'isAngular': isAngular, 'dataSource': null, 'id': xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml': cln.innerHTML, 'positionX':cln.style.left, 'positionY':cln.style.top });
 				}
 			}
 		};
