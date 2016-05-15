@@ -186,96 +186,90 @@
 			});
 	</script>
 
+	<script type="text/javascript">
+		function showValue(newValue)
+			{
+				var degree = newValue; 			
+				var svg_el = $(double_Click);
+				svg_el.css('-moz-transform', 'rotate('+degree+'deg)');
+				svg_el.css('-webkit-transform', 'rotate('+degree+'deg)');
+				svg_el.css('-o-transform', 'rotate('+degree+'deg)');
+				svg_el.css('-ms-transform', 'rotate('+degree+'deg)');				
+			}
+	</script>
+
 </head>
 
 <body id="my_body" ng-app="myApp" ng-controller="MyController">
 
-	<div class="left">
+	<div class="left" id='LeftPan'>
+		<span class='TitleText2'>Factory <button  id='LeftPanAdjustButton' type="button" class="btn btn-default" aria-label="Left Align">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		</button><br />Visualization
+		</span>
 		<uib-tabset active="activeJustified" justified="true">
 			<uib-tab index="0" heading="Object">
 				<br>
 				<uib-accordion close-others="true">
-					<uib-accordion-group is-open="status1.open">
-						<uib-accordion-heading>
-							Elements
-							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
-						</uib-accordion-heading>
-						<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-							<li data-objectid="image" draggable="true"><img src="../images/image.png" height="30px" width="40px"></li>
-							<li class="drag-elements-li" draggable="true">Element Three</li>
-							<li class="drag-elements-li" draggable="true">Element Four</li>
-							<li class="drag-elements-li" draggable="true">Element Five</li>
-						</ul>
-					</uib-accordion-group>
-					<uib-accordion-group is-open="status4.open">
-						<uib-accordion-heading>
-							General
-							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status4.open, 'glyphicon-chevron-right': !status4.open}"></i>
-						</uib-accordion-heading>
-						<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-							<li data-objectid="label" draggable="true"><label for='label' style=' font-family: Verdana; color: black; '> textLabel </label></li>
-							<li data-objectid="textBox" draggable="true"><label class='mock-text-box' for='textBox' style='font-family: Verdana; color: black; background-color: #FFFFFF;'>SimpleTextBox</label></li>
-							<li data-objectid="listBox" draggable="true">
-								<ul style='font-family: Verdana; color: black; background-color: #FFFFFF; list-style-type:none; border-style: inset;'>
-									<li>Item0</li>
-									<li>Item1</li>
-								</ul>
-							</li>
-						</ul>
-					</uib-accordion-group>
-					<uib-accordion-group is-open="status2.open">
-						<uib-accordion-heading>
-							Elements SVG
-							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
-						</uib-accordion-heading>
-						<ul>
-							<svg-icon data-objectid="svg-square" p="rectangle" draggable="true"></svg-icon>
-							<svg-icon data-objectid="svg-circle" p="circle" draggable="true"></svg-icon>
-							<svg-icon data-objectid="svg-path" p="arrow" draggable="true"></svg-icon>
-						</ul>
-					</uib-accordion-group>
-					<uib-accordion-group is-open="status3.open">
-						<uib-accordion-heading>
-							Charts & Widgets
-							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
-						</uib-accordion-heading>
-						<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-							<li data-objectid="gauge1" draggable="true">
-								<div class="dg" style="width:100px;height:100px;background-color:white;">
-									<ng-dial-gauge id="gauge1" scale-min="25" scale-max="75" border-width="1" ng-model="gaugeValue" bar-color="pink" bar-width="6"
-										units="%" angle="135" rotate="180" line-cap="round" style="stroke:blue;font-weight:100;"></ng-dial-gauge>
-								</div>
-							</li>
-							<li data-objectid="gauge2" draggable="true">
-								<div class="dg" style="width:100px;height:100px;background-color:white;">
-									<ng-dial-gauge id="gauge2" scale-min="0" scale-max="100" border-color="grey" border-width="1" ng-model="gaugeValue" bar-color="green"
-										bar-width="3" title="Temperature" angle="270" rotate="180" line-cap="round" style="stroke:blue;font-weight:100;height:450px;">
-									</ng-dial-gauge>
-								</div>
-							</li>
-							<li data-objectid="gauge3" draggable="true">
-								<div class="dg" style="width:100px;height:100px;background-color:white;">
-									<ng-dial-gauge id="gauge3" scale-min="0" scale-max="50" border-width="0" ng-model="gaugeValue" track-color="none" bar-color="red"
-										bar-width="3" units="DegC" angle="135" rotate="0" line-cap="round" style="stroke:blue;font-weight:100;height:450px;">
-									</ng-dial-gauge>
-								</div>
-							</li>
-							<li data-objectid="lineChart" draggable="true">
-								<div line-chart line-data='data' line-xkey='y' line-ykeys='["a", "b"]' line-labels='["Serie A", "Serie B"]' line-colors='["#31C0BE", "#c7254e"]'
-									style="width:150px;height:80px;background-color:white;">
-								</div>
-							</li>
-							<li data-objectid="barChart" draggable="true">
-								<div bar-chart bar-data='data' bar-x='y' bar-y='["a", "b"]' bar-labels='["Series A", "Series B"]' bar-colors='["#31C0BE", "#c7254e"]'
-									style="width:150px;height:80px;background-color:white;">
-								</div>
-							</li>
-							<li data-objectid="donutChart" draggable="true">
-								<div donut-chart donut-data='donutData' donut-colors='["#31C0BE","#c7254e","#98a0d3"]' donut-formatter='"currency"' style="width:150px;height:80px;background-color:white;">
-								</div>
-							</li>
-						</ul>
-					</uib-accordion-group>
+					<div class="dropdown">
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
+                            Elements
+							<span class="caret"></span>
+						</button>
+						<div class="dropdown-menu ">
+							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
+								<li data-objectid="panElement" class="drag-elements-li" draggable="true">Pan Element</li>
+							</ul>
+						</div>
+					</div>
+					<div class="dropdown">
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
+                            General
+							<span class="caret"></span>
+						</button>
+						<div class="dropdown-menu ">
+							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
+								<li data-objectid="label" draggable="true"><label for='label' style=' font-family: Verdana; color: black; '> textLabel </label></li>
+								<li data-objectid="textBox" draggable="true"><label class='mock-text-box' for='textBox' style='font-family: Verdana; color: black; background-color: #FFFFFF;'>SimpleTextBox</label></li>
+								<li data-objectid="listBox" draggable="true">
+									<ul style='font-family: Verdana; color: black; background-color: #FFFFFF; list-style-type:none; border-style: inset;'>
+										<li>Item0</li>
+										<li>Item1</li>
+									</ul>
+								</li>
+								<li data-objectid="image" draggable="true"><img src="../images/image.png" height="30px" width="40px"></li>
+							</ul>
+						</div>
+					</div>
+					<div class="dropdown">
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
+                            Element SVG
+							<span class="caret"></span>
+						</button>
+						<div class="dropdown-menu ">
+							<ul>
+								<svg-icon data-objectid="svg-square" p="rectangle" draggable="true"></svg-icon>
+								<svg-icon data-objectid="svg-circle" p="circle" draggable="true"></svg-icon>
+								<svg-icon data-objectid="svg-path" p="arrow" draggable="true"></svg-icon>
+							</ul>
+						</div>
+					</div>
+					<div class="dropdown">
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
+                            Charts & Widgets
+							<span class="caret"></span>
+						</button>
+						<div class="dropdown-menu ">
+							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
+								<li data-objectid="gauge-1" draggable="true"><img src="../images/gauge1.png" height="100px" width="100px"></li>
+								<li data-objectid="gauge-2" draggable="true"><img src="../images/gauge2.png" height="100px" width="100px"></li>
+								<li data-objectid="gauge-3" draggable="true"><img src="../images/gauge3.png" height="100px" width="100px"></li>
+								<li data-objectid="bar-chart" draggable="true"><img src="../images/barChart.png" height="100px" width="100px"></li>
+								<li data-objectid="line-chart" draggable="true"><img src="../images/candleChart.png" height="100px" width="120px"></li>
+								<li data-objectid="candle-chart" draggable="true"><img src="../images/lineChart.png" height="100px" width="120px"></li>
+							</ul>
+						</div>
+					</div>
 				</uib-accordion>
 			</uib-tab>
 			<uib-tab select="tabAlert()">
@@ -308,46 +302,22 @@
 				<br>
 				<div style="background: #FFFFFF;border-style: inset;">
 					<ul id="drag-elements1" class="drag-elements">
-						<li data-objectid="gauge1" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)">
-							<div class="dg" style="width:100px;height:100px;background-color:white;">
-								<ng-dial-gauge id="gauge1" scale-min="25" scale-max="75" border-width="1" ng-model="gaugeValue" bar-color="pink" bar-width="6"
-									units="%" angle="135" rotate="180" line-cap="round" style="stroke:blue;font-weight:100;"></ng-dial-gauge>
-							</div>
-						</li>
-						<li data-objectid="gauge2" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)">
-							<div class="dg" style="width:100px;height:100px;background-color:white;">
-								<ng-dial-gauge id="gauge2" scale-min="0" scale-max="100" border-color="grey" border-width="1" ng-model="gaugeValue" bar-color="green"
-									bar-width="3" title="Temperature" angle="270" rotate="180" line-cap="round" style="stroke:blue;font-weight:100;height:450px;">
-								</ng-dial-gauge>
-							</div>
-						</li>
-						<li data-objectid="gauge3" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)">
-							<div class="dg" style="width:100px;height:100px;background-color:white;">
-								<ng-dial-gauge id="gauge3" scale-min="0" scale-max="50" border-width="0" ng-model="gaugeValue" track-color="none" bar-color="red"
-									bar-width="3" units="DegC" angle="135" rotate="0" line-cap="round" style="stroke:blue;font-weight:100;height:450px;">
-								</ng-dial-gauge>
-							</div>
-						</li>
-						<li data-objectid="lineChart" draggable="true" ng-show="(dpSelectPanel.arrayShow) || (dpSelectPanel.mapShow)">
-							<div line-chart line-data='data' line-xkey='y' line-ykeys='["a", "b"]' line-labels='["Serie A", "Serie B"]' line-colors='["#31C0BE", "#c7254e"]'
-								style="width:150px;height:80px;background-color:white;">
-							</div>
-						</li>
-						<li data-objectid="barChart" draggable="true" ng-show="(dpSelectPanel.arrayShow) || (dpSelectPanel.mapShow)">
-							<div bar-chart bar-data='data' bar-x='y' bar-y='["a", "b"]' bar-labels='["Series A", "Series B"]' bar-colors='["#31C0BE", "#c7254e"]'
-								style="width:150px;height:80px;background-color:white;">
-							</div>
-						</li>
-						<li data-objectid="donutChart" draggable="true" ng-show="(dpSelectPanel.arrayShow) || (dpSelectPanel.mapShow)">
-							<div donut-chart donut-data='donutData' donut-colors='["#31C0BE","#c7254e","#98a0d3"]' donut-formatter='"currency"' style="width:150px;height:80px;background-color:white;">
-							</div>
-						</li>
 						<li data-objectid="textBox" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.stringShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)|| (dpSelectPanel.booleanShow)"><label class='mock-text-box' for='textBox' style=' font-family: Verdana; color: black; '>SimpleTextBox</label></li>
-					</ul>
-					<ul>
+						<li data-objectid="listBox" draggable="true" ng-show="(dpSelectPanel.arrayShow) || (dpSelectPanel.mapShow)">
+							<ul style='font-family: Verdana; color: black; background-color: #FFFFFF; list-style-type:none; border-style: inset;'>
+								<li>Item0</li>
+								<li>Item1</li>
+							</ul>
+						</li>
 						<svg-icon data-objectid="svg-square" p="rectangle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
 						<svg-icon data-objectid="svg-circle" p="circle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
 						<svg-icon data-objectid="svg-path" p="arrow" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
+						<li data-objectid="gauge-1" draggable="true"><img src="../images/gauge1.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
+						<li data-objectid="gauge-2" draggable="true"><img src="../images/gauge2.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
+						<li data-objectid="gauge-3" draggable="true"><img src="../images/gauge3.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
+						<li data-objectid="bar-chart" draggable="true"><img src="../images/barChart.png" height="100px" width="100px" ng-show="(dpSelectPanel.mapShow)"></li>
+						<li data-objectid="line-chart" draggable="true"><img src="../images/candleChart.png" height="100px" width="120px" ng-show="(dpSelectPanel.mapShow)"></li>
+						<li data-objectid="candle-chart" draggable="true"><img src="../images/lineChart.png" height="100px" width="120px" ng-show="(dpSelectPanel.mapShow)"></li>
 					</ul>
 				</div>
 			</uib-tab>
@@ -379,6 +349,9 @@
 	</div>
 	<div id="main_ui" class="main" ng-style="mainPanelStyle">
 		<div id="drop-target-one" ng-style="dropTargetOne.style">
+			<button id='LeftPanAdjustButton2' type="button" class="btn btn-default not" aria-label="Left Align">
+	            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            </button>
 		</div>
 	</div>
 	<!-- Options with respect to bottom panel. These will be hide/shown based on the selected object-->
@@ -426,8 +399,27 @@
 
 		<!-- property setting options for Image and SVG (while svg Url is made hidden)-->
 		<div ng-show="(bottomPropPanel.imageDetailsShow) || (bottomPropPanel.svgDetailsShow)">
+			<div class="row">
+				<div class="col-md-1 col-lg-1">
+					Rotate Object &nbsp; &nbsp;&nbsp;&nbsp;
+				</div>
+				<div class="col-md-6 col-lg-6">
+					<!--Slider for adjusting the angle-->
+					<input type="range" min="0" max="360" step="5" onchange="showValue(this.value)" ng-model="bottomPropPanel.degree" />
+				</div>
+				<div class="col-md-2 col-lg-2">
+					<!--Showing current value of the slider-->
+					{{bottomPropPanel.degree}}
+				</div>
+			</div>
+			<br/>
 			<span ng-show="!bottomPropPanel.svgDetailsShow">url &nbsp; &nbsp;&nbsp;&nbsp; </span>
 			<input type="text" ng-model="bottomPropPanel.url" ng-show="!bottomPropPanel.svgDetailsShow">
+			<!-- Property objects for all Svg -->
+			<span ng-show="(bottomPropPanel.justPanel) && (!bottomPropPanel.imageDetailsShow)"> color </span> &nbsp;
+			<select class="input-sm" ng-model="bottomPropPanel.colorSelect">
+				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
+			</select>
 			<!-- Property objects for SVG square -->
 			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)"> Width(px) </span>			&nbsp;
 			<input type="number" ng-model="bottomPropPanel.width" min="1" max="500" ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)">			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)"> Height(px) </span>			&nbsp;
@@ -456,6 +448,7 @@
 			</select>
 		</div>
 
+		<!-- property setting options for List Objects-->
 		<div ng-show="(bottomPropPanel.rowSelectionShow) && (!bottomPropPanel.minMaxShow)">
 			<input type="checkbox" ng-model="bottomPropPanel.unfixRowNos"> Unfix Rows<br> No of Rows &nbsp; &nbsp;&nbsp;&nbsp;
 			<input type="number" ng-model="bottomPropPanel.rowNos" min="1" max="100" ng-disabled="bottomPropPanel.unfixRowNos">

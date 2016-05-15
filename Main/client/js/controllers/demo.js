@@ -96,14 +96,28 @@ window.onload = function () {
 		//Functionality specifically for image element 
 		switch (cln.getAttribute("data-objectid")) {
 			case "image":
+				//Change the picture and size of the image when the image object is dragged and dropped
 				var img = cln.childNodes[0];
 				img.setAttribute("src", "../images/leanware-logo.png");
 				img.setAttribute("width", "100px");
 				img.setAttribute("height", "100px");
 				break;
-			case "lineChart":
-				var lineChrt = cln.childNodes[1];
-				lineChrt.setAttribute("style", "width:300px;height:150px");
+			case "bar-chart":
+				//Change the size of the image when the line Chart object is dragged and dropped
+				var lineChrt = cln.childNodes[0];
+				lineChrt.setAttribute("style", "width:300px;height:300px");
+				console.log(lineChrt);
+				break;
+			case "candle-chart":
+				//Change the size of the image when the candle Chart object is dragged and dropped
+				var lineChrt = cln.childNodes[0];
+				lineChrt.setAttribute("style", "width:400px;height:250px");
+				console.log(lineChrt);
+				break;
+			case "line-chart":
+				//Change the size of the image when the line Chart object is dragged and dropped
+				var lineChrt = cln.childNodes[0];
+				lineChrt.setAttribute("style", "width:400px;height:250px");
 				console.log(lineChrt);
 				break;
 
@@ -115,38 +129,12 @@ window.onload = function () {
 		//==================================
 		if ($(elementDragged).parent().attr("id") == "drag-elements1") {
 			$(cln).droppable({
-
 				drop: function (event, ui) {
 					$(this).append(ui.draggable.context);
 					ui.draggable.css({
 						position: 'absolute',
 						cursor: 'pointer'
 					});
-
-					var foo = $(this).children();
-					var mul_items = new Array();
-					for (var i = 0; i < foo.length; i++) {
-						//console.log(foo[i].id);
-						if (foo[i].id != "") {
-							//console.log(foo[i].id);
-							mul_items = mul_items + '#' + foo[i].id + ',';
-							//mul_items.push(foo[i]);
-						}
-
-					}
-					console.log("I am in dropable");
-					$(this).resizable({
-
-						//var bar = $('.bar').attr('id');
-						//var bar = $('.bar').attr('id');
-						//var alsos = '#' + foo + ', #' + bar;    
-
-						//alsoResize : '#abc2,#abc3'
-						alsoResize: mul_items
-
-					});
-
-
 				},
 				out: function (event, ui) {
 					$("#drop-target-one").append(ui.draggable.context);
@@ -154,10 +142,6 @@ window.onload = function () {
 						position: 'absolute',
 						cursor: 'pointer'
 					});
-					//ui.draggable.context.left="10px";
-					//ui.draggable.context.top="10px";   
-					//console.log("item popped out: ");   
-					//console.log(ui.draggable.context.style.left);    
 				}
 
 			});
@@ -184,7 +168,7 @@ window.onload = function () {
 
 
 		}
-//=========================
+		//=========================
 		//cln_test.css({
 		//	position: 'absolute',
 		//	cursor: 'pointer'
@@ -222,7 +206,7 @@ window.onload = function () {
 					socket.emit('newObject', { 'loggedinUser': loggedinUser, 'currentHtml': angular_to_be_sent, 'isAngular': isAngular, 'dataSource': dataSource, 'id': aaa });
 				}
 				else {
-					socket.emit('newObject', { 'loggedinUser': loggedinUser, 'currentHtml': cln.outerHTML, 'isAngular': isAngular, 'dataSource': null, 'id': xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml': cln.innerHTML, 'positionX':cln.style.left, 'positionY':cln.style.top });
+					socket.emit('newObject', { 'loggedinUser': loggedinUser, 'currentHtml': cln.outerHTML, 'isAngular': isAngular, 'dataSource': null, 'id': xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml': cln.innerHTML, 'positionX': cln.style.left, 'positionY': cln.style.top });
 				}
 			}
 		};
@@ -236,3 +220,54 @@ window.onload = function () {
 		return false;
 	});
 };
+
+//========================Abhi Scripts=====================//
+$(document).ready(function () {
+
+	// jQuery methods go here...
+
+	$("#LeftPanAdjustButton").click(function () {
+		$("#LeftPan").animate({
+
+			left: "-15%",
+		}, 500);
+
+		$("#main_ui").animate({
+
+			left: "0%",
+		}, 500);
+
+		$('#LeftPanAdjustButton2').removeClass('not');
+
+	});
+
+	$("#LeftPanAdjustButton2").click(function () {
+		$("#LeftPan").animate({
+
+			left: "0%",
+		}, 500);
+
+		$("#main_ui").animate({
+
+			left: "15%",
+		}, 500);
+
+		$('#LeftPanAdjustButton2').addClass('not');
+
+	});
+
+});
+
+function fullscreen() {
+
+    $('#LeftPan').addClass('lefthide');
+
+    $('#main_ui').addClass('mainhide');
+}
+
+function exitFullscreen() {
+	$('#LeftPan').removeClass('lefthide');
+	$('#main_ui').removeClass('mainshow');
+}
+
+//========================================================//

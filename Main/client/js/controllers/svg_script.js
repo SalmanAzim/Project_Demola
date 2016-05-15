@@ -33,9 +33,9 @@ app.directive('svgIcon', function() {
 
 
 var icons = {	
-    rectangle: "<svg width='101' height='101'><rect width='100' height='100' style='fill:rgb(0,0,255);'></svg>",
-    circle:"<svg height='100' width='100' style='zoom: 100%;fill:rgb(0,0,255);'><circle cx='50' cy='50' r='50' fill='red' /></svg>",
-    arrow:"<svg width='164' height='156'><path d='m0,86 h36 v70 h92 V86 h36 L82,0' fill='#0C0'/></svg>",
+    rectangle: "<svg width='61' height='61'><rect width='60' height='60' fill='rgba(0,0,0,.9)'></svg>",
+    circle:"<svg height='60' width='60'><circle cx='30' cy='30' r='30' fill='rgba(0,0,0,.9)' /></svg>",
+    arrow:"<svg width='60' height='100'><path d='m0,30 h15 v30 h30 V30 h15 L30,0' style='fill:rgba(0,0,0,.9);'/></svg>",
     bookmark: "<svg viewBox='0 0 32 32'> <path d='M6 2 L26 2 L26 30 L16 24 L6 30 Z'/></svg>",
     calendar: "<svg viewBox='0 0 32 32'> <path d='M2 4 L6 4 L6 2 A2 2 0 0 1 10 2 L10 4 L22 4 L22 2 A2 2 0 0 1 26 2 L26 4 L30 4 L30 10 L2 10 M2 12 L30 12 L30 30 L2 30'/></svg>",
     camera: "<svg viewBox='0 0 32 32'> <path d='M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17'/></svg>",

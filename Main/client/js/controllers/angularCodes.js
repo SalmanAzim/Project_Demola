@@ -92,47 +92,49 @@ app.controller('MyController', function ($scope, socket, $window) {
 
 	// Variables with respect to bottom panel
 	$scope.bottomPropPanel = {
-		name: '',
-		panelShow: false,
+		backColorList: ['transparent', 'red', 'orange', 'blue', 'green', 'black', 'white', '#DCDCDC'],
+		backColorSelect: 'white',
+		colorList: ['red', 'orange', 'blue', 'green', 'black', 'white', '#DCDCDC'],
+		colorSelect: 'black',
+		dangrColorSelect: 'red',
+		degree: 0,
+		dpList: [],
+		dpSelect: '',
 		dpSelectShow: false,
-		imageDetailsShow: false,
-		svgDetailsShow: false,
+		fontList: ['Arial', 'Impact', 'Times New Roman', 'Verdana', 'Tahoma'],
 		fontPropShow: false,
+		fontSelect: 'Verdana',
+		fontSize: 14,
+		height: 100,
+		imageDetailsShow: false,
+		justPanel: false,
+		maxColorSelect: 'red',
+		maxPercent: 75,
+		maxTextBoxDisplayName: 'Maximum Value',
+		minColorSelect: 'orange',
 		minMaxButton: false,
 		minMaxShow: false,
-		rowSelectionShow: false,
-		svgSquareShow: false,
-		svgCircleShow: false,
-		svgPathShow: false,
-		unfixRowNos: false,
-		justPanel: false,
-		rowNos: 2,
 		minMaxValue: 'Min-Max',
-		parentSelect: '',
-		dpSelect: '',
-		colorSelect: 'black',
-		backColorList: ['transparent', 'red', 'orange', 'blue', 'green', 'black', 'white', '#DCDCDC'],
-		colorList: ['red', 'orange', 'blue', 'green', 'black', 'white', '#DCDCDC'],
-		fontSelect: 'Verdana',
-		fontList: ['Arial', 'Impact', 'Times New Roman', 'Verdana', 'Tahoma'],
-		dpList: [],
-		fontSize: 8,
-		backColorSelect: 'white',
-		maxTextBoxDisplayName: 'Maximum Value',
-		minTextBoxDisplayName: 'Max-%',
-		nomTextBoxDisplayName: 'Min-%',
-		value: 0,
-		maxColorSelect: 'red',
-		minColorSelect: 'orange',
-		nomColorSelect: 'green',
-		dangrColorSelect: 'red',
-		maxPercent: 75,
 		minPercent: 35,
+		minTextBoxDisplayName: 'Max-%',
+		name: '',
+		nomColorSelect: 'green',
+		nomTextBoxDisplayName: 'Min-%',
+		panelShow: false,
+		parentSelect: '',
+		radius: 30,
+		rowNos: 2,
+		rowSelectionShow: false,
+		svgCircleShow: false,
+		svgDetailsShow: false,
+		svgPathShow: false,
+		svgSquareShow: false,
+		unfixRowNos: false,
+		unit: '',
+		url: '../images/leanware-logo.png',
+		value: 0,
 		width: 100,
-		height: 100,
-		radius: 50,
-		zoom: 100,
-		url: '../images/leanware-logo.png'
+		zoom: 100
 	};
 
 	// Variables with respect to main panel style
@@ -158,6 +160,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 
 	//label property model
 	$scope.labelProperties = {
+		finalHtml: '',
 		id: '',
 		objectId: '',
 		posX: '',
@@ -172,6 +175,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 
 	//textBox property model
 	$scope.textBoxProperties = {
+		finalHtml: '',
 		id: '',
 		objectId: '',
 		posX: '',
@@ -196,6 +200,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 
 	//listBox property model
 	$scope.listBoxProperties = {
+		finalHtml: '',
 		id: '',
 		objectId: '',
 		parent: '',
@@ -223,6 +228,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 
 	//image property model
 	$scope.imageBoxProperties = {
+		finalHtml: '',
 		id: '',
 		objectId: '',
 		parent: '',
@@ -234,11 +240,13 @@ app.controller('MyController', function ($scope, socket, $window) {
 		name: '',
 		url: '../images/leanware-logo.png',
 		width: 100,
-		height: 100
+		height: 100,
+		degree: 0
 	};
 
 	//svg property model
 	$scope.svgProperties = {
+		finalHtml: '',
 		id: '',
 		name: '',
 		objectId: '',
@@ -251,10 +259,52 @@ app.controller('MyController', function ($scope, socket, $window) {
 		justPanel: false,
 		nomColorSelect: 'green',
 		dangrColorSelect: 'red',
-		width: 100,
-		height: 100,
-		radius: 50,
-		zoom: 100
+		color: 'black',
+		width: 60,
+		height: 60,
+		radius: 30,
+		zoom: 100,
+		degree: 0
+	};
+
+	//Gauge property model
+	$scope.gaugeProperties = {
+		fontSize: 14,
+		finalHtml: '',
+		id: '',
+		name: '',
+		objectId: '',
+		parent: '',
+		dataPoint: '',
+		posX: '',
+		posY: '',
+		html: '',
+		objectHtml: '',
+		unit: '',
+		nomColor: 'green',
+		maxColor: 'orange',
+		minColor: 'orange',
+		color: 'green',
+		width: 60,
+		height: 60,
+		minValue: 30,
+		maxValue: 70,
+	};
+
+	//Chart property model
+	$scope.chartProperties = {
+		finalHtml: '',
+		id: '',
+		name: '',
+		objectId: '',
+		parent: '',
+		dataPoint: '',
+		posX: '',
+		posY: '',
+		html: '',
+		objectHtml: '',
+		width: 60,
+		height: 60,
 	};
 
 	//Initialization Functions===========================================
@@ -271,18 +321,20 @@ app.controller('MyController', function ($scope, socket, $window) {
 
 	$scope.initializeObjectProperties = function () {
 		$scope.labelProperties = {
+			finalHtml: '',
 			id: '',
 			objectId: '',
 			posX: '',
 			posY: '',
 			html: '',
-			name: '',
 			objectHtml: '',
+			name: '',
 			font: 'Verdana',
 			color: 'black',
 			fontSize: '14px'
 		};
 		$scope.textBoxProperties = {
+			finalHtml: '',
 			id: '',
 			objectId: '',
 			posX: '',
@@ -305,14 +357,16 @@ app.controller('MyController', function ($scope, socket, $window) {
 			minPercent: 35
 		};
 		$scope.listBoxProperties = {
+			finalHtml: '',
 			id: '',
 			objectId: '',
+			parent: '',
 			posX: '',
 			posY: '',
-			parent: '',
 			dataPoint: '',
 			html: '',
 			objectHtml: '',
+			originalHtml: '',
 			name: '',
 			font: 'Verdana',
 			color: 'black',
@@ -320,7 +374,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 			fontSize: '14px',
 			typeMap: false,
 			rows: 2,
-			minMaxPresence: false,
+			fixRow: false,
 			maxColor: 'red',
 			maxColorValue: 2,
 			minColor: 'orange',
@@ -329,21 +383,25 @@ app.controller('MyController', function ($scope, socket, $window) {
 			nomColorValue: 1
 		};
 		$scope.imageBoxProperties = {
+			finalHtml: '',
 			id: '',
 			objectId: '',
+			parent: '',
 			posX: '',
 			posY: '',
-			parent: '',
 			dataPoint: '',
 			html: '',
 			objectHtml: '',
 			name: '',
 			url: '../images/leanware-logo.png',
 			width: 100,
-			height: 100
+			height: 100,
+			degree: 0
 		};
 		$scope.svgProperties = {
+			finalHtml: '',
 			id: '',
+			name: '',
 			objectId: '',
 			parent: '',
 			dataPoint: '',
@@ -351,60 +409,99 @@ app.controller('MyController', function ($scope, socket, $window) {
 			posY: '',
 			html: '',
 			objectHtml: '',
-			name: '',
 			justPanel: false,
 			nomColorSelect: 'green',
 			dangrColorSelect: 'red',
-			width: 100,
-			height: 100,
-			radius: 50,
-			zoom: 100
+			color: 'black',
+			width: 60,
+			height: 60,
+			radius: 30,
+			zoom: 100,
+			degree: 0
+		};
+		$scope.gaugeProperties = {
+			fontSize: 14,
+			finalHtml: '',
+			id: '',
+			name: '',
+			objectId: '',
+			parent: '',
+			dataPoint: '',
+			posX: '',
+			posY: '',
+			html: '',
+			objectHtml: '',
+			unit: '',
+			nomColor: 'green',
+			maxColor: 'orange',
+			minColor: 'orange',
+			color: 'green',
+			width: 60,
+			height: 60,
+			minValue: 30,
+			maxValue: 70,
+		};
+		$scope.chartProperties = {
+			finalHtml: '',
+			id: '',
+			name: '',
+			objectId: '',
+			parent: '',
+			dataPoint: '',
+			posX: '',
+			posY: '',
+			html: '',
+			objectHtml: '',
+			width: 60,
+			height: 60,
 		};
 	};
 
 	$scope.initializeProperyitems = function () {
 		$scope.bottomPropPanel = {
-			name: '',
-			panelShow: false,
+			backColorList: ['transparent', 'red', 'orange', 'blue', 'green', 'black', 'white', '#DCDCDC'],
+			backColorSelect: 'white',
+			colorList: ['red', 'orange', 'blue', 'green', 'black', 'white', '#DCDCDC'],
+			colorSelect: 'black',
+			dangrColorSelect: 'red',
+			degree: 0,
+			dpList: [],
+			dpSelect: '',
 			dpSelectShow: false,
-			svgDetailsShow: false,
-			imageDetailsShow: false,
+			fontList: ['Arial', 'Impact', 'Times New Roman', 'Verdana', 'Tahoma'],
 			fontPropShow: false,
+			fontSelect: 'Verdana',
+			fontSize: 14,
+			height: 100,
+			imageDetailsShow: false,
+			justPanel: false,
+			maxColorSelect: 'red',
+			maxPercent: 75,
+			maxTextBoxDisplayName: 'Maximum Value',
+			minColorSelect: 'orange',
 			minMaxButton: false,
 			minMaxShow: false,
-			rowSelectionShow: false,
-			svgSquareShow: false,
-			svgCircleShow: false,
-			svgPathShow: false,
-			unfixRowNos: false,
-			justPanel: false,
-			rowNos: 2,
 			minMaxValue: 'Min-Max',
-			parentSelect: '',
-			dpSelect: '',
-			colorSelect: 'black',
-			backColorList: ['transparent', 'red', 'orange', 'blue', 'green', 'black', 'white', '#DCDCDC'],
-			colorList: ['red', 'orange', 'blue', 'green', 'black', 'white', '#DCDCDC'],
-			fontSelect: 'Verdana',
-			fontList: ['Arial', 'Impact', 'Times New Roman', 'Verdana', 'Tahoma'],
-			dpList: [],
-			fontSize: 8,
-			backColorSelect: 'white',
-			maxTextBoxDisplayName: 'Maximum Value',
-			minTextBoxDisplayName: 'Max-%',
-			nomTextBoxDisplayName: 'Min-%',
-			value: 0,
-			maxColorSelect: 'red',
-			minColorSelect: 'orange',
-			nomColorSelect: 'green',
-			dangrColorSelect: 'red',
-			maxPercent: 75,
 			minPercent: 35,
+			minTextBoxDisplayName: 'Max-%',
+			name: '',
+			nomColorSelect: 'green',
+			nomTextBoxDisplayName: 'Min-%',
+			panelShow: false,
+			parentSelect: '',
+			radius: 30,
+			rowNos: 2,
+			rowSelectionShow: false,
+			svgCircleShow: false,
+			svgDetailsShow: false,
+			svgPathShow: false,
+			svgSquareShow: false,
+			unfixRowNos: false,
+			units: '',
+			url: '../images/leanware-logo.png',
+			value: 0,
 			width: 100,
-			height: 100,
-			radius: 50,
-			zoom: 100,
-			url: '../images/leanware-logo.png'
+			zoom: 100
 		};
 	};
 
@@ -543,6 +640,15 @@ app.controller('MyController', function ($scope, socket, $window) {
 						$scope.bottomPropPanel.url = $scope.objectDetails[i].url;
 						$scope.bottomPropPanel.width = $scope.objectDetails[i].width;
 						$scope.bottomPropPanel.height = $scope.objectDetails[i].height;
+						//Before assigning the value for degree from the object array, it si first checked what is the div element value
+						//The reason being that the user may just rotate and may not click on OK and when he again looks for the property, it will be 0 since it will be assigned form the object array
+						//Hence it is first got from the div element. Incase the Div element transform is empty, then it is given as zero. 
+						var transform = angular.element(document.getElementById(data.elementId))[0].style.transform;
+						if (transform !== '') {
+							$scope.bottomPropPanel.degree = parseInt(transform.substring(transform.indexOf("(") + 1, transform.indexOf("deg)")));
+						} else {
+							$scope.bottomPropPanel.degree = 0;
+						}
 						break;
 					case 'svg-square':
 						$scope.bottomPropPanel.dpSelectShow = true;
@@ -553,6 +659,15 @@ app.controller('MyController', function ($scope, socket, $window) {
 						$scope.bottomPropPanel.height = $scope.objectDetails[i].height;
 						$scope.bottomPropPanel.nomColorSelect = $scope.objectDetails[i].nomColorSelect;
 						$scope.bottomPropPanel.dangrColorSelect = $scope.objectDetails[i].dangrColorSelect;
+						//Before assigning the value for degree from the object array, it si first checked what is the div element value
+						//The reason being that the user may just rotate and may not click on OK and when he again looks for the property, it will be 0 since it will be assigned form the object array
+						//Hence it is first got from the div element. Incase the Div element transform is empty, then it is given as zero. 
+						var transform = angular.element(document.getElementById(data.elementId))[0].style.transform;
+						if (transform !== '') {
+							$scope.bottomPropPanel.degree = parseInt(transform.substring(transform.indexOf("(") + 1, transform.indexOf("deg)")));
+						} else {
+							$scope.bottomPropPanel.degree = 0;
+						}
 						break;
 					case 'svg-circle':
 						$scope.bottomPropPanel.dpSelectShow = true;
@@ -562,6 +677,15 @@ app.controller('MyController', function ($scope, socket, $window) {
 						$scope.bottomPropPanel.radius = $scope.objectDetails[i].radius;
 						$scope.bottomPropPanel.nomColorSelect = $scope.objectDetails[i].nomColorSelect;
 						$scope.bottomPropPanel.dangrColorSelect = $scope.objectDetails[i].dangrColorSelect;
+						//Before assigning the value for degree from the object array, it si first checked what is the div element value
+						//The reason being that the user may just rotate and may not click on OK and when he again looks for the property, it will be 0 since it will be assigned form the object array
+						//Hence it is first got from the div element. Incase the Div element transform is empty, then it is given as zero. 
+						var transform = angular.element(document.getElementById(data.elementId))[0].style.transform;
+						if (transform !== '') {
+							$scope.bottomPropPanel.degree = parseInt(transform.substring(transform.indexOf("(") + 1, transform.indexOf("deg)")));
+						} else {
+							$scope.bottomPropPanel.degree = 0;
+						}
 						break;
 					case 'svg-path':
 						$scope.bottomPropPanel.dpSelectShow = true;
@@ -571,6 +695,15 @@ app.controller('MyController', function ($scope, socket, $window) {
 						$scope.bottomPropPanel.zoom = $scope.objectDetails[i].zoom;
 						$scope.bottomPropPanel.nomColorSelect = $scope.objectDetails[i].nomColorSelect;
 						$scope.bottomPropPanel.dangrColorSelect = $scope.objectDetails[i].dangrColorSelect;
+						//Before assigning the value for degree from the object array, it si first checked what is the div element value
+						//The reason being that the user may just rotate and may not click on OK and when he again looks for the property, it will be 0 since it will be assigned form the object array
+						//Hence it is first got from the div element. Incase the Div element transform is empty, then it is given as zero. 
+						var transform = angular.element(document.getElementById(data.elementId))[0].style.transform;
+						if (transform !== '') {
+							$scope.bottomPropPanel.degree = parseInt(transform.substring(transform.indexOf("(") + 1, transform.indexOf("deg)")));
+						} else {
+							$scope.bottomPropPanel.degree = 0;
+						}
 						break;
 				}
 			}
@@ -654,6 +787,61 @@ app.controller('MyController', function ($scope, socket, $window) {
 					$scope.svgProperties.posY = data.positionY;
 					$scope.objectDetails.push($scope.svgProperties);
 					break;
+				case 'gauge-1':
+					$scope.chartProperties.id = String(data.id);
+					$scope.chartProperties.objectId = data.objectId;
+					$scope.chartProperties.html = data.currentHtml;
+					$scope.chartProperties.objectHtml = data.objectHtml;
+					$scope.chartProperties.posX = data.positionX;
+					$scope.chartProperties.posY = data.positionY;
+					$scope.objectDetails.push($scope.chartProperties);
+					break;
+				case 'gauge-2':
+					$scope.chartProperties.id = String(data.id);
+					$scope.chartProperties.objectId = data.objectId;
+					$scope.chartProperties.html = data.currentHtml;
+					$scope.chartProperties.objectHtml = data.objectHtml;
+					$scope.chartProperties.posX = data.positionX;
+					$scope.chartProperties.posY = data.positionY;
+					$scope.objectDetails.push($scope.chartProperties);
+					break;
+				case 'gauge-3':
+					$scope.chartProperties.id = String(data.id);
+					$scope.chartProperties.objectId = data.objectId;
+					$scope.chartProperties.html = data.currentHtml;
+					$scope.chartProperties.objectHtml = data.objectHtml;
+					$scope.chartProperties.posX = data.positionX;
+					$scope.chartProperties.posY = data.positionY;
+					$scope.objectDetails.push($scope.chartProperties);
+					break;
+				case 'bar-chart':
+					$scope.chartProperties.id = String(data.id);
+					$scope.chartProperties.objectId = data.objectId;
+					$scope.chartProperties.html = data.currentHtml;
+					$scope.chartProperties.objectHtml = data.objectHtml;
+					$scope.chartProperties.posX = data.positionX;
+					$scope.chartProperties.posY = data.positionY;
+					$scope.objectDetails.push($scope.chartProperties);
+					break;
+				case 'line-chart':
+					$scope.chartProperties.id = String(data.id);
+					$scope.chartProperties.objectId = data.objectId;
+					$scope.chartProperties.html = data.currentHtml;
+					$scope.chartProperties.objectHtml = data.objectHtml;
+					$scope.chartProperties.posX = data.positionX;
+					$scope.chartProperties.posY = data.positionY;
+					$scope.objectDetails.push($scope.chartProperties);
+					break;
+				case 'candle-chart':
+					$scope.chartProperties.id = String(data.id);
+					$scope.chartProperties.objectId = data.objectId;
+					$scope.chartProperties.html = data.currentHtml;
+					$scope.chartProperties.objectHtml = data.objectHtml;
+					$scope.chartProperties.posX = data.positionX;
+					$scope.chartProperties.posY = data.positionY;
+					$scope.objectDetails.push($scope.chartProperties);
+					break;
+					
 			}
 		}
 	});
@@ -725,7 +913,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 							$scope.initializeObjectDisplay();
 							$scope.dpSelectPanel.arrayShow = true;
 							break;
-						case 'hashmap(string, boolean)':
+						case 'hashmap(string, integer)':
 							$scope.initializeObjectDisplay();
 							$scope.dpSelectPanel.mapShow = true;
 							break;
@@ -912,6 +1100,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 							$scope.objectDetails[i].url = $scope.bottomPropPanel.url;
 							$scope.objectDetails[i].width = $scope.bottomPropPanel.width;
 							$scope.objectDetails[i].height = $scope.bottomPropPanel.height;
+							$scope.objectDetails[i].degree = $scope.bottomPropPanel.degree;
 							//Assign image properties to DOM 
 							htmlElement[0].src = $scope.bottomPropPanel.url;
 							htmlElement[0].width = $scope.bottomPropPanel.width;
@@ -972,44 +1161,51 @@ app.controller('MyController', function ($scope, socket, $window) {
 							break;
 						case 'svg-square':
 							$scope.objectDetails[i].justPanel = $scope.bottomPropPanel.justPanel;
+							$scope.objectDetails[i].color = $scope.bottomPropPanel.colorSelect;
 							$scope.objectDetails[i].width = $scope.bottomPropPanel.width;
 							$scope.objectDetails[i].height = $scope.bottomPropPanel.height;
 							$scope.objectDetails[i].nomColorSelect = $scope.bottomPropPanel.nomColorSelect;
 							$scope.objectDetails[i].dangrColorSelect = $scope.bottomPropPanel.dangrColorSelect;
+							$scope.objectDetails[i].degree = $scope.bottomPropPanel.degree;
 							//Initially set the values of the SVG Box
 							htmlElement[0].width.baseVal.value = $scope.bottomPropPanel.width + 1;
 							htmlElement[0].height.baseVal.value = $scope.bottomPropPanel.height + 1;
-							var innerElement = "<rect width="+$scope.bottomPropPanel.width+" height="+$scope.bottomPropPanel.height+" style='fill:rgb(0,0,255);'>";
+							//Then set the values of svg element
+							var innerElement = "<rect width=" + $scope.bottomPropPanel.width + " height=" + $scope.bottomPropPanel.height + " fill=" + $scope.bottomPropPanel.colorSelect + " />";
 							htmlElement[0].innerHTML = innerElement;
-							console.log(htmlElement);
 							break;
 						case 'svg-circle':
 							$scope.objectDetails[i].justPanel = $scope.bottomPropPanel.justPanel;
+							$scope.objectDetails[i].color = $scope.bottomPropPanel.colorSelect;
 							$scope.objectDetails[i].radius = $scope.bottomPropPanel.radius;
 							$scope.objectDetails[i].nomColorSelect = $scope.bottomPropPanel.nomColorSelect;
 							$scope.objectDetails[i].dangrColorSelect = $scope.bottomPropPanel.dangrColorSelect;
+							$scope.objectDetails[i].degree = $scope.bottomPropPanel.degree;
 							//Initially set the values of the SVG Box
 							htmlElement[0].width.baseVal.value = $scope.bottomPropPanel.radius * 2;
 							htmlElement[0].height.baseVal.value = $scope.bottomPropPanel.radius * 2;
-							var innerElement = angular.element(htmlElement[0].innerHTML);
-							innerElement[0].cx = $scope.bottomPropPanel.radius;
-							innerElement[0].cy = $scope.bottomPropPanel.radius;
-							innerElement[0].r = $scope.bottomPropPanel.radius;
-							console.log(innerElement);
-							htmlElement[0].innerHTML = innerElement[0].outerHTML;
+							//Then set the values of svg element
+							var innerElement = "<circle cx=" + $scope.bottomPropPanel.radius + " cy=" + $scope.bottomPropPanel.radius + " r=" + $scope.bottomPropPanel.radius + " fill=" + $scope.bottomPropPanel.colorSelect + " />";
+							htmlElement[0].innerHTML = innerElement;
 							break;
 						case 'svg-path':
 							$scope.objectDetails[i].justPanel = $scope.bottomPropPanel.justPanel;
+							$scope.objectDetails[i].color = $scope.bottomPropPanel.colorSelect;
 							$scope.objectDetails[i].zoom = $scope.bottomPropPanel.zoom;
 							$scope.objectDetails[i].nomColorSelect = $scope.bottomPropPanel.nomColorSelect;
 							$scope.objectDetails[i].dangrColorSelect = $scope.bottomPropPanel.dangrColorSelect;
+							$scope.objectDetails[i].degree = $scope.bottomPropPanel.degree;
 							//Initially set the values of the SVG Box
 							//In here particularly it is got from the zoom % and then assigned
-							var calcPixWidth = Math.round(htmlElement[0].width * ($scope.bottomPropPanel.zoom / 100));
-							var calcPixHeight = Math.round(htmlElement[0].width * ($scope.bottomPropPanel.zoom / 100));
+							var calcPixWidth = Math.round(htmlElement[0].width.baseVal.value * ($scope.bottomPropPanel.zoom / 100));
+							var calcPixHeight = Math.round(htmlElement[0].height.baseVal.value * ($scope.bottomPropPanel.zoom / 100));
 							htmlElement[0].width.baseVal.value = calcPixWidth;
 							htmlElement[0].height.baseVal.value = calcPixHeight;
 							htmlElement[0].style.zoom = $scope.bottomPropPanel.zoom + "%";
+							//Set the color for the Svg element (if it is just panel, then color varies else it is black)
+							var innerElement = angular.element(htmlElement[0].innerHTML);
+							innerElement[0].style.fill = $scope.bottomPropPanel.colorSelect;
+							htmlElement[0].innerHTML = innerElement[0].outerHTML;
 							break;
 					}
 					//convert HTML DOM Element to String and assign it to 'ObjectHTML'
