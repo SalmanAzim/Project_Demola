@@ -8,8 +8,10 @@
 
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/angular-chart.css">
+	
 	<script type="text/javascript" src="js/controllers/angular.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-sanitize.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
 	<script>
 		var elementDragged = null;	var right_global; var test_data; var double_Click
 	</script>
@@ -20,7 +22,6 @@
 	<script type="text/javascript" src="js/controllers/test.js"></script>
 	<script type="text/javascript" src="js/controllers/svg_script.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
-	<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
 	<script src="js/controllers/jquery.ui.core.js"></script>
 	<script src="js/controllers/jquery.ui.widget.js"></script>
 	<script src="js/controllers/jquery.ui.mouse.js"></script>
@@ -218,7 +219,7 @@
 						</button>
 						<div class="dropdown-menu ">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-								<li data-objectid="panElement" class="drag-elements-li" draggable="true">Pan Element</li>
+								<li data-objectid="panElement" data-type="scalable" class="drag-elements-li" draggable="true">Pan Element</li>
 							</ul>
 						</div>
 					</div>
@@ -229,15 +230,15 @@
 						</button>
 						<div class="dropdown-menu ">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-								<li data-objectid="label" draggable="true"><label for='label' style=' font-family: Verdana; color: black; '> textLabel </label></li>
-								<li data-objectid="textBox" draggable="true"><label class='mock-text-box' for='textBox' style='font-family: Verdana; color: black; background-color: #FFFFFF;'>SimpleTextBox</label></li>
-								<li data-objectid="listBox" draggable="true">
+								<li data-objectid="label" data-type="unscalable" draggable="true"><label for='label' style=' font-family: Verdana; color: black; '> textLabel </label></li>
+								<li data-objectid="textBox" data-type="unscalable" draggable="true"><label class='mock-text-box' for='textBox' style='font-family: Verdana; color: black; background-color: #FFFFFF;'>SimpleTextBox</label></li>
+								<li data-objectid="listBox" data-type="unscalable" draggable="true">
 									<ul style='font-family: Verdana; color: black; background-color: #FFFFFF; list-style-type:none; border-style: inset;'>
 										<li>Item0</li>
 										<li>Item1</li>
 									</ul>
 								</li>
-								<li data-objectid="image" draggable="true"><img src="../images/image.png" height="30px" width="40px"></li>
+								<li data-objectid="image" data-type="scalable" draggable="true"><img src="../images/image.png" height="30px" width="40px"></li>
 							</ul>
 						</div>
 					</div>
@@ -248,9 +249,9 @@
 						</button>
 						<div class="dropdown-menu ">
 							<ul>
-								<svg-icon data-objectid="svg-square" p="rectangle" draggable="true"></svg-icon>
-								<svg-icon data-objectid="svg-circle" p="circle" draggable="true"></svg-icon>
-								<svg-icon data-objectid="svg-path" p="arrow" draggable="true"></svg-icon>
+								<svg-icon data-objectid="svg-square" data-type="unscalable" p="rectangle" draggable="true"></svg-icon>
+								<svg-icon data-objectid="svg-circle" data-type="unscalable" p="circle" draggable="true"></svg-icon>
+								<svg-icon data-objectid="svg-path" data-type="unscalable" p="arrow" draggable="true"></svg-icon>
 							</ul>
 						</div>
 					</div>
@@ -261,18 +262,18 @@
 						</button>
 						<div class="dropdown-menu ">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-								<li data-objectid="gauge-1" draggable="true"><img src="../images/gauge1.png" height="100px" width="100px"></li>
-								<li data-objectid="gauge-2" draggable="true"><img src="../images/gauge2.png" height="100px" width="100px"></li>
-								<li data-objectid="gauge-3" draggable="true"><img src="../images/gauge3.png" height="100px" width="100px"></li>
-								<li data-objectid="bar-chart" draggable="true"><img src="../images/barChart.png" height="100px" width="100px"></li>
-								<li data-objectid="line-chart" draggable="true"><img src="../images/candleChart.png" height="100px" width="120px"></li>
-								<li data-objectid="candle-chart" draggable="true"><img src="../images/lineChart.png" height="100px" width="120px"></li>
+								<li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gauge1.png" height="100px" width="100px"></li>
+								<li data-objectid="gauge-2" data-type="scalable" draggable="true"><img src="../images/gauge2.png" height="100px" width="100px"></li>
+								<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gauge3.png" height="100px" width="100px"></li>
+								<li data-objectid="bar-chart" data-type="scalable" draggable="true"><img src="../images/barChart.png" height="100px" width="100px"></li>
+								<li data-objectid="line-chart" data-type="scalable" draggable="true"><img src="../images/candleChart.png" height="100px" width="120px"></li>
+								<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/lineChart.png" height="100px" width="120px"></li>
 							</ul>
 						</div>
 					</div>
 				</uib-accordion>
 			</uib-tab>
-			<uib-tab select="tabAlert()">
+			<uib-tab index='1' select="tabAlert()">
 				<uib-tab-heading>
 					DataPoint
 				</uib-tab-heading>
@@ -302,58 +303,65 @@
 				<br>
 				<div style="background: #FFFFFF;border-style: inset;">
 					<ul id="drag-elements1" class="drag-elements">
-						<li data-objectid="textBox" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.stringShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)|| (dpSelectPanel.booleanShow)"><label class='mock-text-box' for='textBox' style=' font-family: Verdana; color: black; '>SimpleTextBox</label></li>
-						<li data-objectid="listBox" draggable="true" ng-show="(dpSelectPanel.arrayShow) || (dpSelectPanel.mapShow)">
+						<li data-objectid="textBox" data-type="unscalable" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.stringShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)|| (dpSelectPanel.booleanShow)"><label class='mock-text-box' for='textBox' style=' font-family: Verdana; color: black; '>SimpleTextBox</label></li>
+						<li data-objectid="listBox" data-type="unscalable" draggable="true" ng-show="(dpSelectPanel.arrayShow) || (dpSelectPanel.mapShow)">
 							<ul style='font-family: Verdana; color: black; background-color: #FFFFFF; list-style-type:none; border-style: inset;'>
 								<li>Item0</li>
 								<li>Item1</li>
 							</ul>
 						</li>
-						<svg-icon data-objectid="svg-square" p="rectangle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
-						<svg-icon data-objectid="svg-circle" p="circle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
-						<svg-icon data-objectid="svg-path" p="arrow" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
-						<li data-objectid="gauge-1" draggable="true"><img src="../images/gauge1.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
-						<li data-objectid="gauge-2" draggable="true"><img src="../images/gauge2.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
-						<li data-objectid="gauge-3" draggable="true"><img src="../images/gauge3.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
-						<li data-objectid="bar-chart" draggable="true"><img src="../images/barChart.png" height="100px" width="100px" ng-show="(dpSelectPanel.mapShow)"></li>
-						<li data-objectid="line-chart" draggable="true"><img src="../images/candleChart.png" height="100px" width="120px" ng-show="(dpSelectPanel.mapShow)"></li>
-						<li data-objectid="candle-chart" draggable="true"><img src="../images/lineChart.png" height="100px" width="120px" ng-show="(dpSelectPanel.mapShow)"></li>
+						<svg-icon data-objectid="svg-square" data-type="unscalable" p="rectangle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
+						<svg-icon data-objectid="svg-circle" data-type="unscalable" p="circle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
+						<svg-icon data-objectid="svg-path" data-type="unscalable" p="arrow" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
+						<li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gauge1.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
+						<li data-objectid="gauge-2" data-type="scalable" draggable="true"><img src="../images/gauge2.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
+						<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gauge3.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
+						<li data-objectid="bar-chart" data-type="scalable" draggable="true"><img src="../images/barChart.png" height="100px" width="100px" ng-show="(dpSelectPanel.mapShow)"></li>
+						<li data-objectid="line-chart" data-type="scalable" draggable="true"><img src="../images/candleChart.png" height="100px" width="120px" ng-show="(dpSelectPanel.mapShow)"></li>
+						<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/lineChart.png" height="100px" width="120px" ng-show="(dpSelectPanel.mapShow)"></li>
 					</ul>
 				</div>
 			</uib-tab>
 		</uib-tabset>
-		</br>
-		</br>
-		<div style="border-style: inset;">
-			<span>Grid</span>
-			<button type="button" class="btn btn-primary" ng-model="gridDetails.hide" ng-click="showHideGrid()" uib-btn-checkbox>
-        			{{gridDetails.value}}
-    			</button>
-			</br>
-			<span>Grid Color</span>
-			<select class="input-sm" ng-model="gridDetails.colorSelect" ng-change="gridColorChange()">
-					<option ng-repeat="i in ['white','black']">{{i}}</option>
-			</select>
-			<div class="dropdown">
-				<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
-						Change Background
-						<span class="caret"></span>
-					</button>
-				<div class="dropdown-menu ">
-					<input type="text" ng-model="newimagepath" placeholder="Image URL" />
+		
+		<hr />
+		<uib-tabset active="active" justified="true" id='LeftSettings'>
+			<uib-tab index='0' heading="GRID">
+				<button type="button" class="TitleText" ng-model="gridDetails.hide" ng-click="showHideGrid()" uib-btn-checkbox>
+								{{gridDetails.value}}
+						</button>
+				</br>
+				<!-- <span>Grid Color</span> -->
+				<select class="input-sm TitleText" ng-model="gridDetails.colorSelect" ng-change="gridColorChange()">
+						<option selected="selected" >Grid Color: BLACK</option>
+						<option  >Grid Color: WHITE</option>
+				</select>
+			</uib-tab>
+			<uib-tab index='1' heading="Background">
+					<input id='BackImageInput' type="text" ng-model="newimagepath" placeholder="Image URL" />
 					<button class='btn subtext1' ng-click="setBackground()">CHANGE</button>
-				</div>
-			</div>
-		</div>
+			</uib-tab>
+		</uib-tabset>
 
 	</div>
+	
 	<div id="main_ui" class="main" ng-style="mainPanelStyle">
 		<div id="drop-target-one" ng-style="dropTargetOne.style">
 			<button id='LeftPanAdjustButton2' type="button" class="btn btn-default not" aria-label="Left Align">
 	            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             </button>
+			
+			<nav role="navigation" id='UIMenu' >
+			  <h1><span id="MenuText">Menu</span></h1>
+			  <ol id='mainUImenu'>
+			    <li class='list'><a href="#">Create</a></li>
+			    <li class='list'><a href="#">Save</a></li>
+			    <li class='list'><a href="#">Cancel</a></li>
+			   </ol>
+			</nav>
 		</div>
 	</div>
+	
 	<!-- Options with respect to bottom panel. These will be hide/shown based on the selected object-->
 	<div class="bottom" ng-show="bottomPropPanel.panelShow" ng-style="bottomPanelStyle">
 		<div class="row">
@@ -379,20 +387,25 @@
 		</div>
 
 		<div ng-show="bottomPropPanel.fontPropShow">
-			<span ng-show="!bottomPropPanel.minMaxShow">
+			<span ng-show="(!bottomPropPanel.minMaxShow)">
 				Color &nbsp; &nbsp;&nbsp;&nbsp; 
 			</span>
 			<select class="input-sm" ng-model="bottomPropPanel.colorSelect" ng-show="!bottomPropPanel.minMaxShow">
 				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
-			</select> Font &nbsp;
+			</select> 
+			
+			Font &nbsp;
 			<select class="input-sm" ng-model="bottomPropPanel.fontSelect">
 				<option ng-repeat="i in bottomPropPanel.fontList">{{i}}</option>
-			</select> &nbsp;&nbsp;&nbsp; Size &nbsp;
+			</select> 
+			
+			&nbsp;&nbsp;&nbsp; Size &nbsp;
 			<input type="number" ng-model="bottomPropPanel.fontSize" min="1" max="100">
-			<span ng-show="!bottomPropPanel.minMaxShow">
+			
+			<span ng-show="(!bottomPropPanel.minMaxShow) && (!bottomPropPanel.gaugeDetailsShow)">
 				Background-Color &nbsp; &nbsp;&nbsp;&nbsp; 
 			</span>
-			<select class="input-sm" ng-model="bottomPropPanel.backColorSelect" ng-show="!bottomPropPanel.minMaxShow">
+			<select class="input-sm" ng-model="bottomPropPanel.backColorSelect" ng-show="(!bottomPropPanel.minMaxShow) && (!bottomPropPanel.gaugeDetailsShow)">
 				<option ng-repeat="i in bottomPropPanel.backColorList">{{i}}</option>
 			</select>
 		</div>
@@ -415,18 +428,22 @@
 			<br/>
 			<span ng-show="!bottomPropPanel.svgDetailsShow">url &nbsp; &nbsp;&nbsp;&nbsp; </span>
 			<input type="text" ng-model="bottomPropPanel.url" ng-show="!bottomPropPanel.svgDetailsShow">
+			
 			<!-- Property objects for all Svg -->
 			<span ng-show="(bottomPropPanel.justPanel) && (!bottomPropPanel.imageDetailsShow)"> color </span> &nbsp;
 			<select class="input-sm" ng-model="bottomPropPanel.colorSelect">
 				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
 			</select>
+			
 			<!-- Property objects for SVG square -->
 			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)"> Width(px) </span>			&nbsp;
 			<input type="number" ng-model="bottomPropPanel.width" min="1" max="500" ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)">			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)"> Height(px) </span>			&nbsp;
 			<input type="number" ng-model="bottomPropPanel.height" min="1" max="500" ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)">
+			
 			<!-- Property objects for SVG Circle -->
 			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.svgSquareShow) && (!bottomPropPanel.svgPathShow) && (!bottomPropPanel.imageDetailsShow)"> radius(px) </span>			&nbsp;
 			<input type="number" ng-model="bottomPropPanel.radius" min="1" max="500" ng-show="(!bottomPropPanel.svgSquareShow) && (!bottomPropPanel.svgPathShow) && (!bottomPropPanel.imageDetailsShow)">
+			
 			<!-- Property objects for SVG Path -->
 			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgSquareShow) && (!bottomPropPanel.imageDetailsShow)"> zoom(%) </span>			&nbsp;
 			<input type="number" ng-model="bottomPropPanel.zoom" min="1" max="500" ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgSquareShow) && (!bottomPropPanel.imageDetailsShow)">
@@ -436,9 +453,20 @@
 		<div ng-show="bottomPropPanel.svgDetailsShow">
 			<input type="checkbox" ng-model="bottomPropPanel.justPanel"> Just Panel<br>
 		</div>
+		
+		<!-- property setting options for gauge-->
+		<div ng-show="bottomPropPanel.gaugeDetailsShow">
+			unit &nbsp;
+			<input type="text" ng-model="bottomPropPanel.unit">
+			<br/>
+			<span ng-show="(!bottomPropPanel.minMaxShow)"> Gauge Dial Color</span>
+			<select class="input-sm" ng-model="bottomPropPanel.colorSelect" ng-show="(!bottomPropPanel.minMaxShow)">
+				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
+			</select>
+		</div>
 
 		<!-- property setting options for SVG-->
-		<div ng-show="!bottomPropPanel.justPanel">
+		<div ng-show="(!bottomPropPanel.justPanel) &&(bottomPropPanel.svgDetailsShow)">
 			Normal-Color &nbsp;
 			<select class="input-sm" ng-model="bottomPropPanel.nomColorSelect">
 				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
@@ -455,23 +483,31 @@
 		</div>
 
 		<div ng-show="bottomPropPanel.minMaxShow">
+			
 			{{bottomPropPanel.maxTextBoxDisplayName}} &nbsp;
-			<input type="number" ng-model="bottomPropPanel.value" min="1" max="100"> &nbsp;&nbsp;&nbsp; Max-Color &nbsp;
+			<input type="number" ng-model="bottomPropPanel.value">
+			&nbsp;&nbsp;&nbsp; Max-Color &nbsp;
 			<select class="input-sm" ng-model="bottomPropPanel.maxColorSelect">
 				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
-			</select> &nbsp;&nbsp;&nbsp; {{bottomPropPanel.minTextBoxDisplayName}} &nbsp;
-			<input type="number" ng-model="bottomPropPanel.maxPercent" min="1" max="100"> &nbsp;&nbsp;&nbsp; Min-Color &nbsp;
+			</select> 
+			
+			&nbsp;&nbsp;&nbsp; {{bottomPropPanel.minTextBoxDisplayName}} &nbsp;
+			<input type="number" ng-model="bottomPropPanel.maxPercent"> 
+			&nbsp;&nbsp;&nbsp; Min-Color &nbsp;
 			<select class="input-sm" ng-model="bottomPropPanel.minColorSelect">
 				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
-			</select> &nbsp;&nbsp;&nbsp; {{bottomPropPanel.nomTextBoxDisplayName}} &nbsp;
-			<input type="number" ng-model="bottomPropPanel.minPercent" min="1" max="100"> &nbsp;&nbsp;&nbsp; Nom-Color &nbsp;
+			</select> 
+			
+			<span ng-show="!bottomPropPanel.gaugeDetailsShow">&nbsp;&nbsp;&nbsp; {{bottomPropPanel.nomTextBoxDisplayName}} &nbsp;</span>
+			<input type="number" ng-model="bottomPropPanel.minPercent" ng-show="!bottomPropPanel.gaugeDetailsShow"> 
+			&nbsp;&nbsp;&nbsp; Nom-Color &nbsp;
 			<select class="input-sm" ng-model="bottomPropPanel.nomColorSelect">
 				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
 			</select>
 		</div>
 
 		<div class="text-right">
-			<a type="button" class="btn btn-primary" ng-click="assignProperties()">
+			<a type="button" class="btn btn-default" ng-click="assignProperties()">
 				<span> OK</span>
 			</a>
 		</div>

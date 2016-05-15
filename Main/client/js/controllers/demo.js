@@ -91,9 +91,8 @@ window.onload = function () {
 		cln.removeAttribute("draggable");
 		cln.style.top = (ess.clientY - 60) + "px";
 		cln.style.left = (ess.clientX - 140) + "px";
-
-
-		//Functionality specifically for image element 
+		
+		//Functionality specifically for image type of element 
 		switch (cln.getAttribute("data-objectid")) {
 			case "image":
 				//Change the picture and size of the image when the image object is dragged and dropped
@@ -104,23 +103,22 @@ window.onload = function () {
 				break;
 			case "bar-chart":
 				//Change the size of the image when the line Chart object is dragged and dropped
-				var lineChrt = cln.childNodes[0];
-				lineChrt.setAttribute("style", "width:300px;height:300px");
-				console.log(lineChrt);
+				var chrt = cln.childNodes[0];
+				chrt.setAttribute("width", "300px");
+				chrt.setAttribute("height", "300px");
 				break;
 			case "candle-chart":
 				//Change the size of the image when the candle Chart object is dragged and dropped
-				var lineChrt = cln.childNodes[0];
-				lineChrt.setAttribute("style", "width:400px;height:250px");
-				console.log(lineChrt);
+				var chrt = cln.childNodes[0];
+				chrt.setAttribute("width", "400px");
+				chrt.setAttribute("height", "250px");
 				break;
 			case "line-chart":
 				//Change the size of the image when the line Chart object is dragged and dropped
-				var lineChrt = cln.childNodes[0];
-				lineChrt.setAttribute("style", "width:400px;height:250px");
-				console.log(lineChrt);
+				var chrt = cln.childNodes[0];
+				chrt.setAttribute("width", "400px");
+				chrt.setAttribute("height", "250px");
 				break;
-
 		}
 		cln.setAttribute("oncontextmenu", "showCustomMenu(this)");
 		cln.setAttribute("ondblclick", "showDoubleMenu(this)");
@@ -143,30 +141,14 @@ window.onload = function () {
 						cursor: 'pointer'
 					});
 				}
-
 			});
-
-
-			$(cln).resizable({});
-
+			if ($(elementDragged).attr("data-type") == "scalable") {
+				$(cln).resizable({});
+			}
 			cln_test.css({
 				position: 'absolute',
 				cursor: 'pointer'
 			});
-
-
-
-		}
-		else {
-			$(cln).resizable({});
-
-			cln_test.css({
-				position: 'absolute',
-				cursor: 'pointer',
-				zoom: '100%'
-			});
-
-
 		}
 		//=========================
 		//cln_test.css({
@@ -227,13 +209,12 @@ $(document).ready(function () {
 	// jQuery methods go here...
 
 	$("#LeftPanAdjustButton").click(function () {
+		socket.emit("panelVisibilityOnClick", {});
 		$("#LeftPan").animate({
-
 			left: "-15%",
 		}, 500);
 
 		$("#main_ui").animate({
-
 			left: "0%",
 		}, 500);
 
@@ -242,13 +223,12 @@ $(document).ready(function () {
 	});
 
 	$("#LeftPanAdjustButton2").click(function () {
+		socket.emit("panelVisibilityOnClick", {});
 		$("#LeftPan").animate({
-
 			left: "0%",
 		}, 500);
 
 		$("#main_ui").animate({
-
 			left: "15%",
 		}, 500);
 
@@ -257,17 +237,5 @@ $(document).ready(function () {
 	});
 
 });
-
-function fullscreen() {
-
-    $('#LeftPan').addClass('lefthide');
-
-    $('#main_ui').addClass('mainhide');
-}
-
-function exitFullscreen() {
-	$('#LeftPan').removeClass('lefthide');
-	$('#main_ui').removeClass('mainshow');
-}
 
 //========================================================//

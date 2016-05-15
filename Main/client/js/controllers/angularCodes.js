@@ -62,9 +62,9 @@ app.controller('MyController', function ($scope, socket, $window) {
 
 	// Variables with respect to grid
 	$scope.gridDetails = {
-		value: 'hide',
+		value: 'Hide Grid',
 		hide: false,
-		colorSelect: 'black',
+		colorSelect: 'Grid Color: BLACK',
 		color: 'rgba(0, 0, 0, .20)' // Lalter the opacity of the color also can be modified
 	};
 
@@ -105,6 +105,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 		fontPropShow: false,
 		fontSelect: 'Verdana',
 		fontSize: 14,
+		gaugeDetailsShow: false,
 		height: 100,
 		imageDetailsShow: false,
 		justPanel: false,
@@ -472,6 +473,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 			fontPropShow: false,
 			fontSelect: 'Verdana',
 			fontSize: 14,
+			gaugeDetailsShow: false,
 			height: 100,
 			imageDetailsShow: false,
 			justPanel: false,
@@ -705,6 +707,33 @@ app.controller('MyController', function ($scope, socket, $window) {
 							$scope.bottomPropPanel.degree = 0;
 						}
 						break;
+					case 'gauge-1':
+						$scope.bottomPropPanel.dpSelectShow = true;
+						$scope.bottomPropPanel.gaugeDetailsShow = true;
+						$scope.bottomPropPanel.fontPropShow = true;
+						break;
+					case 'gauge-2':
+						$scope.bottomPropPanel.dpSelectShow = true;
+						$scope.bottomPropPanel.gaugeDetailsShow = true;
+						$scope.bottomPropPanel.fontPropShow = true;
+						break;
+					case 'gauge-3':
+						$scope.bottomPropPanel.dpSelectShow = true;
+						$scope.bottomPropPanel.gaugeDetailsShow = true;
+						$scope.bottomPropPanel.fontPropShow = true;
+						$scope.bottomPropPanel.minMaxShow = true;
+						$scope.bottomPropPanel.minTextBoxDisplayName = 'Min-Value-Start'
+						$scope.bottomPropPanel.maxTextBoxDisplayName = 'Max-Value-Start'
+						break;
+					case 'bar-chart':
+						$scope.bottomPropPanel.dpSelectShow = true;
+						break;
+					case 'line-chart':
+						$scope.bottomPropPanel.dpSelectShow = true;
+						break;
+					case 'candle-chart':
+						$scope.bottomPropPanel.dpSelectShow = true;
+						break;
 				}
 			}
 		}
@@ -841,7 +870,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 					$scope.chartProperties.posY = data.positionY;
 					$scope.objectDetails.push($scope.chartProperties);
 					break;
-					
+
 			}
 		}
 	});
@@ -934,20 +963,20 @@ app.controller('MyController', function ($scope, socket, $window) {
 	$scope.showHideGrid = function () {
 		if ($scope.gridDetails.hide) {
 			$scope.dropTargetOne.style = {};
-			$scope.gridDetails.value = 'show';
+			$scope.gridDetails.value = 'Show Grid';
 		} else {
 			$scope.dropTargetOne.style = {
 				'background-color': 'transparent',
 				'background-image': 'linear-gradient(0deg, transparent 24%, ' + $scope.gridDetails.color + ' 25%, ' + $scope.gridDetails.color + ' 26%, transparent 27%, transparent 74%, ' + $scope.gridDetails.color + ' 75%, ' + $scope.gridDetails.color + ' 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, ' + $scope.gridDetails.color + ' 25%, ' + $scope.gridDetails.color + ' 26%, transparent 27%, transparent 74%, ' + $scope.gridDetails.color + ' 75%, ' + $scope.gridDetails.color + ' 76%, transparent 77%, transparent)',
 				'background-size': '30px 30px'
 			};
-			$scope.gridDetails.value = 'hide';
+			$scope.gridDetails.value = 'Hide Grid';
 		}
 	};
 
 	//Function that changes the grid color
 	$scope.gridColorChange = function () {
-		if ($scope.gridDetails.colorSelect === 'black') {
+		if ($scope.gridDetails.colorSelect === 'Grid Color: BLACK') {
 			$scope.gridDetails.color = 'rgba(0, 0, 0, .20)';
 			$scope.dropTargetOne.style = {
 				'background-color': 'transparent',
@@ -1206,6 +1235,12 @@ app.controller('MyController', function ($scope, socket, $window) {
 							var innerElement = angular.element(htmlElement[0].innerHTML);
 							innerElement[0].style.fill = $scope.bottomPropPanel.colorSelect;
 							htmlElement[0].innerHTML = innerElement[0].outerHTML;
+							break;
+						case 'bar-chart':
+							break;
+						case 'line-chart':
+							break;
+						case 'candle-chart':
 							break;
 					}
 					//convert HTML DOM Element to String and assign it to 'ObjectHTML'
