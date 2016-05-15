@@ -44,13 +44,13 @@ html{
 #LeftPanAdjustButton{
   float: right;
   color: #D59B09;
-  background-color: #2F2F2F;
+  background-color: black;
   z-index: 999999;
 }
 #LeftPanAdjustButton2{
   float: left;
   color: #D59B09;
-  background-color: #2F2F2F;
+  background-color: black;
   z-index: 999999;
 }
 
@@ -59,7 +59,7 @@ html{
   font-size: 16px;
   font-weight: lighter;
   display: inline-block;;
-  background-color: #2F2F2F;
+  background-color: black;
   color:#D59B09;
   letter-spacing: 0px;
   margin-left:1px;
@@ -76,7 +76,7 @@ padding: 0px 5px 0px 5px;
   font-size: 15px;
   font-weight: bolder;;
   display: inline-block;;
-  background-color: #2F2F2F;
+  background-color: black;
   color:#D59B09;
   letter-spacing: 8px;
   padding-left: 5px;
@@ -92,7 +92,7 @@ padding: 0px 5px 0px 5px;
   font-size: 10px;
   font-weight: lighter;
   display: inline-block;;
-  background-color: #2F2F2F;
+  background-color: black;
   color:hsla(43, 100%, 50%, 0.8);
   letter-spacing: 2px;
   padding: 5px;
@@ -122,7 +122,7 @@ padding: 0px 5px 0px 5px;
   width: 80%;
 }
 .subtext1:hover{
-  background-color: #2F2F2F;
+  background-color: black;
   box-shadow: 5px 5px 3px #434343;
   color:hsla(43, 100%, 50%, 0.8);
 }
@@ -156,7 +156,7 @@ ul{
 
 
 /*.subtext1 {
-  background: #2F2F2F;
+  background: black;
   border: 3px solid #fff;
   border-radius: 3px;
   color: hsla(43, 100%, 50%, 0.8);
@@ -179,7 +179,7 @@ ul{
 
     font-weight:bolder;;
     display: inline-block;
-    background-color: #2F2F2F;
+    background-color: black;
     color: hsla(43, 100%, 50%, 0.8);
     letter-spacing: 2px;
     padding: 10px 15px 10px 15px;
@@ -212,14 +212,22 @@ ul{
 }
 
 .bottom {
-  background-color: #2f2f2f;
+  background-color: #2F2F2F;
   color: hsla(43, 100%, 50%, 0.8);
-  text-align: center;
+  /*text-align: center;*/
 }
 input{
-  background-color: hsla(43, 100%, 50%, 0.8);
-  color: black;
+  background-color: black;
+  color: hsla(43, 100%, 50%, 0.8);
   font-weight: bolder;
+}
+
+select.input-sm {
+    height: 30px;
+    line-height: 30px;
+    background-color: black;
+    color: hsla(43, 100%, 50%, 0.8);
+    font-weight: bolder;
 }
 
 
@@ -287,7 +295,7 @@ nav h1 {
   margin: 0;
   background-color: #000;
   color: white;
-  z-index: 1;
+  z-index: 99;
   font-size: 2em;
   line-height: 100%;
   width: 3em;
@@ -322,6 +330,7 @@ nav ol {
   border: .15em solid #fff;
   padding: 1.5em 0;
   width: 4.5em;
+  z-index: 99;
   text-align: center;
   box-shadow: .45em 0 1.5em rgba(50, 50, 50, 0.75);
   -webkit-transition: all 0.2s ease-in;
