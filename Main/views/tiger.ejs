@@ -1,0 +1,25 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <title>Monitoring Screen</title>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="js/controllers/angular.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="js/library/fv-Label.js"></script>
+    <script type="text/javascript" src="js/library/fv-map.js"></script>
+    <script type="text/javascript" src="js/library/fv-svg.js"></script>
+    <script type="text/javascript" src="js/library/gauge.min.js"></script>
+    <script type="text/javascript" src="js/library/angular-canvas-gauge.min.js"></script>
+    <script type="text/javascript" src="js/monitor/angularCodes.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!--link rel="stylesheet" type="text/css" href="css/monitor/main.css"-->
+
+</head>
+
+<body id="my_body" ng-app="myApp" ng-controller="MyController" style="background: url(../images/background-image3.jpg) no-repeat fixed center; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; background-size: cover;">
+    
+
+
+<script class="jsdom" src="http://code.jquery.com/jquery.js"></script><canvas canvas-gauge="" id="8562c6e0-1b22-11e6-b3e1-199f915eac29" width="200" height="213" data-title="phase1" data-min-value="0" data-max-value="100" data-units="%" data-major-ticks="0 10 20 30 40 50 60 70 80 90 100" data-highlights="0 30 #FF0000, 30 70 #66CC00, 70 100 #FFFF00" data-value="{{phase1.completionPercent}}" style="position: relative; left: 338px; top: 198px;"></canvas><svg width="301" height="301" style="margin: 0px 1em 1em 0px; fill: rgba(0, 0, 0, 0.701961); left: 825px; top: 155px; position: relative;"><rect width="300" height="300" fill="black" fv-svg="" fv-svg-nom-color="green" fv-svg-danger-color="red" fv-svg-status="{{phase1.status}}"></rect></svg><canvas canvas-gauge="" id="916f7e60-1b22-11e6-b3e1-199f915eac29" width="210" height="220" data-title="phase2" data-min-value="0" data-max-value="100" data-units="%" data-major-ticks="0 10 20 30 40 50 60 70 80 90 100" data-highlights="0 30 #FF0000, 30 70 #66CC00, 70 100 #FFFF00" data-value="{{phase2.completionPercent}}" style="position: relative; left: 728px; top: 332px;"></canvas></body></html>

@@ -7,6 +7,7 @@ var app = express();
 var jsdom = require("node-jsdom");
 var uuid = require('node-uuid');
 var http = require('http');
+var fs = require('fs');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 var restClient = require('node-rest-client').Client;
@@ -72,34 +73,40 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 
 // REST Methods=================================================================
 
+
+var dataPoints = [];
+
+var dpParents = [];
+
 /**
 * Get the list of data and its types via REST service from MES
 * Sort them with respect to data type
 * Hint: Every sorting is done here inorder to let the client be light weight and faster
 */
-function initialConfig(){
+function initialConfig() {
+
 	client.get("http://localhost:3080/mes/datapoints", function (data, response) {
-		
-		// Variables ===================================================================		
-		var dataPoints = [];
+
+		// Variables ===================================================================
 		var booleanDataPoints = [];
 		var doubleDataPoints = [];
 		var integerDataPoints = [];
 		var stringDataPoints = [];
 		var longDataPoints = [];
-		
+
 		// Assign it directly for all data types
 		dataPoints = data;
-		
+
 		//Going through each array of data
-		for(incDP = 0; lenDP = data.length, incDP < lenDP; incDP++){
+		for (incDP = 0; lenDP = data.length, incDP < lenDP; incDP++) {
+			dpParents.push(data[incDP].id);
 			//Array for getting the keys under 'data' in JSON message
 			var mesData = [];
 			//Get the total number of data points present in a phase
 			mesData = Object.keys(data[incDP].data);
-			for(incDataKey = 0; lenDataKey = mesData.length, incDataKey < lenDataKey; incDataKey++){
+			for (incDataKey = 0; lenDataKey = mesData.length, incDataKey < lenDataKey; incDataKey++) {
 				//Based upon the type of the data point assign it to the socket variables
-				switch(data[incDP].data[mesData[incDataKey]]){
+				switch (data[incDP].data[mesData[incDataKey]]) {
 					case 'boolean':
 						booleanDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
 						break;
@@ -118,32 +125,56 @@ function initialConfig(){
 					default:
 						console.log(data[incDP].id + '_' + mesData[incDataKey]);
 						break;
-				}	
+				}
 			}
-		}				
-		
+		}
+
 		// Emit the type with data points to the Client (HTML)
-		io.sockets.emit('boolean_DataPoint',booleanDataPoints);
-		io.sockets.emit('integer_DataPoint',integerDataPoints);
-		io.sockets.emit('double_DataPoint',doubleDataPoints);
-		io.sockets.emit('long_DataPoint',longDataPoints);
-		io.sockets.emit('string_DataPoint',stringDataPoints);
-		io.sockets.emit('all_DataPoint',dataPoints);
+		io.sockets.emit('boolean_DataPoint', booleanDataPoints);
+		io.sockets.emit('integer_DataPoint', integerDataPoints);
+		io.sockets.emit('double_DataPoint', doubleDataPoints);
+		io.sockets.emit('long_DataPoint', longDataPoints);
+		io.sockets.emit('string_DataPoint', stringDataPoints);
+		io.sockets.emit('all_DataPoint', dataPoints);
+
+		//call the function to register for all the events
+		eventRegister();
 	});
 }
 
 //Calling the function to get the data point and associate them
 initialConfig();
 
+function eventRegister() {
+	//Register to all the events from the server
+	for (incDP = 0; lenDP = dataPoints.length, incDP < lenDP; incDP++) {
+		var args = {
+			data: { "id": "client", "destUrl": "http://localhost:" + port + "/" + dataPoints[incDP].id + "/notifs" },
+			headers: { "Content-Type": "application/json" }
+		};
+		//Array for getting the keys under 'data' in JSON message
+		client.post(dataPoints[incDP].url, args, function (data, response) {
+		});
+	}
+}
+
+
+app.post('/:parent/notifs', function (req, res) {
+	console.log(req.params.parent);
+	io.sockets.emit(req.params.parent, req.body);
+    res.send({});
+});
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 //-----------------------------------------------------------------------------//
 
 
+
+
 //////////////////////////////////////////////////////////////////////////////////get the item being added.
-app.post('/getNewObject', function(req, res) {
+app.post('/getNewObject', function (req, res) {
 	var curr_id = uuid.v1();
-	res.json(curr_id);	
+	res.json(curr_id);
 });
 
 //////////////////////////////////////////////////////////////////////////////////get the item being added.
@@ -153,67 +184,114 @@ app.post('/getNewObject', function(req, res) {
 //Using Sockets the Copy the above code.
 
 io.on("connection", function (socket) {
-	
-	socket.on('propChanged', function(data){
-		io.sockets.emit('prop_Changed',data);
+
+	socket.on('propChanged', function (data) {
+		io.sockets.emit('prop_Changed', data);
 	});
-	
-	socket.on('initialConfig', function(data){
+
+	socket.on('initialConfig', function (data) {
 		//Calling the function to get the data point and associate them
 		initialConfig();
 	});
-	
+
 	//masking the panel visible on double clicks
-	socket.on('panelVisibilityOnClick', function(data){
-		io.sockets.emit('panel_Visibility_OnClick',data);
-	});
-	
-	//masking the panel visible on double clicks
-	socket.on('panelVisibility', function(data){
-		io.sockets.emit('panel_Visibility',data);
+	socket.on('panelVisibilityOnClick', function (data) {
+		io.sockets.emit('panel_Visibility_OnClick', data);
 	});
 
-	socket.on('moveObject', function(data){
-		io.sockets.emit('moved_Html',data);	
-		io.sockets.emit('moved_Object',data);			
-	  });
-	  
-	socket.on('newObject', function(data){
-	
+	//masking the panel visible on double clicks
+	socket.on('panelVisibility', function (data) {
+		io.sockets.emit('panel_Visibility', data);
+	});
+
+	socket.on('moveObject', function (data) {
+		io.sockets.emit('moved_Html', data);
+		io.sockets.emit('moved_Object', data);
+	});
+
+	socket.on('newObject', function (data) {
+
 		var el2 = data.currentHtml;
 		var el1 = data.loggedinUser;
 		var isAngular = data.isAngular;
 		var dataSource = data.dataSource;
 		var angularId;
-		
-		if(isAngular){
+
+		if (isAngular) {
 			angularId = JSON.parse(data.id);
 		}
-		
-		io.sockets.emit("added_Object",data);
-	
+
+		io.sockets.emit("added_Object", data);
+
 		//////////////////sample test
 		var document = jsdom.jsdom();
 		var frame = document.createElement('iframe');
 		frame.style.display = 'none';
-		document.body.appendChild(frame);             
+		document.body.appendChild(frame);
 		frame.contentDocument.open();
 		frame.contentDocument.write(el2);
 		frame.contentDocument.close();
 		var el = frame.contentDocument.body.firstChild;
 		document.body.removeChild(frame);
-		
-		if(isAngular){
+
+		if (isAngular) {
 			el.removeAttribute("id");
-			el.setAttribute("id",angularId);
-			io.sockets.emit('added_Html',{'loggedinUser':el1,'currentHtml':el.outerHTML, 'isAngular': isAngular, 'dataSource': dataSource});
-			el.setAttribute("dataSource",JSON.stringify(dataSource));				
-		}else{
-			io.sockets.emit('added_Html',{'loggedinUser':el1,'currentHtml':el.outerHTML, 'isAngular': isAngular, 'dataSource': null});		
+			el.setAttribute("id", angularId);
+			io.sockets.emit('added_Html', { 'loggedinUser': el1, 'currentHtml': el.outerHTML, 'isAngular': isAngular, 'dataSource': dataSource });
+			el.setAttribute("dataSource", JSON.stringify(dataSource));
+		} else {
+			io.sockets.emit('added_Html', { 'loggedinUser': el1, 'currentHtml': el.outerHTML, 'isAngular': isAngular, 'dataSource': null });
 		}
-		
-	}); 
-}); 
+
+	});
+
+	socket.on('createScreen', function (data) {
+		//Initially Get the elements
+        var elementsReceived = data.objects;
+        // then get the name and background image url
+        var pageName = data.name + ".ejs";
+        var background = data.backGroundUrl;
+
+        var htmlSource = fs.readFileSync("./views/basePage.ejs", "utf8");
+
+        var jsdom_d = jsdom.jsdom;
+        var document = jsdom_d(htmlSource);
+
+        var window = document.defaultView;
+
+        jsdom.jQueryify(window, "http://code.jquery.com/jquery.js", function () {
+            var $ = window.$;
+			//Set the attrbutes for the background
+            $('body').css('background', 'url(../images/background-image3.jpg) no-repeat center center fixed');
+			console.log(background);
+            $('body').css('background', 'url(' + background + ') no-repeat center center fixed');
+            $('body').css('position', 'absolute');
+            $('body').css('top', '0');
+            $('body').css('left', '0');
+            $('body').css('height', '100%');
+            $('body').css('width', '100%');
+            $('body').css('-webkit-background-size', 'cover');
+            $('body').css('-moz-background-size', 'cover');
+            $('body').css('-o-background-size', 'cover');
+            $('body').css('background-size', 'cover');
+            $('body').css('top', '0');
+            for (i = 0; len = elementsReceived.length, i < len; i++) {
+                var $jQueryObject = $($.parseHTML(elementsReceived[i].finalHtml));
+                $('body').append(elementsReceived[i].finalHtml);
+            }
+            //save the file
+            fs.writeFile('./views/' + pageName, $('html')[0].outerHTML,
+                function (error) {
+                    if (error) throw error;
+                });
+			io.sockets.emit('creation_Success', { 'pageId': pageName.replace(".ejs", "") });
+        });
+	});
+});
+
+app.get('/:file', function (req, res) {
+	res.render(req.params.file);
+});
 
 server.listen(port);
 

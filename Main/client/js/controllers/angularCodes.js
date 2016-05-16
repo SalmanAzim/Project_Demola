@@ -1,6 +1,19 @@
 var xsd;
 var mychart;
-var app = angular.module("myApp", ['test', 'app', 'angular.morris-chart', 'ui.bootstrap', 'angular-dialgauge']);
+var app = angular.module("myApp", ['test', 'app', 'btnLoader', 'ui.bootstrap']);
+
+app.factory('httpReq', function ($http, $q) {
+	return {
+		monitorScreen: function (dataObj) {
+            return $http.get('/monitor', dataObj)
+				.then(function (response) {
+					return response.data;
+				}, function (response) {
+					return $q.reject(response.data);
+				});
+        }
+	}
+});
 
 app.factory('socket', function ($rootScope) {
 	var socket = io.connect();
@@ -26,7 +39,7 @@ app.factory('socket', function ($rootScope) {
 	};
 });
 
-app.controller('MyController', function ($scope, socket, $window) {
+app.controller('MyController', function ($scope, socket, $window, httpReq, $location) {
 	//:::::::::::::::::::::::::::::::Balaji:::::::::::::::::::::::::::::
 
 	//Variables=========================================================
@@ -39,6 +52,9 @@ app.controller('MyController', function ($scope, socket, $window) {
 	$scope.allDP = [];
 	$scope.testObject = '';
 	$scope.currentObject = '';
+	$scope.screenName = '';
+
+	$scope.confirmButton = false;
 
 	$scope.gaugeValue = 50;
 
@@ -59,6 +75,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 	];
 
     $scope.imagepath = '../images/background-image3.jpg';
+	$scope.newimagepath = '../images/background-image3.jpg';
 
 	// Variables with respect to grid
 	$scope.gridDetails = {
@@ -111,15 +128,18 @@ app.controller('MyController', function ($scope, socket, $window) {
 		justPanel: false,
 		maxColorSelect: 'red',
 		maxPercent: 75,
+		maxSelectDisplayName: 'Max Color',
 		maxTextBoxDisplayName: 'Maximum Value',
 		minColorSelect: 'orange',
 		minMaxButton: false,
 		minMaxShow: false,
 		minMaxValue: 'Min-Max',
 		minPercent: 35,
+		minSelectDisplayName: 'Min Color',
 		minTextBoxDisplayName: 'Max-%',
 		name: '',
 		nomColorSelect: 'green',
+		nomSelectDisplayName: 'Nom Color',
 		nomTextBoxDisplayName: 'Min-%',
 		panelShow: false,
 		parentSelect: '',
@@ -240,8 +260,8 @@ app.controller('MyController', function ($scope, socket, $window) {
 		objectHtml: '',
 		name: '',
 		url: '../images/leanware-logo.png',
-		width: 100,
-		height: 100,
+		width: '100px',
+		height: '100px',
 		degree: 0
 	};
 
@@ -270,8 +290,11 @@ app.controller('MyController', function ($scope, socket, $window) {
 
 	//Gauge property model
 	$scope.gaugeProperties = {
-		fontSize: 14,
+		color: 'green',
 		finalHtml: '',
+		fontColor: 'blue',
+		fontSize: '14px',
+		fontStyle: 'Verdana',
 		id: '',
 		name: '',
 		objectId: '',
@@ -284,12 +307,11 @@ app.controller('MyController', function ($scope, socket, $window) {
 		unit: '',
 		nomColor: 'green',
 		maxColor: 'orange',
-		minColor: 'orange',
-		color: 'green',
+		minColor: 'red',
 		width: 60,
 		height: 60,
 		minValue: 30,
-		maxValue: 70,
+		maxValue: 70
 	};
 
 	//Chart property model
@@ -305,7 +327,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 		html: '',
 		objectHtml: '',
 		width: 60,
-		height: 60,
+		height: 60
 	};
 
 	//Initialization Functions===========================================
@@ -421,8 +443,11 @@ app.controller('MyController', function ($scope, socket, $window) {
 			degree: 0
 		};
 		$scope.gaugeProperties = {
-			fontSize: 14,
+			color: 'green',
 			finalHtml: '',
+			font: 'Verdana',
+			fontColor: 'blue',
+			fontSize: '14px',
 			id: '',
 			name: '',
 			objectId: '',
@@ -435,12 +460,11 @@ app.controller('MyController', function ($scope, socket, $window) {
 			unit: '',
 			nomColor: 'green',
 			maxColor: 'orange',
-			minColor: 'orange',
-			color: 'green',
+			minColor: 'red',
 			width: 60,
 			height: 60,
 			minValue: 30,
-			maxValue: 70,
+			maxValue: 70
 		};
 		$scope.chartProperties = {
 			finalHtml: '',
@@ -454,7 +478,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 			html: '',
 			objectHtml: '',
 			width: 60,
-			height: 60,
+			height: 60
 		};
 	};
 
@@ -479,15 +503,18 @@ app.controller('MyController', function ($scope, socket, $window) {
 			justPanel: false,
 			maxColorSelect: 'red',
 			maxPercent: 75,
+			maxSelectDisplayName: 'Max Color',
 			maxTextBoxDisplayName: 'Maximum Value',
 			minColorSelect: 'orange',
 			minMaxButton: false,
 			minMaxShow: false,
 			minMaxValue: 'Min-Max',
 			minPercent: 35,
+			minSelectDisplayName: 'Min Color',
 			minTextBoxDisplayName: 'Max-%',
 			name: '',
 			nomColorSelect: 'green',
+			nomSelectDisplayName: 'Nom Color',
 			nomTextBoxDisplayName: 'Min-%',
 			panelShow: false,
 			parentSelect: '',
@@ -499,12 +526,13 @@ app.controller('MyController', function ($scope, socket, $window) {
 			svgPathShow: false,
 			svgSquareShow: false,
 			unfixRowNos: false,
-			units: '',
+			unit: '',
 			url: '../images/leanware-logo.png',
 			value: 0,
 			width: 100,
 			zoom: 100
 		};
+
 	};
 
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -601,9 +629,6 @@ app.controller('MyController', function ($scope, socket, $window) {
 						$scope.bottomPropPanel.dpSelectShow = true;
 						$scope.bottomPropPanel.minMaxButton = true;
 						$scope.bottomPropPanel.fontPropShow = true;
-						$scope.bottomPropPanel.maxTextBoxDisplayName = 'Maximum Value';
-						$scope.bottomPropPanel.minTextBoxDisplayName = 'Max-%';
-						$scope.bottomPropPanel.nomTextBoxDisplayName = 'Min-%';
 						$scope.bottomPropPanel.colorSelect = $scope.objectDetails[i].color;
 						$scope.bottomPropPanel.fontSelect = $scope.objectDetails[i].font;
 						$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
@@ -621,9 +646,12 @@ app.controller('MyController', function ($scope, socket, $window) {
 						$scope.bottomPropPanel.minMaxButton = true;
 						$scope.bottomPropPanel.fontPropShow = true;
 						$scope.bottomPropPanel.minMaxValue = 'Map';
-						$scope.bottomPropPanel.maxTextBoxDisplayName = 'Maximum Pos Value';
-						$scope.bottomPropPanel.minTextBoxDisplayName = 'Minimum Pos Value';
-						$scope.bottomPropPanel.nomTextBoxDisplayName = 'Nominal Pos Value';
+						$scope.bottomPropPanel.maxTextBoxDisplayName = 'Success Pos Value';
+						$scope.bottomPropPanel.minTextBoxDisplayName = 'Danger Pos Value';
+						$scope.bottomPropPanel.nomTextBoxDisplayName = 'Normal Pos Value';
+						$scope.bottomPropPanel.maxSelectDisplayName = 'Success Color';
+						$scope.bottomPropPanel.minSelectDisplayName = 'Danger Color';
+						$scope.bottomPropPanel.nomSelectDisplayName = 'Normal Color';
 						$scope.bottomPropPanel.colorSelect = $scope.objectDetails[i].color;
 						$scope.bottomPropPanel.fontSelect = $scope.objectDetails[i].font;
 						$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
@@ -640,16 +668,24 @@ app.controller('MyController', function ($scope, socket, $window) {
 					case 'image':
 						$scope.bottomPropPanel.imageDetailsShow = true;
 						$scope.bottomPropPanel.url = $scope.objectDetails[i].url;
-						$scope.bottomPropPanel.width = $scope.objectDetails[i].width;
-						$scope.bottomPropPanel.height = $scope.objectDetails[i].height;
 						//Before assigning the value for degree from the object array, it si first checked what is the div element value
 						//The reason being that the user may just rotate and may not click on OK and when he again looks for the property, it will be 0 since it will be assigned form the object array
 						//Hence it is first got from the div element. Incase the Div element transform is empty, then it is given as zero. 
-						var transform = angular.element(document.getElementById(data.elementId))[0].style.transform;
+						var parentElement = angular.element(document.getElementById(data.elementId));
+						var transform = parentElement[0].style.transform;
 						if (transform !== '') {
 							$scope.bottomPropPanel.degree = parseInt(transform.substring(transform.indexOf("(") + 1, transform.indexOf("deg)")));
 						} else {
 							$scope.bottomPropPanel.degree = 0;
+						}
+						//get the current width and height after resizing and store it to the object details
+						var currHeight = parentElement[0].style.height;
+						var currWidth = parentElement[0].style.width;
+						if (currWidth != '') {
+							$scope.objectDetails[i].width = currWidth;
+						}
+						if (currHeight != '') {
+							$scope.objectDetails[i].height = currHeight;
 						}
 						break;
 					case 'svg-square':
@@ -708,31 +744,112 @@ app.controller('MyController', function ($scope, socket, $window) {
 						}
 						break;
 					case 'gauge-1':
+						console.log($scope.objectDetails);
 						$scope.bottomPropPanel.dpSelectShow = true;
 						$scope.bottomPropPanel.gaugeDetailsShow = true;
 						$scope.bottomPropPanel.fontPropShow = true;
+						$scope.bottomPropPanel.colorSelect = $scope.objectDetails[i].fontColor;
+						$scope.bottomPropPanel.fontSelect = $scope.objectDetails[i].font;
+						$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
+						$scope.bottomPropPanel.unit = $scope.objectDetails[i].unit;
+						$scope.bottomPropPanel.backColorSelect = $scope.objectDetails[i].color;
+						var parentElement = angular.element(document.getElementById(data.elementId));
+						//get the current width and height after resizing and store it to the object details
+						var currHeight = parentElement[0].style.height;
+						var currWidth = parentElement[0].style.width;
+						if (currWidth != '') {
+							$scope.objectDetails[i].width = currWidth;
+						}
+						if (currHeight != '') {
+							$scope.objectDetails[i].height = currHeight;
+						}
 						break;
 					case 'gauge-2':
 						$scope.bottomPropPanel.dpSelectShow = true;
 						$scope.bottomPropPanel.gaugeDetailsShow = true;
 						$scope.bottomPropPanel.fontPropShow = true;
+						$scope.bottomPropPanel.colorSelect = $scope.objectDetails[i].fontColor;
+						$scope.bottomPropPanel.fontSelect = $scope.objectDetails[i].font;
+						$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
+						$scope.bottomPropPanel.unit = $scope.objectDetails[i].unit;
+						$scope.bottomPropPanel.backColorSelect = $scope.objectDetails[i].color;
+						var parentElement = angular.element(document.getElementById(data.elementId));
+						//get the current width and height after resizing and store it to the object details
+						var currHeight = parentElement[0].style.height;
+						var currWidth = parentElement[0].style.width;
+						if (currWidth != '') {
+							$scope.objectDetails[i].width = currWidth;
+						}
+						if (currHeight != '') {
+							$scope.objectDetails[i].height = currHeight;
+						}
 						break;
 					case 'gauge-3':
 						$scope.bottomPropPanel.dpSelectShow = true;
 						$scope.bottomPropPanel.gaugeDetailsShow = true;
 						$scope.bottomPropPanel.fontPropShow = true;
 						$scope.bottomPropPanel.minMaxShow = true;
+						$scope.bottomPropPanel.colorList = ['#66CC00', '#FF0000', '#0066CC', '#FFFF00', '#000000', '#FFFFFF'];
 						$scope.bottomPropPanel.minTextBoxDisplayName = 'Min-Value-Start'
 						$scope.bottomPropPanel.maxTextBoxDisplayName = 'Max-Value-Start'
+						$scope.bottomPropPanel.colorSelect = $scope.objectDetails[i].fontColor;
+						$scope.bottomPropPanel.fontSelect = $scope.objectDetails[i].font;
+						$scope.bottomPropPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
+						$scope.bottomPropPanel.unit = $scope.objectDetails[i].unit;
+						$scope.bottomPropPanel.value = $scope.objectDetails[i].maxValue;
+						$scope.bottomPropPanel.maxColorSelect = $scope.objectDetails[i].maxColor;
+						$scope.bottomPropPanel.maxPercent = $scope.objectDetails[i].minValue;
+						$scope.bottomPropPanel.minColorSelect = $scope.objectDetails[i].minColor;
+						$scope.bottomPropPanel.nomColorSelect = $scope.objectDetails[i].nomColor;
+						var parentElement = angular.element(document.getElementById(data.elementId));
+						//get the current width and height after resizing and store it to the object details
+						var currHeight = parentElement[0].style.height;
+						var currWidth = parentElement[0].style.width;
+						if (currWidth != '') {
+							$scope.objectDetails[i].width = currWidth;
+						}
+						if (currHeight != '') {
+							$scope.objectDetails[i].height = currHeight;
+						}
 						break;
 					case 'bar-chart':
 						$scope.bottomPropPanel.dpSelectShow = true;
+						var parentElement = angular.element(document.getElementById(data.elementId));
+						//get the current width and height after resizing and store it to the object details
+						var currHeight = parentElement[0].style.height;
+						var currWidth = parentElement[0].style.width;
+						if (currWidth != '') {
+							$scope.objectDetails[i].width = currWidth;
+						}
+						if (currHeight != '') {
+							$scope.objectDetails[i].height = currHeight;
+						}
 						break;
 					case 'line-chart':
 						$scope.bottomPropPanel.dpSelectShow = true;
+						var parentElement = angular.element(document.getElementById(data.elementId));
+						//get the current width and height after resizing and store it to the object details
+						var currHeight = parentElement[0].style.height;
+						var currWidth = parentElement[0].style.width;
+						if (currWidth != '') {
+							$scope.objectDetails[i].width = currWidth;
+						}
+						if (currHeight != '') {
+							$scope.objectDetails[i].height = currHeight;
+						}
 						break;
 					case 'candle-chart':
 						$scope.bottomPropPanel.dpSelectShow = true;
+						var parentElement = angular.element(document.getElementById(data.elementId));
+						//get the current width and height after resizing and store it to the object details
+						var currHeight = parentElement[0].style.height;
+						var currWidth = parentElement[0].style.width;
+						if (currWidth != '') {
+							$scope.objectDetails[i].width = currWidth;
+						}
+						if (currHeight != '') {
+							$scope.objectDetails[i].height = currHeight;
+						}
 						break;
 				}
 			}
@@ -817,31 +934,31 @@ app.controller('MyController', function ($scope, socket, $window) {
 					$scope.objectDetails.push($scope.svgProperties);
 					break;
 				case 'gauge-1':
-					$scope.chartProperties.id = String(data.id);
-					$scope.chartProperties.objectId = data.objectId;
-					$scope.chartProperties.html = data.currentHtml;
-					$scope.chartProperties.objectHtml = data.objectHtml;
-					$scope.chartProperties.posX = data.positionX;
-					$scope.chartProperties.posY = data.positionY;
-					$scope.objectDetails.push($scope.chartProperties);
+					$scope.gaugeProperties.id = String(data.id);
+					$scope.gaugeProperties.objectId = data.objectId;
+					$scope.gaugeProperties.html = data.currentHtml;
+					$scope.gaugeProperties.objectHtml = data.objectHtml;
+					$scope.gaugeProperties.posX = data.positionX;
+					$scope.gaugeProperties.posY = data.positionY;
+					$scope.objectDetails.push($scope.gaugeProperties);
 					break;
 				case 'gauge-2':
-					$scope.chartProperties.id = String(data.id);
-					$scope.chartProperties.objectId = data.objectId;
-					$scope.chartProperties.html = data.currentHtml;
-					$scope.chartProperties.objectHtml = data.objectHtml;
-					$scope.chartProperties.posX = data.positionX;
-					$scope.chartProperties.posY = data.positionY;
-					$scope.objectDetails.push($scope.chartProperties);
+					$scope.gaugeProperties.id = String(data.id);
+					$scope.gaugeProperties.objectId = data.objectId;
+					$scope.gaugeProperties.html = data.currentHtml;
+					$scope.gaugeProperties.objectHtml = data.objectHtml;
+					$scope.gaugeProperties.posX = data.positionX;
+					$scope.gaugeProperties.posY = data.positionY;
+					$scope.objectDetails.push($scope.gaugeProperties);
 					break;
 				case 'gauge-3':
-					$scope.chartProperties.id = String(data.id);
-					$scope.chartProperties.objectId = data.objectId;
-					$scope.chartProperties.html = data.currentHtml;
-					$scope.chartProperties.objectHtml = data.objectHtml;
-					$scope.chartProperties.posX = data.positionX;
-					$scope.chartProperties.posY = data.positionY;
-					$scope.objectDetails.push($scope.chartProperties);
+					$scope.gaugeProperties.id = String(data.id);
+					$scope.gaugeProperties.objectId = data.objectId;
+					$scope.gaugeProperties.html = data.currentHtml;
+					$scope.gaugeProperties.objectHtml = data.objectHtml;
+					$scope.gaugeProperties.posX = data.positionX;
+					$scope.gaugeProperties.posY = data.positionY;
+					$scope.objectDetails.push($scope.gaugeProperties);
 					break;
 				case 'bar-chart':
 					$scope.chartProperties.id = String(data.id);
@@ -880,8 +997,81 @@ app.controller('MyController', function ($scope, socket, $window) {
 			if ($scope.objectDetails[i].id === data.currentId) {
 				$scope.objectDetails[i].posX = data.positionX;
 				$scope.objectDetails[i].posY = data.positionY;
+				if ($scope.objectDetails[i].finalHtml !== '') { }
+				switch ($scope.objectDetails[i].objectId) {
+					case 'label':
+						//Generate the Final HTML
+						var finalElement = angular.element(finalElement[0].outerHTML);
+						finalElement[0].style.left = $scope.objectDetails[i].posX;
+						finalElement[0].style.top = $scope.objectDetails[i].posY;
+						$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+						break;
+					case 'textBox':
+						//Generate the Final HTML
+						var finalElement = angular.element(finalElement[0].outerHTML);
+						finalElement[0].style.left = $scope.objectDetails[i].posX;
+						finalElement[0].style.top = $scope.objectDetails[i].posY;
+						$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+						break;
+					case 'image':
+						//Generate the Final HTML
+						var finalElement = angular.element(finalElement[0].outerHTML);
+						finalElement[0].style.left = $scope.objectDetails[i].posX;
+						finalElement[0].style.top = $scope.objectDetails[i].posY;
+						$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+						break;
+					case 'listBox':
+						//Generate the Final HTML
+						var finalElement = angular.element(finalElement[0].outerHTML);
+						finalElement[0].style.left = $scope.objectDetails[i].posX;
+						finalElement[0].style.top = $scope.objectDetails[i].posY;
+						$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+						break;
+					case 'svg-square':
+						//Generate the Final HTML
+						var finalElement = angular.element(finalElement[0].outerHTML);
+						finalElement[0].style.left = $scope.objectDetails[i].posX;
+						finalElement[0].style.top = $scope.objectDetails[i].posY;
+						$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+						break;
+					case 'svg-circle':
+						//Generate the Final HTML
+						var finalElement = angular.element(finalElement[0].outerHTML);
+						finalElement[0].style.left = $scope.objectDetails[i].posX;
+						finalElement[0].style.top = $scope.objectDetails[i].posY;
+						$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+						break;
+					case 'svg-path':
+						//Generate the Final HTML
+						var finalElement = angular.element(finalElement[0].outerHTML);
+						finalElement[0].style.left = $scope.objectDetails[i].posX;
+						finalElement[0].style.top = $scope.objectDetails[i].posY;
+						$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+						break;
+					case 'bar-chart':
+						break;
+					case 'line-chart':
+						break;
+					case 'candle-chart':
+						break;
+					case 'gauge-1':
+						break;
+					case 'gauge-2':
+						break;
+					case 'gauge-3':
+						//Generate the Final HTML
+						var finalElement = angular.element(finalElement[0].outerHTML);
+						finalElement[0].style.left = $scope.objectDetails[i].posX;
+						finalElement[0].style.top = $scope.objectDetails[i].posY;
+						$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+						break;
+				}
 			}
 		}
+	});
+
+	socket.on('creation_Success', function (data) {
+		 $window.open('http://localhost:8080/' + $scope.data.pageId);
 	});
 
 	//------------------------------------------------------------------
@@ -996,7 +1186,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 	//Function that changes the backgroud image depending on the user configurations
 	$scope.setBackground = function () {
 		$scope.imagepath = $scope.newimagepath;
-    };
+	};
 
 	//-----------------------------Bottom Property Panel Functions-------------------
 
@@ -1067,6 +1257,60 @@ app.controller('MyController', function ($scope, socket, $window) {
 								}
 							}
 							break;
+						case 'gauge-1':
+							var dataPointArray = [];
+							dataPointArray = Object.keys($scope.allDP[i].data);
+							for (j = 0; lenJ = dataPointArray.length, lenJ > j; j++) {
+								if (($scope.allDP[i].data[dataPointArray[j]] === 'double') || ($scope.allDP[i].data[dataPointArray[j]] === 'integer')) {
+									$scope.bottomPropPanel.dpList.push(dataPointArray[j]);
+								}
+							}
+							break;
+						case 'gauge-2':
+							var dataPointArray = [];
+							dataPointArray = Object.keys($scope.allDP[i].data);
+							for (j = 0; lenJ = dataPointArray.length, lenJ > j; j++) {
+								if (($scope.allDP[i].data[dataPointArray[j]] === 'double') || ($scope.allDP[i].data[dataPointArray[j]] === 'integer')) {
+									$scope.bottomPropPanel.dpList.push(dataPointArray[j]);
+								}
+							}
+							break;
+						case 'gauge-3':
+							var dataPointArray = [];
+							dataPointArray = Object.keys($scope.allDP[i].data);
+							for (j = 0; lenJ = dataPointArray.length, lenJ > j; j++) {
+								if (($scope.allDP[i].data[dataPointArray[j]] === 'double') || ($scope.allDP[i].data[dataPointArray[j]] === 'integer')) {
+									$scope.bottomPropPanel.dpList.push(dataPointArray[j]);
+								}
+							}
+							break;
+						case 'bar-chart':
+							var dataPointArray = [];
+							dataPointArray = Object.keys($scope.allDP[i].data);
+							for (j = 0; lenJ = dataPointArray.length, lenJ > j; j++) {
+								if (($scope.allDP[i].data[dataPointArray[j]] === 'map(string,object)')) {
+									$scope.bottomPropPanel.dpList.push(dataPointArray[j]);
+								}
+							}
+							break;
+						case 'line-chart':
+							var dataPointArray = [];
+							dataPointArray = Object.keys($scope.allDP[i].data);
+							for (j = 0; lenJ = dataPointArray.length, lenJ > j; j++) {
+								if (($scope.allDP[i].data[dataPointArray[j]] === 'map(string,object)')) {
+									$scope.bottomPropPanel.dpList.push(dataPointArray[j]);
+								}
+							}
+							break;
+						case 'candle-chart':
+							var dataPointArray = [];
+							dataPointArray = Object.keys($scope.allDP[i].data);
+							for (j = 0; lenJ = dataPointArray.length, lenJ > j; j++) {
+								if (($scope.allDP[i].data[dataPointArray[j]] === 'map(string,object)')) {
+									$scope.bottomPropPanel.dpList.push(dataPointArray[j]);
+								}
+							}
+							break;
 						default:
 							$scope.bottomPropPanel.dpList = Object.keys($scope.allDP[i].data);
 							break;
@@ -1103,6 +1347,13 @@ app.controller('MyController', function ($scope, socket, $window) {
 							htmlElement[0].style.fontFamily = $scope.bottomPropPanel.fontSelect;
 							htmlElement[0].style.color = $scope.bottomPropPanel.colorSelect;
 							htmlElement[0].style.fontSize = $scope.bottomPropPanel.fontSize + "px";
+							htmlElement[0].style.backgroundColor = $scope.bottomPropPanel.backColorSelect;
+							//Generate the Final HTML
+							var finalElement = angular.element(htmlElement[0].outerHTML);
+							finalElement[0].style.left = $scope.objectDetails[i].posX;
+							finalElement[0].style.top = $scope.objectDetails[i].posY;
+							finalElement[0].style.position = 'relative';
+							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
 							break;
 						case 'textBox':
 							$scope.objectDetails[i].font = $scope.bottomPropPanel.fontSelect;
@@ -1124,16 +1375,54 @@ app.controller('MyController', function ($scope, socket, $window) {
 								$scope.objectDetails[i].minPercent = $scope.bottomPropPanel.minPercent;
 								$scope.objectDetails[i].nomColor = $scope.bottomPropPanel.nomColorSelect;
 							}
+							//Generate the Final HTML
+							var finalElement = angular.element(htmlElement[0].outerHTML);
+							//Assign position
+							finalElement[0].style.left = $scope.objectDetails[i].posX;
+							finalElement[0].style.top = $scope.objectDetails[i].posY;
+							finalElement[0].style.position = 'relative';
+							//if it has a data point assign it to the child element else leave it
+							if ($scope.bottomPropPanel.minMaxShow) {
+								finalElement[0].setAttribute("fv-label", "");
+								finalElement[0].setAttribute("fv-label-nom-color", $scope.objectDetails[i].nomColor);
+								finalElement[0].setAttribute("fv-label-max-color", $scope.objectDetails[i].maxColor);
+								finalElement[0].setAttribute("fv-label-min-color", $scope.objectDetails[i].minColor);
+								finalElement[0].setAttribute("fv-label-range-low", parseInt(($scope.objectDetails[i].minPercent / 100) * $scope.bottomPropPanel.value));
+								finalElement[0].setAttribute("fv-label-range-high", parseInt(($scope.objectDetails[i].maxPercent / 100) * $scope.bottomPropPanel.value));
+								finalElement[0].setAttribute("fv-label-value", "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
+								finalElement[0].textContent = "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}";
+							}
+							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
 							break;
 						case 'image':
+							var parentElement = angular.element(document.getElementById($scope.currentObject));
+							//get the current width and height after resizing and store it to the object details
+							var currHeight = parentElement[0].style.height;
+							var currWidth = parentElement[0].style.width;
+							if (currWidth != '') {
+								$scope.objectDetails[i].width = currWidth;
+							}
+							if (currHeight != '') {
+								$scope.objectDetails[i].height = currHeight;
+							}
 							$scope.objectDetails[i].url = $scope.bottomPropPanel.url;
-							$scope.objectDetails[i].width = $scope.bottomPropPanel.width;
-							$scope.objectDetails[i].height = $scope.bottomPropPanel.height;
 							$scope.objectDetails[i].degree = $scope.bottomPropPanel.degree;
 							//Assign image properties to DOM 
 							htmlElement[0].src = $scope.bottomPropPanel.url;
-							htmlElement[0].width = $scope.bottomPropPanel.width;
-							htmlElement[0].height = $scope.bottomPropPanel.height;
+							//Generate the Final HTML
+							var finalElement = angular.element(htmlElement[0].outerHTML);
+							finalElement[0].style.left = $scope.objectDetails[i].posX;
+							finalElement[0].style.top = $scope.objectDetails[i].posY;
+							finalElement[0].style.position = 'relative';
+							finalElement[0].setAttribute("height", $scope.objectDetails[i].height);
+							finalElement[0].setAttribute("width", $scope.objectDetails[i].width);
+							if ($scope.bottomPropPanel.degree > 0) {
+								finalElement[0].style.mozTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+								finalElement[0].style.webkitTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+								finalElement[0].style.msTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+								finalElement[0].style.OTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+							}
+							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
 							break;
 						case 'listBox':
 							$scope.clean(htmlElement[0]);
@@ -1163,13 +1452,6 @@ app.controller('MyController', function ($scope, socket, $window) {
 										htmlElement[0].removeChild(node);
 									}
 								} else if ($scope.bottomPropPanel.unfixRowNos) {
-									//Assign the selected configuration values to the object details
-									$scope.objectDetails[i].parent = '';
-									$scope.objectDetails[i].dataPoint = '';
-									$scope.objectDetails[i].font = 'Verdana';
-									$scope.objectDetails[i].color = 'black';
-									$scope.objectDetails[i].backColor = 'white';
-									$scope.objectDetails[i].fontSize = '14px';
 									htmlElement = angular.element($scope.objectDetails[i].originalHtml);
 								}
 							} else if ($scope.bottomPropPanel.minMaxValue === 'Array') {
@@ -1187,6 +1469,40 @@ app.controller('MyController', function ($scope, socket, $window) {
 							htmlElement[0].style.fontFamily = $scope.bottomPropPanel.fontSelect;
 							htmlElement[0].style.color = $scope.bottomPropPanel.colorSelect;
 							htmlElement[0].style.fontSize = $scope.bottomPropPanel.fontSize + "px";
+							//Generate the Final HTML
+							var finalElement = angular.element(htmlElement[0].outerHTML);
+							//Assign position
+							finalElement[0].style.left = $scope.objectDetails[i].posX;
+							finalElement[0].style.top = $scope.objectDetails[i].posY;
+							finalElement[0].style.position = 'relative';
+							//Create a new child element
+							var liElement = document.createElement("li");
+							if ($scope.bottomPropPanel.minMaxValue === 'Map') {
+								//Assign the angular Data Points 
+								if ($scope.bottomPropPanel.unfixRowNos) {
+									liElement.setAttribute("ng-repeat", "i in " + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint);
+								} else {
+									liElement.setAttribute("ng-repeat", "i in " + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + " | limitTo:" + $scope.objectDetails[i].rows);
+								}
+								liElement.textContent = "{{i}}";
+							} else if ($scope.bottomPropPanel.minMaxValue === 'Array') {
+								finalElement[0].style.width = "100px";
+								//Set ng-repeat as for the number of data in the data point 
+								liElement.setAttribute("ng-repeat", "i in " + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint);
+								//Assign all the values.
+								liElement.setAttribute("fv-map", "");
+								liElement.setAttribute("fv-map-nom-color", $scope.objectDetails[i].nomColor);
+								liElement.setAttribute("fv-map-suc-color", $scope.objectDetails[i].maxColor);
+								liElement.setAttribute("fv-map-dangr-color", $scope.objectDetails[i].minColor);
+								liElement.setAttribute("fv-map-nom-value", $scope.objectDetails[i].nomColorValue);
+								liElement.setAttribute("fv-map-suc-value", $scope.objectDetails[i].maxColorValue);
+								liElement.setAttribute("fv-map-dangr-value", $scope.objectDetails[i].minColorValue);
+								liElement.setAttribute("fv-map-dangr-status", "{{i.status}}");
+								liElement.textContent = "{{i.id}}";
+								liElement.style.display = "inLine";
+							}
+							finalElement[0].innerHTML = liElement.outerHTML;
+							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
 							break;
 						case 'svg-square':
 							$scope.objectDetails[i].justPanel = $scope.bottomPropPanel.justPanel;
@@ -1196,12 +1512,35 @@ app.controller('MyController', function ($scope, socket, $window) {
 							$scope.objectDetails[i].nomColorSelect = $scope.bottomPropPanel.nomColorSelect;
 							$scope.objectDetails[i].dangrColorSelect = $scope.bottomPropPanel.dangrColorSelect;
 							$scope.objectDetails[i].degree = $scope.bottomPropPanel.degree;
+							// Incase of the SVG element , the transform has to be added to the SVG box inorder to make them rotatable
+							if ($scope.bottomPropPanel.degree > 0) {
+								htmlElement[0].style.mozTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+								htmlElement[0].style.webkitTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+								htmlElement[0].style.msTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+								htmlElement[0].style.OTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+							}
 							//Initially set the values of the SVG Box
 							htmlElement[0].width.baseVal.value = $scope.bottomPropPanel.width + 1;
 							htmlElement[0].height.baseVal.value = $scope.bottomPropPanel.height + 1;
 							//Then set the values of svg element
 							var innerElement = "<rect width=" + $scope.bottomPropPanel.width + " height=" + $scope.bottomPropPanel.height + " fill=" + $scope.bottomPropPanel.colorSelect + " />";
 							htmlElement[0].innerHTML = innerElement;
+							//Generate the Final HTML
+							var finalElement = angular.element(htmlElement[0].outerHTML);
+							//Assign position
+							finalElement[0].style.left = $scope.objectDetails[i].posX;
+							finalElement[0].style.top = $scope.objectDetails[i].posY;
+							finalElement[0].style.position = 'relative';
+							//if it has a data point assign it to the child element else leave it
+							if (!$scope.objectDetails[i].justPanel) {
+								var childElement = angular.element(finalElement[0].innerHTML);
+								childElement[0].setAttribute("fv-svg", "");
+								childElement[0].setAttribute("fv-svg-nom-color", $scope.bottomPropPanel.nomColorSelect);
+								childElement[0].setAttribute("fv-svg-danger-color", $scope.bottomPropPanel.dangrColorSelect);
+								childElement[0].setAttribute("fv-svg-status", "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
+								finalElement[0].innerHTML = childElement[0].outerHTML;
+							}
+							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
 							break;
 						case 'svg-circle':
 							$scope.objectDetails[i].justPanel = $scope.bottomPropPanel.justPanel;
@@ -1210,12 +1549,35 @@ app.controller('MyController', function ($scope, socket, $window) {
 							$scope.objectDetails[i].nomColorSelect = $scope.bottomPropPanel.nomColorSelect;
 							$scope.objectDetails[i].dangrColorSelect = $scope.bottomPropPanel.dangrColorSelect;
 							$scope.objectDetails[i].degree = $scope.bottomPropPanel.degree;
+							// Incase of the SVG element , the transform has to be added to the SVG box inorder to make them rotatable
+							if ($scope.bottomPropPanel.degree > 0) {
+								htmlElement[0].style.mozTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+								htmlElement[0].style.webkitTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+								htmlElement[0].style.msTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+								htmlElement[0].style.OTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+							}
 							//Initially set the values of the SVG Box
 							htmlElement[0].width.baseVal.value = $scope.bottomPropPanel.radius * 2;
 							htmlElement[0].height.baseVal.value = $scope.bottomPropPanel.radius * 2;
 							//Then set the values of svg element
 							var innerElement = "<circle cx=" + $scope.bottomPropPanel.radius + " cy=" + $scope.bottomPropPanel.radius + " r=" + $scope.bottomPropPanel.radius + " fill=" + $scope.bottomPropPanel.colorSelect + " />";
 							htmlElement[0].innerHTML = innerElement;
+							//Generate the Final HTML
+							var finalElement = angular.element(htmlElement[0].outerHTML);
+							//Assign position
+							finalElement[0].style.left = $scope.objectDetails[i].posX;
+							finalElement[0].style.top = $scope.objectDetails[i].posY;
+							finalElement[0].style.position = 'relative';
+							//if it has a data point assign it to the child element else leave it
+							if (!$scope.objectDetails[i].justPanel) {
+								var childElement = angular.element(finalElement[0].innerHTML);
+								childElement[0].setAttribute("fv-svg", "");
+								childElement[0].setAttribute("fv-svg-nom-color", $scope.bottomPropPanel.nomColorSelect);
+								childElement[0].setAttribute("fv-svg-danger-color", $scope.bottomPropPanel.dangrColorSelect);
+								childElement[0].setAttribute("fv-svg-status", "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
+								finalElement[0].innerHTML = childElement[0].outerHTML;
+							}
+							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
 							break;
 						case 'svg-path':
 							$scope.objectDetails[i].justPanel = $scope.bottomPropPanel.justPanel;
@@ -1224,6 +1586,13 @@ app.controller('MyController', function ($scope, socket, $window) {
 							$scope.objectDetails[i].nomColorSelect = $scope.bottomPropPanel.nomColorSelect;
 							$scope.objectDetails[i].dangrColorSelect = $scope.bottomPropPanel.dangrColorSelect;
 							$scope.objectDetails[i].degree = $scope.bottomPropPanel.degree;
+							// Incase of the SVG element , the transform has to be added to the SVG box inorder to make them rotatable
+							if ($scope.bottomPropPanel.degree > 0) {
+								htmlElement[0].style.mozTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+								htmlElement[0].style.webkitTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+								htmlElement[0].style.msTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+								htmlElement[0].style.OTransform = 'rotate(' + $scope.bottomPropPanel.degree + 'deg)';
+							}
 							//Initially set the values of the SVG Box
 							//In here particularly it is got from the zoom % and then assigned
 							var calcPixWidth = Math.round(htmlElement[0].width.baseVal.value * ($scope.bottomPropPanel.zoom / 100));
@@ -1235,12 +1604,139 @@ app.controller('MyController', function ($scope, socket, $window) {
 							var innerElement = angular.element(htmlElement[0].innerHTML);
 							innerElement[0].style.fill = $scope.bottomPropPanel.colorSelect;
 							htmlElement[0].innerHTML = innerElement[0].outerHTML;
+							//Generate the Final HTML
+							var finalElement = angular.element(htmlElement[0].outerHTML);
+							//Assign position
+							finalElement[0].style.left = $scope.objectDetails[i].posX;
+							finalElement[0].style.top = $scope.objectDetails[i].posY;
+							finalElement[0].style.position = 'relative';
+							//if it has a data point assign it to the child element else leave it
+							if (!$scope.objectDetails[i].justPanel) {
+								var childElement = angular.element(finalElement[0].innerHTML);
+								childElement[0].setAttribute("fv-svg", "");
+								childElement[0].setAttribute("fv-svg-nom-color", $scope.bottomPropPanel.nomColorSelect);
+								childElement[0].setAttribute("fv-svg-danger-color", $scope.bottomPropPanel.dangrColorSelect);
+								childElement[0].setAttribute("fv-svg-status", "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
+								finalElement[0].innerHTML = childElement[0].outerHTML;
+							}
+							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
 							break;
 						case 'bar-chart':
+							var parentElement = angular.element(document.getElementById($scope.currentObject));
+							//get the current width and height after resizing and store it to the object details
+							var currHeight = parentElement[0].style.height;
+							var currWidth = parentElement[0].style.width;
+							if (currWidth != '') {
+								$scope.objectDetails[i].width = currWidth;
+							}
+							if (currHeight != '') {
+								$scope.objectDetails[i].height = currHeight;
+							}
 							break;
 						case 'line-chart':
+							var parentElement = angular.element(document.getElementById($scope.currentObject));
+							//get the current width and height after resizing and store it to the object details
+							var currHeight = parentElement[0].style.height;
+							var currWidth = parentElement[0].style.width;
+							if (currWidth != '') {
+								$scope.objectDetails[i].width = currWidth;
+							}
+							if (currHeight != '') {
+								$scope.objectDetails[i].height = currHeight;
+							}
 							break;
 						case 'candle-chart':
+							var parentElement = angular.element(document.getElementById($scope.currentObject));
+							//get the current width and height after resizing and store it to the object details
+							var currHeight = parentElement[0].style.height;
+							var currWidth = parentElement[0].style.width;
+							if (currWidth != '') {
+								$scope.objectDetails[i].width = currWidth;
+							}
+							if (currHeight != '') {
+								$scope.objectDetails[i].height = currHeight;
+							}
+							break;
+						case 'gauge-1':
+							var parentElement = angular.element(document.getElementById($scope.currentObject));
+							//get the current width and height after resizing and store it to the object details
+							var currHeight = parentElement[0].style.height;
+							var currWidth = parentElement[0].style.width;
+							if (currWidth != '') {
+								$scope.objectDetails[i].width = currWidth;
+							}
+							if (currHeight != '') {
+								$scope.objectDetails[i].height = currHeight;
+							}
+							$scope.objectDetails[i].colorSelect = $scope.bottomPropPanel.fontColor;
+							$scope.objectDetails[i].fontSelect = $scope.bottomPropPanel.font;
+							$scope.objectDetails[i].fontSize = $scope.bottomPropPanel.fontSize + "px";
+							$scope.objectDetails[i].unit = $scope.bottomPropPanel.unit;
+							$scope.objectDetails[i].value = $scope.bottomPropPanel.maxValue;
+							$scope.objectDetails[i].maxColorSelect = $scope.bottomPropPanel.maxColor;
+							$scope.objectDetails[i].maxPercent = $scope.bottomPropPanel.minValue;
+							$scope.objectDetails[i].minColorSelect = $scope.bottomPropPanel.minColor;
+							$scope.objectDetails[i].nomColorSelect = $scope.bottomPropPanel.nomColor;
+							break;
+						case 'gauge-2':
+							var parentElement = angular.element(document.getElementById($scope.currentObject));
+							//get the current width and height after resizing and store it to the object details
+							var currHeight = parentElement[0].style.height;
+							var currWidth = parentElement[0].style.width;
+							if (currWidth != '') {
+								$scope.objectDetails[i].width = currWidth;
+							}
+							if (currHeight != '') {
+								$scope.objectDetails[i].height = currHeight;
+							}
+							$scope.objectDetails[i].colorSelect = $scope.bottomPropPanel.fontColor;
+							$scope.objectDetails[i].fontSelect = $scope.bottomPropPanel.font;
+							$scope.objectDetails[i].fontSize = $scope.bottomPropPanel.fontSize + "px";
+							$scope.objectDetails[i].unit = $scope.bottomPropPanel.unit;
+							$scope.objectDetails[i].value = $scope.bottomPropPanel.maxValue;
+							$scope.objectDetails[i].maxColorSelect = $scope.bottomPropPanel.maxColor;
+							$scope.objectDetails[i].maxPercent = $scope.bottomPropPanel.minValue;
+							$scope.objectDetails[i].minColorSelect = $scope.bottomPropPanel.minColor;
+							$scope.objectDetails[i].nomColorSelect = $scope.bottomPropPanel.nomColor;
+							break;
+						case 'gauge-3':
+							var parentElement = angular.element(document.getElementById($scope.currentObject));
+							//get the current width and height after resizing and store it to the object details
+							var currHeight = parentElement[0].style.height;
+							var currWidth = parentElement[0].style.width;
+							if (currWidth != '') {
+								$scope.objectDetails[i].width = currWidth;
+							}
+							if (currHeight != '') {
+								$scope.objectDetails[i].height = currHeight;
+							}
+							$scope.objectDetails[i].colorSelect = $scope.bottomPropPanel.fontColor;
+							$scope.objectDetails[i].fontSelect = $scope.bottomPropPanel.font;
+							$scope.objectDetails[i].fontSize = $scope.bottomPropPanel.fontSize + "px";
+							$scope.objectDetails[i].unit = $scope.bottomPropPanel.unit;
+							$scope.objectDetails[i].maxValue = $scope.bottomPropPanel.value;
+							$scope.objectDetails[i].maxColor = $scope.bottomPropPanel.maxColorSelect;
+							$scope.objectDetails[i].minValue = $scope.bottomPropPanel.maxPercent;
+							$scope.objectDetails[i].minColor = $scope.bottomPropPanel.minColorSelect;
+							$scope.objectDetails[i].nomColor = $scope.bottomPropPanel.nomColorSelect;
+							var gaugeElement = document.createElement("canvas");
+							gaugeElement.setAttribute("canvas-gauge", "");
+							gaugeElement.setAttribute("id", $scope.currentObject);
+							gaugeElement.setAttribute("width", parseInt($scope.objectDetails[i].width.replace("px", "")));
+							gaugeElement.setAttribute("height", parseInt($scope.objectDetails[i].height.replace("px", "")));
+							gaugeElement.setAttribute("data-title", $scope.objectDetails[i].name);
+							//TODO: Hardcoded for the time being later get it from the properties
+							gaugeElement.setAttribute("data-min-value", 0);
+							gaugeElement.setAttribute("data-max-value", 100);
+							gaugeElement.setAttribute("data-title", $scope.objectDetails[i].name);
+							gaugeElement.setAttribute("data-units", $scope.objectDetails[i].unit);
+							gaugeElement.style.position = 'relative';
+							gaugeElement.setAttribute("data-major-ticks", "0 10 20 30 40 50 60 70 80 90 100");
+							gaugeElement.setAttribute("data-highlights", "0 " + $scope.objectDetails[i].minValue + " " + $scope.objectDetails[i].minColor + ", " + $scope.objectDetails[i].minValue + " " + $scope.objectDetails[i].maxValue + " " + $scope.objectDetails[i].nomColor + ", " + $scope.objectDetails[i].maxValue + " 100 " + $scope.objectDetails[i].maxColor);
+							gaugeElement.setAttribute("data-value", "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
+							gaugeElement.style.left = $scope.objectDetails[i].posX;
+							gaugeElement.style.top = $scope.objectDetails[i].posY;
+							$scope.objectDetails[i].finalHtml = gaugeElement.outerHTML;
 							break;
 					}
 					//convert HTML DOM Element to String and assign it to 'ObjectHTML'
@@ -1248,6 +1744,7 @@ app.controller('MyController', function ($scope, socket, $window) {
 					//Emit the event to Server indicating that the properties has changed
 					socket.emit('propChanged', $scope.objectDetails[i]);
 				}
+				console.log($scope.objectDetails);
 			}
 		}
 	};
@@ -1278,6 +1775,16 @@ app.controller('MyController', function ($scope, socket, $window) {
 				$scope.clean(child);
 			}
 		}
+	}
+
+	//create the Monitoring screen 
+	$scope.createScreen = function () {
+		var dataObj = {
+			'name': $scope.screenName,
+			'objects': $scope.objectDetails,
+			'backGroundUrl': $scope.imagepath
+		}
+		socket.emit('createScreen', dataObj);
 	}
 
 });

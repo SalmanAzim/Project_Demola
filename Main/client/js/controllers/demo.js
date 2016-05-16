@@ -91,7 +91,7 @@ window.onload = function () {
 		cln.removeAttribute("draggable");
 		cln.style.top = (ess.clientY - 60) + "px";
 		cln.style.left = (ess.clientX - 140) + "px";
-		
+
 		//Functionality specifically for image type of element 
 		switch (cln.getAttribute("data-objectid")) {
 			case "image":
@@ -144,6 +144,9 @@ window.onload = function () {
 			});
 			if ($(elementDragged).attr("data-type") == "scalable") {
 				$(cln).resizable({});
+				
+				$(cln).css('width', "100px");
+				$(cln).css('height', "100px");
 			}
 			cln_test.css({
 				position: 'absolute',
@@ -207,6 +210,14 @@ window.onload = function () {
 $(document).ready(function () {
 
 	// jQuery methods go here...
+	
+	$('#CreateBut').click(function() {
+      $( "#CreatePop" ).show();
+    });
+	
+	$('#formClose').click(function() {
+      $( "#CreatePop" ).hide();
+    });
 
 	$("#LeftPanAdjustButton").click(function () {
 		socket.emit("panelVisibilityOnClick", {});

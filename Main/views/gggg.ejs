@@ -1,0 +1,25 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <title>Monitoring Screen</title>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="js/controllers/angular.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="js/library/fv-Label.js"></script>
+    <script type="text/javascript" src="js/library/fv-map.js"></script>
+    <script type="text/javascript" src="js/library/fv-svg.js"></script>
+    <script type="text/javascript" src="js/library/gauge.min.js"></script>
+    <script type="text/javascript" src="js/library/angular-canvas-gauge.min.js"></script>
+    <script type="text/javascript" src="js/monitor/angularCodes.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!--link rel="stylesheet" type="text/css" href="css/monitor/main.css"-->
+
+</head>
+
+<body id="my_body" ng-app="myApp" ng-controller="MyController" style="background: url(../images/background-image3.jpg) no-repeat fixed center; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; background-size: cover;">
+    
+
+
+<script class="jsdom" src="http://code.jquery.com/jquery.js"></script><svg width="90" height="150" style="margin: 0px 1em 1em 0px; fill: rgba(0, 0, 0, 0.701961); transform: rotate(45deg); zoom: 150%; left: 499px; top: 253px; position: relative;"><path d="m0,30 h15 v30 h30 V30 h15 L30,0" style="fill: black;" fv-svg="" fv-svg-nom-color="green" fv-svg-danger-color="red" fv-svg-status="{{phase1.status}}"></path></svg><label for="textBox" style="font-family: Impact; color: black; position: relative; display: inline-block; border: 1px solid rgb(0, 0, 0); border-radius: 3px; font-size: 20px; left: 965px; top: 121px; background-color: white;" fv-label="" fv-label-nom-color="green" fv-label-max-color="red" fv-label-min-color="orange" fv-label-range-low="35" fv-label-range-high="75" fv-label-value="{{phase1.completionPercent}}">{{phase1.completionPercent}}</label></body></html>
