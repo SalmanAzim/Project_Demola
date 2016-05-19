@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Salmiakki Oy</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/angular-circular-navigation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css" />
+    <link rel="stylesheet" href="css/ag-grid.css">
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+
+<body ng-app="myApp" ng-controller="myController">
+    <div class="row">
+        <div class="container-fluid head">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6">
+                <Header class="header mt-top-15 mt-left-25">
+                    Salmiakki Oy
+                </Header>
+            </div>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="container-fluid cust-body">
+            <div>
+                <circular options="options"></circular>
+            </div>
+        </div>
+        <div class="row mt-all-15">
+            <div ng-show="screens.manager">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <div class="row row mt-top-15 mt-right-10">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="pn white-panel">
+                                <div class="row mt-top-15">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                        <span class="fnt-20 fnt-Bold fnt-Trebuchet"> Phase Production Details </span>
+                                    </div>
+                                </div>
+                                <div class="row mt-all-10">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <nvd3 options="barOptions" data="barData"></nvd3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-all-15">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="pn white-panel">
+                                <div class="row mt-top-15">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                    </div>
+                                </div>
+                                <div class="row mt-top-15">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                        <span class="fnt-20 fnt-Bold fnt-Trebuchet"> Total Production Details </span>
+                                    </div>
+                                </div>
+                                <div class="row mt-top-15">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <nvd3 options="bulletOptions" data="bulletData"></nvd3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                    <div class="row mt-top-15 mt-right-10">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="pn white-panel">
+                                <div class="row mt-top-15">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div style="padding: 4px">
+                                            <div style="float: right;">
+                                                <input type="text" ng-model="gridOptions.quickFilterText" placeholder="Type text to filter..." />
+                                            </div>
+                                            <div style="padding: 4px;">
+                                                <b>Employees Skills and Contact Details</b> ({{rowCount}})
+                                            </div>
+                                            <div style="clear: both;">
+                                            </div>
+                                            <div style="width: 100%; height: 700px;" ag-grid="gridOptions" class="ag-fresh ag-basic">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="screens.floor">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row mt-all-15">
+
+                    </div>
+                </div>
+            </div>
+            <div ng-show="screens.executive">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row mt-all-10">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="pn white-panel">
+                                <div class="row mt-top-15">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                    </div>
+                                </div>
+                                <div class="row mt-top-15">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                        <span class="fnt-20 fnt-Bold fnt-Trebuchet"> Production vs Demand </span>
+                                    </div>
+                                </div>
+                                <div class="row mt-top-15">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <nvd3 options="cumOptions" data="cumData"></nvd3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="pn white-panel">
+                                <div class="row mt-top-15">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                    </div>
+                                </div>
+                                <div class="row mt-top-15">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                        <span class="fnt-20 fnt-Bold fnt-Trebuchet"> Company Stock Values </span>
+                                    </div>
+                                </div>
+                                <div class="row mt-top-15">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <nvd3 options="candleOptions" data="candleData"></nvd3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="js/controllers/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-nvd3/1.0.5/angular-nvd3.min.js"></script>
+    <script src="js/controllers/angular-circular-navigation.js"></script>
+    <script src="js/controllers/ag-grid.min.js?ignore=notused20"></script>
+    <script src="js/controllers/angularCodes_pitch.js"></script>
+</body>
+
+</html>

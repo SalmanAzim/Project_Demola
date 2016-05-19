@@ -85,67 +85,97 @@ var dpParents = [];
 */
 function initialConfig() {
 
-	client.get("http://localhost:3080/mes/datapoints", function (data, response) {
+	//client.get("http://localhost:3080/mes/datapoints", function (data, response) {
 
-		// Variables ===================================================================
-		var booleanDataPoints = [];
-		var doubleDataPoints = [];
-		var integerDataPoints = [];
-		var stringDataPoints = [];
-		var longDataPoints = [];
+	// Variables ===================================================================
+	var booleanDataPoints = ['phase1_status', 'phase2_status'];
+	var doubleDataPoints = ['phase1_completionPercent', 'phase2_completionPercent'];
+	var integerDataPoints = ['phase1_productNos', 'phase2_productNos'];
+	var stringDataPoints = ['phase1_location', 'phase2_location'];
+	var longDataPoints = ['phase1_time', 'phase2_time'];
+	var arrayMapStatus = ['phase2_indProdStat'];
 
-		// Assign it directly for all data types
-		dataPoints = data;
+	// Assign it directly for all data types
+	dataPoints = [
+		{
+			data: {
+				productAndStatus: "array(HashMap<string,object>)",
+				completionPercent: "double",
+				location: "string",
+				time: "long",
+				productList: "array(string)",
+				status: "boolean",
+				productNos: "integer"
+			},
+			id: "phase1",
+			url: "http://localhost:3080/mes/datapoints?phase=1"
+		},
+		{
+			data: {
+				indProdStat: "hashmap(string, object)",
+				completionPercent: "double",
+				location: "string",
+				time: "long",
+				productList: "array(string)",
+				productNos: "integer"
+			},
+			id: "phase2",
+			url: "http://localhost:3080/mes/datapoints?phase=2"
+		}
+	];
 
-		//Going through each array of data
-		for (incDP = 0; lenDP = data.length, incDP < lenDP; incDP++) {
-			dpParents.push(data[incDP].id);
-			//Array for getting the keys under 'data' in JSON message
-			var mesData = [];
-			//Get the total number of data points present in a phase
-			mesData = Object.keys(data[incDP].data);
-			for (incDataKey = 0; lenDataKey = mesData.length, incDataKey < lenDataKey; incDataKey++) {
-				//Based upon the type of the data point assign it to the socket variables
-				switch (data[incDP].data[mesData[incDataKey]]) {
-					case 'boolean':
-						booleanDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
-						break;
-					case 'integer':
-						integerDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
-						break;
-					case 'string':
-						stringDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
-						break;
-					case 'double':
-						doubleDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
-						break;
-					case 'long':
-						longDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
-						break;
-					default:
-						console.log(data[incDP].id + '_' + mesData[incDataKey]);
-						break;
-				}
+	//Going through each array of data
+	/*for (incDP = 0; lenDP = data.length, incDP < lenDP; incDP++) {
+		dpParents.push(data[incDP].id);
+		//Array for getting the keys under 'data' in JSON message
+		var mesData = [];
+		//Get the total number of data points present in a phase
+		mesData = Object.keys(data[incDP].data);
+		for (incDataKey = 0; lenDataKey = mesData.length, incDataKey < lenDataKey; incDataKey++) {
+			//Based upon the type of the data point assign it to the socket variables
+			switch (data[incDP].data[mesData[incDataKey]]) {
+				case 'boolean':
+					booleanDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
+					break;
+				case 'integer':
+					integerDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
+					break;
+				case 'string':
+					stringDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
+					break;
+				case 'double':
+					doubleDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
+					break;
+				case 'long':
+					longDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
+					break;
+				case 'array(hashmap<string,object>)':
+					arrayMapStatus.push(data[incDP].id+ '_'+ mesData[incDataKey]);
+					break;
+				default:
+					console.log(data[incDP].id + '_' + mesData[incDataKey]);
+					break;
 			}
 		}
+	}*/
 
-		// Emit the type with data points to the Client (HTML)
-		io.sockets.emit('boolean_DataPoint', booleanDataPoints);
-		io.sockets.emit('integer_DataPoint', integerDataPoints);
-		io.sockets.emit('double_DataPoint', doubleDataPoints);
-		io.sockets.emit('long_DataPoint', longDataPoints);
-		io.sockets.emit('string_DataPoint', stringDataPoints);
-		io.sockets.emit('all_DataPoint', dataPoints);
+	// Emit the type with data points to the Client (HTML)
+	io.sockets.emit('boolean_DataPoint', booleanDataPoints);
+	io.sockets.emit('integer_DataPoint', integerDataPoints);
+	io.sockets.emit('double_DataPoint', doubleDataPoints);
+	io.sockets.emit('long_DataPoint', longDataPoints);
+	io.sockets.emit('string_DataPoint', stringDataPoints);
+	io.sockets.emit('all_DataPoint', dataPoints);
 
-		//call the function to register for all the events
-		eventRegister();
-	});
+	//call the function to register for all the events
+	//eventRegister();
+	//});
 }
 
 //Calling the function to get the data point and associate them
 initialConfig();
 
-function eventRegister() {
+/*function eventRegister() {
 	//Register to all the events from the server
 	for (incDP = 0; lenDP = dataPoints.length, incDP < lenDP; incDP++) {
 		var args = {
@@ -156,7 +186,7 @@ function eventRegister() {
 		client.post(dataPoints[incDP].url, args, function (data, response) {
 		});
 	}
-}
+}*/
 
 
 app.post('/:parent/notifs', function (req, res) {

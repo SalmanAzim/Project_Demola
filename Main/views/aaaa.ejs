@@ -29,14 +29,18 @@
 	<script src="js/controllers/CollapsibleLists.js"></script>
 	<script src="js/controllers/bootstrap.min.js"></script>
 	<script src="js/controllers/btn-loader-directive-min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+	<script src="js/controllers/angular-circular-navigation.js"></script>
 	<script src="js/controllers/angularCodes.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
 	<script type="text/javascript" src="js/controllers/multidraggable.js"></script>
 
 
 	<link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/angular-circular-navigation.css">
+	<link rel="stylesheet" type="text/css" href="css/custom.css">
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css">
 
@@ -218,12 +222,12 @@
 				<uib-accordion close-others="true">
 					<div class="dropdown">
 						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
-                            Elements
+                            panels
 							<span class="caret"></span>
 						</button>
 						<div class="dropdown-menu ">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-								<li data-objectid="panElement" data-type="scalable" class="drag-elements-li" draggable="true">Pan Element</li>
+								<li data-objectid="panElement" data-type="scalable" class="drag-elements-li" draggable="true">Panel</li>
 							</ul>
 						</div>
 					</div>
@@ -275,6 +279,17 @@
 							</ul>
 						</div>
 					</div>
+					<div class="dropdown">
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
+                            Buttons & Menu
+							<span class="caret"></span>
+						</button>
+						<div class="dropdown-menu ">
+							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
+								<li data-objectid="MenuButton" data-type="unscalable" draggable="true"><div class="cn-button small"><i class="fa fa-desktop mt-top-15"></i></div></li>								
+							</ul>
+						</div>
+					</div>					
 				</uib-accordion>
 			</uib-tab>
 			<uib-tab index='1' select="tabAlert()">

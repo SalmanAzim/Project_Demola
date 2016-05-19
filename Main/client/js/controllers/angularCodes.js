@@ -58,6 +58,59 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 
 	$scope.gaugeValue = 50;
 
+	// Round menu button functions
+    $scope.buttonOptions = {
+        content: '',
+        isOpen: false,
+        toggleOnClick: true,
+        background: 'green',
+        color: 'white',
+        size: '',
+        button: {
+            content: '',
+            cssClass: 'fa fa-desktop',
+            background: '#FF6F6F',
+            color: 'white',
+            size: 'big',
+            fontsize: 'large'
+        },
+        items: [
+            {
+                id: '1',
+                cssClass: 'fa fa-industry',
+                background: '#2130FF',
+                isActive: true,
+                onclick: $scope.switchType
+            }, {
+                id: '2',
+                cssClass: 'fa fa-pie-chart',
+                background: '#2130FF',
+                onclick: $scope.switchType
+            }, {
+                id: '3',
+                cssClass: 'fa fa-money',
+                background: '#2130FF',
+                onclick: $scope.switchType
+            }, {
+                empty: true
+            }, {
+                empty: true
+            }, {
+                empty: true
+            }, {
+                empty: true
+            }, {
+                empty: true
+            }, {
+                empty: true
+            }, {
+                empty: true
+            }, {
+                empty: true
+            }
+        ]
+    };
+
 	$scope.data = [
 		{ y: "2006", a: 100, b: 90 },
 		{ y: "2007", a: 75, b: 65 },
@@ -1071,7 +1124,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 	});
 
 	socket.on('creation_Success', function (data) {
-		 $window.open('http://localhost:8080/' + $scope.data.pageId);
+		$window.open('http://localhost:8080/' + data.pageId);
 	});
 
 	//------------------------------------------------------------------
@@ -1224,7 +1277,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 									}
 								} else if ($scope.bottomPropPanel.minMaxShow) {
 									if (
-										$scope.allDP[i].data[dataPointArray[j]] === 'hashmap(string, boolean)') {
+										$scope.allDP[i].data[dataPointArray[j]] === 'array(hashmap<string, object>)') {
 										$scope.bottomPropPanel.dpList.push(dataPointArray[j]);
 									}
 								}
@@ -1475,6 +1528,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							finalElement[0].style.left = $scope.objectDetails[i].posX;
 							finalElement[0].style.top = $scope.objectDetails[i].posY;
 							finalElement[0].style.position = 'relative';
+							finalElement[0].style.width = "100px";
 							//Create a new child element
 							var liElement = document.createElement("li");
 							if ($scope.bottomPropPanel.minMaxValue === 'Map') {
@@ -1486,7 +1540,6 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 								}
 								liElement.textContent = "{{i}}";
 							} else if ($scope.bottomPropPanel.minMaxValue === 'Array') {
-								finalElement[0].style.width = "100px";
 								//Set ng-repeat as for the number of data in the data point 
 								liElement.setAttribute("ng-repeat", "i in " + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint);
 								//Assign all the values.

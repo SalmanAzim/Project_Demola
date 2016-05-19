@@ -18,8 +18,10 @@
 
 </head>
 
-<body id="my_body" ng-app="myApp" ng-controller="MyController" style="background: url(../images/background-image3.jpg) no-repeat fixed center; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; background-size: cover;">
+<body id="my_body" ng-app="myApp" ng-controller="MyController" style="background: url(../images/background-image3.jpg) fixed no-repeat; max-width: 100%;
+height: auto;
+width: auto">
     
 
 
-<script class="jsdom" src="http://code.jquery.com/jquery.js"></script><ul style="font-family: 'Times New Roman'; color: red; padding: 0px; list-style-type: none; border-style: inset; font-size: 20px; left: 602px; top: 156px; position: relative; background-color: rgb(255, 255, 255);"><li ng-repeat="i in phase1.productList">{{i}}</li></ul></body></html>
+<script class="jsdom" src="http://code.jquery.com/jquery.js"></script><ul style="font-family: Verdana; color: black; padding: 0px; list-style-type: none; border-style: inset; font-size: 14px; left: 30%; top: 20%; position: fixed; background-color: rgb(255, 255, 255); width:100px"><li ng-repeat="i in phase1.productList">{{i}}</li></ul></body></html>

@@ -94,6 +94,10 @@ window.onload = function () {
 
 		//Functionality specifically for image type of element 
 		switch (cln.getAttribute("data-objectid")) {
+			case 'panElement':
+				var panel = cln.childNodes[0];
+				panel.innerHTML = "";
+				break;
 			case "image":
 				//Change the picture and size of the image when the image object is dragged and dropped
 				var img = cln.childNodes[0];
