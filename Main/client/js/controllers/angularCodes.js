@@ -127,8 +127,8 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 		{ label: "Mail-Order Sales", value: 20 }
 	];
 
-    $scope.imagepath = '../images/background-image3.jpg';
-	$scope.newimagepath = '../images/background-image3.jpg';
+    $scope.imagepath = '../images/bg.png';
+	$scope.newimagepath = '../images/bg.png';
 
 	// Variables with respect to grid
 	$scope.gridDetails = {
@@ -382,6 +382,21 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 		width: 60,
 		height: 60
 	};
+	
+	//Chart property model
+	$scope.panelProperties = {
+		finalHtml: '',
+		id: '',
+		name: '',
+		objectId: '',
+		parent: '',
+		dataPoint: '',
+		posX: '',
+		posY: '',
+		html: '',
+		objectHtml: '',
+		color:'white'
+	};
 
 	//Initialization Functions===========================================
 
@@ -628,6 +643,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 	//All data point socket
 	socket.on('all_DataPoint', function (data) {
 		$scope.allDP = data;
+		console.log(allDP);
 	});
 
 	// Socket Function which makes the bottom property panel visible
@@ -1185,7 +1201,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							$scope.initializeObjectDisplay();
 							$scope.dpSelectPanel.arrayShow = true;
 							break;
-						case 'hashmap(string, integer)':
+						case 'hashmap(string, object)':
 							$scope.initializeObjectDisplay();
 							$scope.dpSelectPanel.mapShow = true;
 							break;

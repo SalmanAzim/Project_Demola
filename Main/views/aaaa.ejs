@@ -37,7 +37,7 @@
 
 
 	<link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="css/angular-circular-navigation.css">
 	<link rel="stylesheet" type="text/css" href="css/custom.css">
@@ -227,7 +227,7 @@
 						</button>
 						<div class="dropdown-menu ">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-								<li data-objectid="panElement" data-type="scalable" class="drag-elements-li" draggable="true">Panel</li>
+								<li data-objectid="panElement" data-type="scalable" class="drag-elements-li" draggable="true" sytle="background: #EEECEC;">Panel</li>
 							</ul>
 						</div>
 					</div>
@@ -241,11 +241,12 @@
 								<li data-objectid="label" data-type="unscalable" draggable="true"><label for='label' style=' font-family: Verdana; color: black; '> textLabel </label></li>
 								<li data-objectid="textBox" data-type="unscalable" draggable="true"><label for='textBox' style='font-family: Verdana; color: black; background-color: #FFFFFF; position:relative; display: inline-block;	border: 1px solid #000000; border-radius: 3px;'> SimpleTextBox</label></li>
 								<li data-objectid="listBox" data-type="unscalable" draggable="true">
-									<ul style='font-family: Verdana; color: black; background-color: #FFFFFF; padding: 0; list-style-type:none; border-style: inset;'>
+									<ul style='font-family: Verdana; color: black; background-color: #FFFFFF; list-style-type:none; border-style: inset; float: left; margin-left: 70px;'>
 										<li>Item0</li>
 										<li>Item1</li>
 									</ul>
 								</li>
+								<p></p>
 								<li data-objectid="image" data-type="scalable" draggable="true"><img src="../images/image.png" height="30px" width="40px"></li>
 							</ul>
 						</div>
@@ -270,12 +271,20 @@
 						</button>
 						<div class="dropdown-menu ">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-								<li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gauge1.png" height="100px" width="100px"></li>
-								<li data-objectid="gauge-2" data-type="scalable" draggable="true"><img src="../images/gauge2.png" height="100px" width="100px"></li>
-								<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gauge3.png" height="100px" width="100px"></li>
-								<li data-objectid="bar-chart" data-type="scalable" draggable="true"><img src="../images/barChart.png" height="100px" width="100px"></li>
-								<li data-objectid="line-chart" data-type="scalable" draggable="true"><img src="../images/candleChart.png" height="100px" width="120px"></li>
-								<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/lineChart.png" height="100px" width="120px"></li>
+								<li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gauge1.png" height="70px" width="70px" style="float:left;"></li>
+								<li data-objectid="gauge-2" data-type="scalable" draggable="true"><img src="../images/gauge2.png" height="70px" width="70px"></li>
+								&nbsp; &nbsp; &nbsp; &nbsp;
+								<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gauge3.png" height="70px" width="70px" style="float:left;"></li>
+								<li data-objectid="bar-chart" data-type="scalable" draggable="true"><img src="../images/barChart.png" height="70px" width="70px"></li>
+								&nbsp; &nbsp; &nbsp; &nbsp;
+								<li data-objectid="line-chart" data-type="scalable" draggable="true"><img src="../images/candleChart.png" height="70px" width="70px" style="float:left;"></li>
+								<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/lineChart.png" height="70px" width="70px"></li>
+								&nbsp; &nbsp; &nbsp; &nbsp;
+								<li data-objectid="waterTank1" data-type="scalable" draggable="true"><img src="../images/waterTank1.png" height="70px" width="70px" style="float:left;"></li>
+								<li data-objectid="ledOutput" data-type="scalable" draggable="true"><img src="../images/ledOutput.png" height="70px" width="70px"></li>
+								&nbsp; &nbsp; &nbsp; &nbsp;
+								<li data-objectid="waterTank2" data-type="scalable" draggable="true"><img src="../images/waterTank2.png" height="70px" width="70px" style="float:left;"></li>
+								<li data-objectid="dsBarChart" data-type="scalable" draggable="true"><img src="../images/dsBarChart.png" height="70px" width="70px"></li>
 							</ul>
 						</div>
 					</div>
@@ -286,10 +295,12 @@
 						</button>
 						<div class="dropdown-menu ">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-								<li data-objectid="MenuButton" data-type="unscalable" draggable="true"><div class="cn-button small"><i class="fa fa-desktop mt-top-15"></i></div></li>								
+								<li data-objectid="MenuButton" data-type="unscalable" draggable="true">
+									<div class="cn-button small"><i class="fa fa-desktop mt-top-15"></i></div>
+								</li>
 							</ul>
 						</div>
-					</div>					
+					</div>
 				</uib-accordion>
 			</uib-tab>
 			<uib-tab index='1' select="tabAlert()">
@@ -323,7 +334,7 @@
 				<div style="background: #FFFFFF;border-style: inset;">
 					<ul id="drag-elements1" class="drag-elements">
 						<li data-objectid="textBox" data-type="unscalable" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.stringShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)|| (dpSelectPanel.booleanShow)"><label class='mock-text-box' for='textBox' style=' font-family: Verdana; color: black; '>SimpleTextBox</label></li>
-						<li data-objectid="listBox" data-type="unscalable" draggable="true" ng-show="(dpSelectPanel.arrayShow) || (dpSelectPanel.mapShow)">
+						<li data-objectid="listBox" data-type="unscalable" draggable="true" ng-show="(dpSelectPanel.arrayShow)">
 							<ul style='font-family: Verdana; color: black; background-color: #FFFFFF; list-style-type:none; border-style: inset;'>
 								<li>Item0</li>
 								<li>Item1</li>
@@ -335,16 +346,15 @@
 						<li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gauge1.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
 						<li data-objectid="gauge-2" data-type="scalable" draggable="true"><img src="../images/gauge2.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
 						<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gauge3.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
-						<li data-objectid="bar-chart" data-type="scalable" draggable="true"><img src="../images/barChart.png" height="100px" width="100px" ng-show="(dpSelectPanel.mapShow)"></li>
-						<li data-objectid="line-chart" data-type="scalable" draggable="true"><img src="../images/candleChart.png" height="100px" width="120px" ng-show="(dpSelectPanel.mapShow)"></li>
-						<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/lineChart.png" height="100px" width="120px" ng-show="(dpSelectPanel.mapShow)"></li>
+						<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/candleChart.png" height="100px" width="120px" ng-show="(dpSelectPanel.mapShow)"></li>
 					</ul>
 				</div>
 			</uib-tab>
 		</uib-tabset>
 
 		<hr />
-		<uib-tabset active="active" justified="true" id='LeftSettings'>
+		
+		<uib-tabset active="active" justified="true" id='LeftSettings' ng-show="settings">
 			<uib-tab index='0' heading="GRID">
 				<button type="button" class="TitleText" ng-model="gridDetails.hide" ng-click="showHideGrid()" uib-btn-checkbox>
 								{{gridDetails.value}}
@@ -357,10 +367,12 @@
 				</select>
 			</uib-tab>
 			<uib-tab index='1' heading="Background">
+				<div class=" mt-left-5 mt-bot-10">
+					<input id='BackImageInput' type="text" ng-model="newimagepath" placeholder="Image URL" />
+				</div>
 				<button class='btn subtext1' ng-click="setBackground()">CHANGE</button>
 			</uib-tab>
 		</uib-tabset>
-		<input id='BackImageInput' type="text" ng-model="newimagepath" placeholder="Image URL"/>
 	</div>
 
 	<div id="main_ui" class="main" ng-style="mainPanelStyle">

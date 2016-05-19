@@ -96,7 +96,7 @@ window.onload = function () {
 		switch (cln.getAttribute("data-objectid")) {
 			case 'panElement':
 				var panel = cln.childNodes[0];
-				panel.innerHTML = "";
+				panel.textContent = "";
 				break;
 			case "image":
 				//Change the picture and size of the image when the image object is dragged and dropped

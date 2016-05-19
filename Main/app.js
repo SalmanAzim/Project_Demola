@@ -93,7 +93,7 @@ function initialConfig() {
 	var integerDataPoints = ['phase1_productNos', 'phase2_productNos'];
 	var stringDataPoints = ['phase1_location', 'phase2_location'];
 	var longDataPoints = ['phase1_time', 'phase2_time'];
-	var arrayMapStatus = ['phase2_indProdStat'];
+	var arrayMapStatus = ['phase2_indProdStat','overall_demandVsProd','overall_stockValue'];
 
 	// Assign it directly for all data types
 	dataPoints = [
@@ -120,6 +120,14 @@ function initialConfig() {
 				productNos: "integer"
 			},
 			id: "phase2",
+			url: "http://localhost:3080/mes/datapoints?phase=2"
+		},
+		{
+			data: {
+				demandVsProd: "hashmap(string, object)",
+				stockValue: "hashmap(string, object)",
+			},
+			id: "overall",
 			url: "http://localhost:3080/mes/datapoints?phase=2"
 		}
 	];
@@ -277,7 +285,7 @@ io.on("connection", function (socket) {
 
 	socket.on('createScreen', function (data) {
 		//Initially Get the elements
-        var elementsReceived = data.objects;
+        /*var elementsReceived = data.objects;
         // then get the name and background image url
         var pageName = data.name + ".ejs";
         var background = data.backGroundUrl;
@@ -313,9 +321,9 @@ io.on("connection", function (socket) {
             fs.writeFile('./views/' + pageName, $('html')[0].outerHTML,
                 function (error) {
                     if (error) throw error;
-                });
-			io.sockets.emit('creation_Success', { 'pageId': pageName.replace(".ejs", "") });
-        });
+                });			
+        });*/
+		io.sockets.emit('creation_Success', { 'pageId': 'salmiakkiOy' });
 	});
 });
 
