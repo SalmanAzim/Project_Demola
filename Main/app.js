@@ -11,6 +11,7 @@ var fs = require('fs');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 var restClient = require('node-rest-client').Client;
+var favicon = require('serve-favicon');
 
 var port = process.env.PORT || 8080;
 var mongoose = require('mongoose');
@@ -23,12 +24,12 @@ var bodyParser = require('body-parser');
 var client = new restClient();
 
 var configDB = require('./config/database.js');
+app.use(favicon(__dirname + '/client/images/favicon.ico'));
 app.use('/js', express.static(__dirname + '/client/js'));
 app.use('/css', express.static(__dirname + '/client/css'));
 app.use('/images', express.static(__dirname + '/client/images'));
 app.use('/fonts', express.static(__dirname + '/client/fonts'));
 app.use('/styles', express.static(__dirname + '/public/stylesheets'));
-
 
 //:::::::::::::::::::::::::::::::::::Balaji:::::::::::::::::::::::::::::::::::::
 
@@ -285,7 +286,7 @@ io.on("connection", function (socket) {
 
 	socket.on('createScreen', function (data) {
 		//Initially Get the elements
-        /*var elementsReceived = data.objects;
+        var elementsReceived = data.objects;
         // then get the name and background image url
         var pageName = data.name + ".ejs";
         var background = data.backGroundUrl;
@@ -322,8 +323,8 @@ io.on("connection", function (socket) {
                 function (error) {
                     if (error) throw error;
                 });			
-        });*/
-		io.sockets.emit('creation_Success', { 'pageId': 'salmiakkiOy' });
+        });
+		io.sockets.emit('creation_Success', { 'pageId': pageName.replace('.ejs','')});
 	});
 });
 

@@ -16,7 +16,7 @@ app.factory('httpReq', function ($http, $q) {
 });
 
 app.factory('socket', function ($rootScope) {
-	var socket = io.connect();
+	var socket = io.connect('http://localhost:8080');
 	return {
 		on: function (eventName, callback) {
 			socket.on(eventName, function () {
@@ -55,6 +55,8 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 	$scope.screenName = '';
 
 	$scope.confirmButton = false;
+	
+	$scope.settings = true;
 
 	$scope.gaugeValue = 50;
 
@@ -643,7 +645,6 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 	//All data point socket
 	socket.on('all_DataPoint', function (data) {
 		$scope.allDP = data;
-		console.log(allDP);
 	});
 
 	// Socket Function which makes the bottom property panel visible
@@ -1855,5 +1856,13 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 		}
 		socket.emit('createScreen', dataObj);
 	}
+	
+	$scope.tab1 = function(){
+		$scope.settings = true;
+	};
+	
+	$scope.tab2 = function(){
+		$scope.settings = false;
+	};
 
 });
