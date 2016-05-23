@@ -88,7 +88,7 @@ html{
   height:100%;
   width: 100%;
   z-index: 1;
-  background: url('../images/bg.png') no-repeat center center fixed;
+  background: url('../images/background-image3.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -147,9 +147,7 @@ html{
   text-align: center;
   align-items: center;
   margin-top: 30px;
-
-
-}
+  }
 
 .TitleText2{
   font-size: 15px;
@@ -209,7 +207,7 @@ html{
 
 #main_ui{
   background-color: rgba(255, 255, 255, 0.8);
-  background: url('../images/bg.png') no-repeat center center fixed;
+  background: url('../images/background-image3.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -391,7 +389,8 @@ nav h1 {
   -ms-transform: rotate(-45deg);
   -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
-  overflow: hidden; }
+  overflow: hidden; 
+  }
 
 nav h1::before {
   color: white;
@@ -447,12 +446,33 @@ nav:hover li:nth-child(2) a {
 
 nav:hover li:nth-child(3) a {
   right: 1em;
-  top: 7.5em; }
-}
+  top: 7.5em; 
+  }
 
 
 /*==========================================================================================*/
 
+
+/*========================================Balaji Scripts====================================*/
+
+.propButton {
+  background:#fff; 
+  border-radius: 2px;
+  width: 4em; 
+  height: 2em; 
+  position: absolute;  
+  bottom: 3px; 
+  right: 3px;
+  vertical-align: center;
+  text-align: center;   
+}
+
+.propButton:hover {
+  background:rgba(255,255,255,0.5); 
+  cursor: pointer; 
+}
+
+/*==========================================================================================*/
 
 li.collapsibleListOpen{
   list-style-image:url('button-open.png');
@@ -490,8 +510,6 @@ li.collapsibleListClosed{
 }
 
 #drop-target-one{
-    border: 5px dashed #D9D9D9;
-    border-radius: 10px;
     /*padding: 5em 2em;*/
     height:100%;
     list-style-type:none;

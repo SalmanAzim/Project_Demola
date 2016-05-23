@@ -1,6 +1,6 @@
 var xsd;
 var mychart;
-var app = angular.module("myApp", ['test', 'app', 'btnLoader', 'ui.bootstrap']);
+var app = angular.module("myApp", ['test', 'app', 'ui.bootstrap']);
 
 app.factory('httpReq', function ($http, $q) {
 	return {
@@ -60,77 +60,8 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 
 	$scope.gaugeValue = 50;
 
-	// Round menu button functions
-    $scope.buttonOptions = {
-        content: '',
-        isOpen: false,
-        toggleOnClick: true,
-        background: 'green',
-        color: 'white',
-        size: '',
-        button: {
-            content: '',
-            cssClass: 'fa fa-desktop',
-            background: '#FF6F6F',
-            color: 'white',
-            size: 'big',
-            fontsize: 'large'
-        },
-        items: [
-            {
-                id: '1',
-                cssClass: 'fa fa-industry',
-                background: '#2130FF',
-                isActive: true,
-                onclick: $scope.switchType
-            }, {
-                id: '2',
-                cssClass: 'fa fa-pie-chart',
-                background: '#2130FF',
-                onclick: $scope.switchType
-            }, {
-                id: '3',
-                cssClass: 'fa fa-money',
-                background: '#2130FF',
-                onclick: $scope.switchType
-            }, {
-                empty: true
-            }, {
-                empty: true
-            }, {
-                empty: true
-            }, {
-                empty: true
-            }, {
-                empty: true
-            }, {
-                empty: true
-            }, {
-                empty: true
-            }, {
-                empty: true
-            }
-        ]
-    };
-
-	$scope.data = [
-		{ y: "2006", a: 100, b: 90 },
-		{ y: "2007", a: 75, b: 65 },
-		{ y: "2008", a: 50, b: 40 },
-		{ y: "2009", a: 75, b: 65 },
-		{ y: "2010", a: 50, b: 40 },
-		{ y: "2011", a: 75, b: 65 },
-		{ y: "2012", a: 100, b: 90 }
-	];
-
-	$scope.donutData = [
-		{ label: "Download Sales", value: 12 },
-		{ label: "In-Store Sales", value: 30 },
-		{ label: "Mail-Order Sales", value: 20 }
-	];
-
-    $scope.imagepath = '../images/bg.png';
-	$scope.newimagepath = '../images/bg.png';
+    $scope.imagepath = '../images/background-image3.png';
+	$scope.newimagepath = '../images/background-image3.png';
 
 	// Variables with respect to grid
 	$scope.gridDetails = {
@@ -216,7 +147,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 	// Variables with respect to main panel style
 	$scope.mainPanelStyle = {
 		'overflow': 'auto', 'position': 'absolute',
-		'left': '15%', 'top': '0%', 'right': '0', 'bottom': '0%',
+		'left': '15%', 'top': '0%', 'right': '0%', 'bottom': '0%',
 		'background': 'url(' + $scope.imagepath + ')',
 		'background-size': '100% 100%',
 		'background-repeat': 'no-repeat'
@@ -652,7 +583,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 		$scope.bottomPropPanel.panelShow = false;
 		$scope.mainPanelStyle = {
 			'overflow': 'auto', 'position': 'absolute',
-			'left': '15%', 'top': '0%', 'right': '0', 'bottom': '0%',
+			'left': '15%', 'top': '0%', 'right': '0%', 'bottom': '0%',
 			'background': 'url(' + $scope.imagepath + ')',
 			'background-size': '100% 100%',
 			'background-repeat': 'no-repeat'
@@ -666,7 +597,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 		if ($scope.bottomPropPanel.panelShow) {
 			$scope.mainPanelStyle = {
 				'overflow': 'auto', 'position': 'absolute',
-				'left': '15%', 'top': '0%', 'right': '0', 'bottom': '15%',
+				'left': '15%', 'top': '0%', 'right': '0%', 'bottom': '15%',
 				'background': 'url(' + $scope.imagepath + ')',
 				'background-size': '100% 100%',
 				'background-repeat': 'no-repeat'
@@ -674,7 +605,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 		} else {
 			$scope.mainPanelStyle = {
 				'overflow': 'auto', 'position': 'absolute',
-				'left': '15%', 'top': '0%', 'right': '0', 'bottom': '0%',
+				'left': '15%', 'top': '0%', 'right': '0%', 'bottom': '0%',
 				'background': 'url(' + $scope.imagepath + ')',
 				'background-size': '100% 100%',
 				'background-repeat': 'no-repeat'

@@ -182,7 +182,7 @@ window.onload = function () {
 
 				},
 				drag: function (event, ui) {
-					socket.emit('moveObject', { 'loggedinUser': loggedinUser, 'currentId': this.id, 'positionX': ui.position.left, 'positionY': ui.position.top });
+					socket.emit('moveObject', { 'currentId': this.id, 'positionX': ui.position.left, 'positionY': ui.position.top });
 				}
 			});
 		}
@@ -192,10 +192,10 @@ window.onload = function () {
 				aaa = xhttp.responseText;
 				cln.setAttribute("id", JSON.parse(aaa));
 				if (isAngular) {
-					socket.emit('newObject', { 'loggedinUser': loggedinUser, 'currentHtml': angular_to_be_sent, 'isAngular': isAngular, 'dataSource': dataSource, 'id': aaa });
+					socket.emit('newObject', { 'currentHtml': angular_to_be_sent, 'isAngular': isAngular, 'dataSource': dataSource, 'id': aaa });
 				}
 				else {
-					socket.emit('newObject', { 'loggedinUser': loggedinUser, 'currentHtml': cln.outerHTML, 'isAngular': isAngular, 'dataSource': null, 'id': xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml': cln.innerHTML, 'positionX': cln.style.left, 'positionY': cln.style.top });
+					socket.emit('newObject', { 'currentHtml': cln.outerHTML, 'isAngular': isAngular, 'dataSource': null, 'id': xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml': cln.innerHTML, 'positionX': cln.style.left, 'positionY': cln.style.top });
 				}
 			}
 		};

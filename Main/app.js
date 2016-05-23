@@ -13,7 +13,8 @@ var io = require('socket.io').listen(server);
 var restClient = require('node-rest-client').Client;
 var favicon = require('serve-favicon');
 
-var port = process.env.PORT || 8080;
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
@@ -332,9 +333,9 @@ app.get('/:file', function (req, res) {
 	res.render(req.params.file);
 });
 
-server.listen(port);
+server.listen(server_port);
 
-console.log('The magic happens on port ' + port);
+console.log('The magic happens on port ' + server_port);
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
