@@ -78,20 +78,16 @@
 						</button>
 						<div class="dropdown-menu ">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-								<li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gauge1.png" height="70px" width="70px" style="float:left;"></li>
-								<li data-objectid="gauge-2" data-type="scalable" draggable="true"><img src="../images/gauge2.png" height="70px" width="70px"></li>
+								<li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gaugeone.png" height="70px" width="70px" style="float:left;"></li>
+								<li data-objectid="gauge-2" data-type="scalable" draggable="true"><img src="../images/gaugetwo.png" height="70px" width="70px"></li>
 								&nbsp; &nbsp; &nbsp; &nbsp;
-								<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gauge3.png" height="70px" width="70px" style="float:left;"></li>
-								<li data-objectid="bar-chart" data-type="scalable" draggable="true"><img src="../images/barChart.png" height="70px" width="70px"></li>
+								<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gaugethree.png" height="70px" width="70px" style="float:left;"></li>
+								<li data-objectid="bar-chart" data-type="scalable" draggable="true"><img src="../images/barchrt.png" height="70px" width="70px"></li>
 								&nbsp; &nbsp; &nbsp; &nbsp;
-								<li data-objectid="line-chart" data-type="scalable" draggable="true"><img src="../images/candleChart.png" height="70px" width="70px" style="float:left;"></li>
-								<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/lineChart.png" height="70px" width="70px"></li>
+								<li data-objectid="line-chart" data-type="scalable" draggable="true"><img src="../images/candlechrt.png" height="70px" width="70px" style="float:left;"></li>
+								<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/linechrt.png" height="70px" width="70px"></li>
 								&nbsp; &nbsp; &nbsp; &nbsp;
-								<li data-objectid="waterTank1" data-type="scalable" draggable="true"><img src="../images/waterTank1.png" height="70px" width="70px" style="float:left;"></li>
-								<li data-objectid="ledOutput" data-type="scalable" draggable="true"><img src="../images/ledOutput.png" height="70px" width="70px"></li>
-								&nbsp; &nbsp; &nbsp; &nbsp;
-								<li data-objectid="waterTank2" data-type="scalable" draggable="true"><img src="../images/waterTank2.png" height="70px" width="70px" style="float:left;"></li>
-								<li data-objectid="dsBarChart" data-type="scalable" draggable="true"><img src="../images/dsBarChart.png" height="70px" width="70px"></li>
+								<li data-objectid="dsBarChart" data-type="scalable" draggable="true"><img src="../images/verbarChrt.png" height="70px" width="70px"></li>
 							</ul>
 						</div>
 					</div>
@@ -150,17 +146,15 @@
 						<svg-icon data-objectid="svg-square" data-type="unscalable" p="rectangle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
 						<svg-icon data-objectid="svg-circle" data-type="unscalable" p="circle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
 						<svg-icon data-objectid="svg-path" data-type="unscalable" p="arrow" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
-						<li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gauge1.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
-						<li data-objectid="gauge-2" data-type="scalable" draggable="true"><img src="../images/gauge2.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
-						<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gauge3.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
-						<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/candleChart.png" height="100px" width="120px" ng-show="(dpSelectPanel.mapShow)"></li>
+						<li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gaugeone.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
+						<li data-objectid="gauge-2" data-type="scalable" draggable="true"><img src="../images/gaugetwo.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
+						<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gaugethree.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
+						<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/candlechrt.png" height="100px" width="120px" ng-show="(dpSelectPanel.mapShow)"></li>
 					</ul>
 				</div>
 			</uib-tab>
 		</uib-tabset>
-
 		<hr />
-		
 		<uib-tabset active="active" justified="true" id='LeftSettings' ng-show="settings">
 			<uib-tab index='0' heading="GRID">
 				<button type="button" class="TitleText" ng-model="gridDetails.hide" ng-click="showHideGrid()" uib-btn-checkbox>
@@ -205,6 +199,9 @@
 					ng-click="createScreen()">Confirm</button>
 				<br/>
 				<br/> ! This name will be used as the address endpoint so please no 'space' or 'special Characters'
+			</div>
+			<div ng-click="propertyPanel()" class="propButton">
+				Hello
 			</div>
 		</div>
 	</div>
@@ -361,47 +358,42 @@
 		<a onclick="showDoubleMenu(this)" ng-click="testFunction(this)">
 			<img src="http://puu.sh/nr5Z6/4360098fc1.png" /> Properties
 		</a>
-	</div>	
+	</div>
 </body>
 
-	<script type="text/javascript" src="js/controllers/angular.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-sanitize.min.js"></script>
-	<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
-	<script>
-		var elementDragged = null;	var right_global; var test_data; var double_Click
-	</script>
-	<script>
-		var loggedinUser = <%- JSON.stringify(user) %>;
-	</script>
-	<script src="js/controllers/demo.js"></script>
-	<script type="text/javascript" src="js/controllers/test.js"></script>
-	<script type="text/javascript" src="js/controllers/svg_script.js"></script>
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="js/controllers/jquery.ui.core.js"></script>
-	<script src="js/controllers/jquery.ui.widget.js"></script>
-	<script src="js/controllers/jquery.ui.mouse.js"></script>
-	<script src="js/controllers/jquery.ui.draggable.js"></script>
-	<script src="js/controllers/ui-bootstrap-tpls-1.3.2.min.js"></script>
-	<script src="js/controllers/CollapsibleLists.js"></script>
-	<script src="js/controllers/bootstrap.min.js"></script>
-	<script src="js/controllers/btn-loader-directive-min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-	<script src="js/controllers/angular-circular-navigation.js"></script>
-	<script src="js/controllers/angularCodes.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="js/controllers/multidraggable.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+<script type="text/javascript" src="js/controllers/angular.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+<script>
+	var elementDragged = null;	var right_global; var test_data; var double_Click
+
+</script>
+<script src="js/controllers/demo.js"></script>
+<script type="text/javascript" src="js/controllers/test.js"></script>
+<script type="text/javascript" src="js/controllers/svg_script.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/controllers/jquery.ui.core.js"></script>
+<script src="js/controllers/jquery.ui.widget.js"></script>
+<script src="js/controllers/jquery.ui.mouse.js"></script>
+<script src="js/controllers/jquery.ui.draggable.js"></script>
+<script src="js/controllers/ui-bootstrap-tpls-1.3.2.min.js"></script>
+<script src="js/controllers/bootstrap.min.js"></script>
+<script src="js/controllers/angularCodes.js"></script>
+<script type="text/javascript" src="js/controllers/multidraggable.js"></script>
 
 <script>
-		function menu(x, y,i) {
+	function menu(x, y,i) {
 				i.top = y + "px";
 				i.left = x + "px";
 				i.visibility = "visible";
 				i.opacity = "1";
 			}
-	</script>
 
-	<script>
-		function showCustomMenu(currElement) {
+</script>
+
+<script>
+	function showCustomMenu(currElement) {
 
 					right_global = currElement;
 					var e = window.event;
@@ -412,10 +404,11 @@
 					e.preventDefault();
 				
 			}
-	</script>
 
-	<script>
-		function feedDataToElement(currElement){
+</script>
+
+<script>
+	function feedDataToElement(currElement){
 				var mychart;
 				var chartType = right_global.getAttribute("type");
 				console.log(right_global.getAttribute("type"));
@@ -444,10 +437,11 @@
 					updateData();
 				}, 1000);
 			}
-	</script>
 
-	<script>
-		function removeCustomMenu(currElement) {
+</script>
+
+<script>
+	function removeCustomMenu(currElement) {
 
 			right_global.remove();
 
@@ -462,18 +456,20 @@
 			right_global = null;
 				
 			}
-	</script>
 
-	<script>
-		function showDoubleMenu(currElement) {
+</script>
+
+<script>
+	function showDoubleMenu(currElement) {
 				double_Click = currElement;
 				var socket = io();
 				socket.emit("panelVisibility",{'elementId':currElement.id});
 			}
-	</script>
 
-	<script>
-		var socket = io();
+</script>
+
+<script>
+	var socket = io();
 		
 			//this is pinged inorder to delete the old HTML element and update with the new element
 			socket.on("prop_Changed", function(data){
@@ -533,10 +529,11 @@
 				}
 				
 			});
-	</script>
 
-	<script type="text/javascript">
-		function showValue(newValue)
+</script>
+
+<script type="text/javascript">
+	function showValue(newValue)
 			{
 				var degree = newValue; 			
 				var svg_el = $(double_Click); 
@@ -552,11 +549,6 @@
 				svg_el.css('-o-transform', 'rotate('+degree+'deg)');
 				svg_el.css('-ms-transform', 'rotate('+degree+'deg)');			
 			}
-	</script>
-
-<script>
-	//CollapsibleLists.applyTo(document.getElementById('drag-elements'));
-		CollapsibleLists.apply();
 
 </script>
 
