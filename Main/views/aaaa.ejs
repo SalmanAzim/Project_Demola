@@ -14,36 +14,39 @@
 	<link rel="stylesheet" type="text/css" href="css/custom.css">
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css">
+
+
 </head>
 
 <body id="my_body" ng-app="myApp" ng-controller="MyController">
 
 	<div class="left" id='LeftPan'>
-		<span class='TitleText2'>Factory <button  id='LeftPanAdjustButton' type="button" class="btn btn-default" aria-label="Left Align">
-					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		</button><br />Visualization
+		<span class='TitleText2'>
+					<span id='LeftPanAdjustButton' class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><br />
+					Factory
+		<br />Visualization
 		</span>
-		<uib-tabset active="activeJustified" justified="true">
+		<uib-tabset id='ttt' active="activeJustified" justified="true">
 			<uib-tab index="0" heading="Object" ng-click="tab1()">
 				<br>
 				<uib-accordion close-others="true">
 					<div class="dropdown">
-						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="collapse" href="#collapse1">
                             panels
 							<span class="caret"></span>
 						</button>
-						<div class="dropdown-menu ">
+						<div id="collapse1" class="panel-collapse collapse">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
 								<li data-objectid="panElement" data-type="scalable" class="drag-elements-li" draggable="true" sytle="background: #EEECEC;">Panel</li>
 							</ul>
 						</div>
 					</div>
 					<div class="dropdown">
-						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="collapse" href="#collapse2">
                             General
 							<span class="caret"></span>
 						</button>
-						<div class="dropdown-menu ">
+						<div id="collapse2" class="panel-collapse collapse">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
 								<li data-objectid="label" data-type="unscalable" draggable="true"><label for='label' style=' font-family: Verdana; color: black; '> textLabel </label></li>
 								<li data-objectid="textBox" data-type="unscalable" draggable="true"><label for='textBox' style='font-family: Verdana; color: black; background-color: #FFFFFF; position:relative; display: inline-block;	border: 1px solid #000000; border-radius: 3px;'> SimpleTextBox</label></li>
@@ -59,12 +62,12 @@
 						</div>
 					</div>
 					<div class="dropdown">
-						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="collapse" href="#collapse3">
                             Element SVG
 							<span class="caret"></span>
 						</button>
-						<div class="dropdown-menu ">
-							<ul>
+						<div id="collapse3" class="panel-collapse collapse">
+							<ul id="drag-elements1" class="drag-elements">
 								<svg-icon data-objectid="svg-square" data-type="unscalable" p="rectangle" draggable="true"></svg-icon>
 								<svg-icon data-objectid="svg-circle" data-type="unscalable" p="circle" draggable="true"></svg-icon>
 								<svg-icon data-objectid="svg-path" data-type="unscalable" p="arrow" draggable="true"></svg-icon>
@@ -72,11 +75,11 @@
 						</div>
 					</div>
 					<div class="dropdown">
-						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="collapse" href="#collapse4">
                             Charts & Widgets
 							<span class="caret"></span>
 						</button>
-						<div class="dropdown-menu ">
+						<div id="collapse4" class="panel-collapse collapse">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
 								<li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gaugeone.png" height="70px" width="70px" style="float:left;"></li>
 								<li data-objectid="gauge-2" data-type="scalable" draggable="true"><img src="../images/gaugetwo.png" height="70px" width="70px"></li>
@@ -92,11 +95,11 @@
 						</div>
 					</div>
 					<div class="dropdown">
-						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="collapse" href="#collapse5">
                             Buttons & Menu
 							<span class="caret"></span>
 						</button>
-						<div class="dropdown-menu ">
+						<div id="collapse5" class="panel-collapse collapse">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
 								<li data-objectid="MenuButton" data-type="unscalable" draggable="true">
 									<div class="cn-button small"><i class="fa fa-desktop mt-top-15"></i></div>
@@ -154,33 +157,15 @@
 				</div>
 			</uib-tab>
 		</uib-tabset>
-		<hr />
-		<uib-tabset active="active" justified="true" id='LeftSettings' ng-show="settings">
-			<uib-tab index='0' heading="GRID">
-				<button type="button" class="TitleText" ng-model="gridDetails.hide" ng-click="showHideGrid()" uib-btn-checkbox>
-					{{gridDetails.value}}
-				</button>
-				</br>
-				<!-- <span>Grid Color</span> -->
-				<select class="input-sm TitleText" ng-model="gridDetails.colorSelect" ng-change="gridColorChange()">
-					<option selected="selected" >Grid Color: BLACK</option>
-					<option>Grid Color: WHITE</option>
-				</select>
-			</uib-tab>
-			<uib-tab index='1' heading="Background">
-				<div class=" mt-left-5 mt-bot-10">
-					<input id='BackImageInput' type="text" ng-model="newimagepath" placeholder="Image URL" />
-				</div>
-				<button class='btn subtext1' ng-click="setBackground()">CHANGE</button>
-			</uib-tab>
-		</uib-tabset>
+
+
 	</div>
 
 	<div id="main_ui" class="main" ng-style="mainPanelStyle">
 		<div id="drop-target-one" ng-style="dropTargetOne.style">
-			<button id='LeftPanAdjustButton2' type="button" class="btn btn-default not" aria-label="Left Align">
-	            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            </button>
+
+	            <span id='LeftPanAdjustButton2' class="glyphicon glyphicon-chevron-right not" aria-hidden="true"></span>
+
 
 			<nav role="navigation" id='UIMenu'>
 				<h1><span id="MenuText">Menu</span></h1>
@@ -207,7 +192,7 @@
 	</div>
 
 	<!-- Options with respect to bottom panel. These will be hide/shown based on the selected object-->
-	<div class="bottom" ng-show="bottomPropPanel.panelShow" ng-style="bottomPanelStyle">
+	<div class="bottom" ng-show="bottomPropPanel.panelShow" ng-style="bottomPanelStyle" >
 		<div class="row">
 			<div class="col-md-6 col-lg-6">
 				Id &nbsp; &nbsp; &nbsp; &nbsp;
@@ -232,7 +217,7 @@
 
 		<div ng-show="bottomPropPanel.fontPropShow">
 			<span ng-show="(!bottomPropPanel.minMaxShow)">
-				Color &nbsp; &nbsp;&nbsp;&nbsp; 
+				Color &nbsp; &nbsp;&nbsp;&nbsp;
 			</span>
 			<select class="input-sm" ng-model="bottomPropPanel.colorSelect" ng-show="!bottomPropPanel.minMaxShow">
 				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
@@ -243,7 +228,7 @@
 			<input type="number" ng-model="bottomPropPanel.fontSize" min="1" max="100">
 
 			<span ng-show="(!bottomPropPanel.minMaxShow) && (!bottomPropPanel.gaugeDetailsShow)">
-				Background-Color &nbsp; &nbsp;&nbsp;&nbsp; 
+				Background-Color &nbsp; &nbsp;&nbsp;&nbsp;
 			</span>
 			<select class="input-sm" ng-model="bottomPropPanel.backColorSelect" ng-show="(!bottomPropPanel.minMaxShow) && (!bottomPropPanel.gaugeDetailsShow)">
 				<option ng-repeat="i in bottomPropPanel.backColorList">{{i}}</option>
@@ -402,7 +387,7 @@
 					var posY = e.clientY;
 					menu(posX, posY,i);
 					e.preventDefault();
-				
+
 			}
 
 </script>
@@ -416,7 +401,7 @@
 						   return (num <= 9)? ("0"+num) : num;
 					 }
 				var chart_id = document.getElementById(right_global.id).children[0].id;
-				function updateData() {					
+				function updateData() {
 					mychart = FusionCharts(chart_id);
 					currDate = new Date(),
 					label = addLeadingZero(currDate.getHours()) + ":" +
@@ -429,10 +414,10 @@
 					else if(chartType == "realtimeline"){
 						randomValue = Math.floor(Math.random() * 50) / 100 + 35.25,
 						strData = "&label=" + label  + "&value=" + randomValue;
-					}		
+					}
 					test_data = strData;
 					mychart.feedData(strData);
-				}						
+				}
 				var myVar = setInterval(function () {
 					updateData();
 				}, 1000);
@@ -451,10 +436,10 @@
 				setTimeout(function() {
 				  i.visibility = "hidden";
 				});
-				
-				
+
+
 			right_global = null;
-				
+
 			}
 
 </script>
@@ -470,19 +455,19 @@
 
 <script>
 	var socket = io();
-		
+
 			//this is pinged inorder to delete the old HTML element and update with the new element
 			socket.on("prop_Changed", function(data){
 				//remove the older element
-				double_Click.remove();						
+				double_Click.remove();
 				double_Click.innerHTML = data.objectHtml;
 				//replace with the newer element
-				$("#drop-target-one").append(double_Click);			
-			});	
-			
+				$("#drop-target-one").append(double_Click);
+			});
+
 			socket.on("added_Html", function(notificationData) {
-			
-				if(notificationData.loggedinUser != loggedinUser){		
+
+				if(notificationData.loggedinUser != loggedinUser){
 
 					if(notificationData.isAngular){
 						var $htmlObject = $(notificationData.currentHtml);
@@ -498,36 +483,36 @@
 						angular.injector(['ng', 'myApp']).invoke(function ($compile) {
 							var $scope = angular.element(document.body).scope();
 							var dataSource = notificationData.dataSource;
-										
+
 							var to_compile = angular_obj;
 							//var to_compile = notificationData.currentHtml;
 							var $compiled = $compile(to_compile)($scope);
 							$scope.$digest();
 							// Append the compiled output to the page.
 							$("#drop-target-one").append($compiled[0]);
-						});	
+						});
 					}else{
 						var $htmlObject = $(notificationData.currentHtml);
 						$("#drop-target-one").append($htmlObject);
-					}			
+					}
 
-					setAllDrags();					
+					setAllDrags();
 				}
-				
+
 			});
 
 			socket.on("moved_Html", function(notificationData) {
 
-				if(notificationData.loggedinUser != loggedinUser){				
+				if(notificationData.loggedinUser != loggedinUser){
 					console.log(notificationData);
-					console.log("pinged");		
+					console.log("pinged");
 					//loggedinUser=" + loggedinUser + "&currentId=" + this.id + "&positionX=" + ui.position.left+ "&positionY=" + ui.position.top;
 					var nodes_test = document.getElementById(notificationData.currentId);
 					nodes_test.style.top=(notificationData.positionY)+ "px";
-					nodes_test.style.left=(notificationData.positionX)+ "px";				
-						
+					nodes_test.style.left=(notificationData.positionX)+ "px";
+
 				}
-				
+
 			});
 
 </script>
@@ -535,22 +520,24 @@
 <script type="text/javascript">
 	function showValue(newValue)
 			{
-				var degree = newValue; 			
-				var svg_el = $(double_Click); 
+				var degree = newValue;
+				var svg_el = $(double_Click);
 				//Rotation is added for both the child and the parent element
-				if((svg_el.attr("data-objectid")=='svg-square') || (svg_el.attr("data-objectid")=='svg-circle') || (svg_el.attr("data-objectid")=='svg-path')){				
+				if((svg_el.attr("data-objectid")=='svg-square') || (svg_el.attr("data-objectid")=='svg-circle') || (svg_el.attr("data-objectid")=='svg-path')){
 					$(svg_el.children()[0]).css('-moz-transform', 'rotate('+degree+'deg)')
 					$(svg_el.children()[0]).css('-webkit-transform', 'rotate('+degree+'deg)');
 					$(svg_el.children()[0]).css('-o-transform', 'rotate('+degree+'deg)');
-					$(svg_el.children()[0]).css('-ms-transform', 'rotate('+degree+'deg)');					
-				}	
+					$(svg_el.children()[0]).css('-ms-transform', 'rotate('+degree+'deg)');
+				}
 				svg_el.css('-moz-transform', 'rotate('+degree+'deg)');
 				svg_el.css('-webkit-transform', 'rotate('+degree+'deg)');
 				svg_el.css('-o-transform', 'rotate('+degree+'deg)');
-				svg_el.css('-ms-transform', 'rotate('+degree+'deg)');			
+				svg_el.css('-ms-transform', 'rotate('+degree+'deg)');
 			}
 
 </script>
+
+<script src="js/jd.js"></script>
 
 </html>
 
@@ -563,7 +550,7 @@
 			menu_item.visibility = "hidden";
 		});
 	}, false);
-	
+
 	$('div.main').click(function(){
 		socket.emit("panelVisibilityOnClick",{});
 	});
