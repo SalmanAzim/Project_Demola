@@ -90,11 +90,20 @@ window.onload = function () {
 		var cln = elementDragged.cloneNode(true);
 		cln.removeAttribute("draggable");
 		cln.style.top = (ess.clientY - 60) + "px";
-		cln.style.left = (ess.clientX - 140) + "px";
+		cln.style.left = (ess.clientX - 140) + "px";		
+		
+		//it removes the selection of the components 
+		if(left_global!=undefined){
+			var remove_el = $(left_global);
+			$(remove_el.children()[0]).css("outline","");
+		}		
+		
+		// This closes the property panel for other elements 
+		socket.emit("panelVisibilityOnClick", {});
 
 		//Functionality specifically for image type of element 
 		switch (cln.getAttribute("data-objectid")) {
-			case 'panElement':
+			case 'panel':
 				var panel = cln.childNodes[0];
 				panel.textContent = "";
 				break;
@@ -126,24 +135,25 @@ window.onload = function () {
 		}
 		cln.setAttribute("oncontextmenu", "showCustomMenu(this)");
 		cln.setAttribute("ondblclick", "showDoubleMenu(this)");
+		cln.setAttribute("onclick", "singleDotted(this)");
 		nodes_test.appendChild(cln);
 		var cln_test = $(cln);
 		//==================================
 		if ($(elementDragged).parent().attr("id") == "drag-elements1") {
 			$(cln).droppable({
 				drop: function (event, ui) {
-					$(this).append(ui.draggable.context);
+					/*$(this).append(ui.draggable.context);
 					ui.draggable.css({
 						position: 'absolute',
 						cursor: 'pointer'
-					});
+					});*/
 				},
 				out: function (event, ui) {
-					$("#drop-target-one").append(ui.draggable.context);
+					/*$("#drop-target-one").append(ui.draggable.context);
 					ui.draggable.css({
 						position: 'absolute',
 						cursor: 'pointer'
-					});
+					});*/
 				}
 			});
 			if ($(elementDragged).attr("data-type") == "scalable") {
@@ -182,7 +192,8 @@ window.onload = function () {
 
 				},
 				drag: function (event, ui) {
-					socket.emit('moveObject', { 'currentId': this.id, 'positionX': ui.position.left, 'positionY': ui.position.top });
+					var movedObjectJson = { 'currentId': this.id, 'positionX': ui.position.left, 'positionY': ui.position.top };
+					angular.element($("#my_body")).scope().objectMoved(movedObjectJson);
 				}
 			});
 		}
@@ -191,12 +202,9 @@ window.onload = function () {
 			if (xhttp.readyState == 4 && xhttp.status == 200) {
 				aaa = xhttp.responseText;
 				cln.setAttribute("id", JSON.parse(aaa));
-				if (isAngular) {
-					socket.emit('newObject', { 'currentHtml': angular_to_be_sent, 'isAngular': isAngular, 'dataSource': dataSource, 'id': aaa });
-				}
-				else {
-					socket.emit('newObject', { 'currentHtml': cln.outerHTML, 'isAngular': isAngular, 'dataSource': null, 'id': xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml': cln.innerHTML, 'positionX': cln.style.left, 'positionY': cln.style.top });
-				}
+				//Generate the json to be sent to Angular
+				var objectJson = { 'currentHtml': cln.outerHTML, 'id': xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml': cln.innerHTML, 'positionX': cln.style.left, 'positionY': cln.style.top };
+				angular.element($("#my_body")).scope().addObject(objectJson);
 			}
 		};
 
@@ -213,28 +221,17 @@ window.onload = function () {
 //========================Abhi Scripts=====================//
 $(document).ready(function () {
 
-	// jQuery methods go here...
-	
-	$('#CreateBut').click(function() {
-      $( "#CreatePop" ).show();
-    });
-	
-	$('#formClose').click(function() {
-      $( "#CreatePop" ).hide();
-    });
-
+	// jQuery methods go here...	
+		
 	$("#LeftPanAdjustButton").click(function () {
 		socket.emit("panelVisibilityOnClick", {});
 		$("#LeftPan").animate({
 			left: "-15%",
 		}, 500);
-
 		$("#main_ui").animate({
 			left: "0%",
 		}, 500);
-
 		$('#LeftPanAdjustButton2').removeClass('not');
-
 	});
 
 	$("#LeftPanAdjustButton2").click(function () {
@@ -242,13 +239,10 @@ $(document).ready(function () {
 		$("#LeftPan").animate({
 			left: "0%",
 		}, 500);
-
 		$("#main_ui").animate({
 			left: "15%",
 		}, 500);
-
 		$('#LeftPanAdjustButton2').addClass('not');
-
 	});
 
 });

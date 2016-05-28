@@ -5,24 +5,20 @@
   position: fixed;
   z-index: 9999; /* Most times is 2000 used as middle */
   visibility: hidden;
-  opacity: 0;
-  
+  opacity: 0;  
   padding: 0px;
   font-family: sans-serif;
   font-size: 11px;
   background: #fff;
   color: #555;
   border: 1px solid #C6C6C6;
-  
   -webkit-transition: opacity .5s ease-in-out;
   -moz-transition: opacity .5s ease-in-out;
-  transition: opacity .5s ease-in-out;
-  
+  transition: opacity .5s ease-in-out;  
   -webkit-box-shadow: 2px 2px 2px 0px rgba(143, 144, 145, 1);
   -moz-box-shadow: 2px 2px 2px 0px rgba(143, 144, 145, 1);
   box-shadow: 2px 2px 2px 0px rgba(143, 144, 145, 1);
 }
-
 
 #menu a {
   display: block;
@@ -32,7 +28,6 @@
   width: 250px;
   position: relative;
 }
-
 
 #menu a img,
 #menu a i.fa {
@@ -44,18 +39,15 @@
   top: 2px;
 }
 
-
 #menu a span {
   color: #BCB1B3;
   float: right;
 }
 
-
 #menu a:hover {
   color: #fff;
   background: #3879D9;
 }
-
 
 #menu hr {
   border: 1px solid #EBEBEB;
@@ -70,13 +62,12 @@ html{
 }
 
 #CreatePop{
-  position: relative;
+  position: absolute;
   left:35%;
   top:40%;
-  display:none;
   width:400px;
   height:200px;
-  background-color: rgba(255, 255, 255, 0.9);  
+  background-color: hsla(50, 100%, 50%, 0.9);
   border-radius: 5px;
   z-index: 99;
 }
@@ -88,7 +79,7 @@ html{
   height:100%;
   width: 100%;
   z-index: 1;
-  background: url('../images/background-image3.png') no-repeat center center fixed;
+  background: url('../images/bg.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -96,19 +87,18 @@ html{
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-
 }
 
 .left{
   /*position: relative;*/
   opacity: 1;
   background-color: hsla(43, 100%, 50%, 0.8);
+  overflow-y: hidden;
   /*height:100%;*/
 }
 
 .dropdown-menu {
   background-color: hsla(43, 100%, 50%, 0.8);
-
 }
 
 #drop-target-one img{
@@ -116,8 +106,7 @@ html{
    left: 0;
    top: 0;
    width: 100%;
-   height: 100%;;
-
+   height: 100%;
 }
 
 #LeftPanAdjustButton{
@@ -125,14 +114,21 @@ html{
   color: #D59B09;
   background-color: black;
   z-index: 999999;
+  cursor: pointer;
+  padding: 3px 3px 3px;
 }
+
 #LeftPanAdjustButton2{
   float: left;
   color: #D59B09;
   background-color: black;
   z-index: 999999;
+  position: absolute;
+  top:0;
+  left:0;
+  cursor: pointer;
+  padding: 3px 3px 3px;
 }
-
 
 .TitleText1{
   font-size: 16px;
@@ -157,13 +153,9 @@ html{
   color:#D59B09;
   letter-spacing: 8px;
   padding-left: 5px;
-
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   width: 100%;
 }
-
-
-
 
 .TitleText{
   font-size: 10px;
@@ -204,10 +196,15 @@ html{
   color:hsla(43, 100%, 50%, 0.8);
 }
 
-
 #main_ui{
+  overflow-x: hidden; 
+	position: absolute;
+	left: 15%; 
+	top: 0%; 
+	right: 0%; 
+	bottom: 0%;
   background-color: rgba(255, 255, 255, 0.8);
-  background: url('../images/background-image3.png') no-repeat center center fixed;
+  background: url('../images/bg.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -216,10 +213,7 @@ html{
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   border: 0px;
-
 }
-
-
 
 /*.collapsibleList{
   padding-left: 20px;
@@ -228,9 +222,6 @@ html{
 ul{
   padding-left: 20px;
 }
-
-
-
 
 /*.subtext1 {
   background: black;
@@ -246,7 +237,6 @@ ul{
   cursor: pointer;
 }*/
 
-
 #angular_elements{
   padding: 0;
 }
@@ -254,7 +244,7 @@ ul{
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
 
-    font-weight:bolder;;
+    font-weight:bolder;
     display: inline-block;
     background-color: black;
     color: hsla(43, 100%, 50%, 0.8);
@@ -283,7 +273,6 @@ ul{
 }
 
 .open>.dropdown-menu {
-
     width: 100%;
     text-align: center;
 }
@@ -308,11 +297,8 @@ select.input-sm {
     font-weight: bolder;
 }
 
-
 #LeftSettings{
-  position: absolute;
-  bottom:0;
-
+  margin: 10px;
 }
 
 #LeftSettings uib-tab{
@@ -320,7 +306,6 @@ select.input-sm {
 }
 
 .tab-content>.active {
-
     padding-bottom: 20px;
     padding-top: 20px;
 }
@@ -333,17 +318,13 @@ select.input-sm {
     margin-bottom: 10px;
 }
 
-
 a {
     color:black;
     font-weight: bolder;
     text-decoration: none;
 }
 
-
 /*For the main UI Menu*/
-
-
 
 /*body{
   margin: 0;
@@ -352,6 +333,9 @@ a {
 
   #UIMenu{
     z-index: 99;
+    position: absolute;
+    right: 0;
+    top:0;
   }
 
 nav {
@@ -456,33 +440,110 @@ nav:hover li:nth-child(3) a {
 /*========================================Balaji Scripts====================================*/
 
 .propButton {
-  background:#fff; 
+  background:#000;
+  color:#D59B09; 
   border-radius: 2px;
-  width: 4em; 
+  width: 25%; 
   height: 2em; 
   position: absolute;  
   bottom: 3px; 
   right: 3px;
   vertical-align: center;
-  text-align: center;   
+  text-align: center; 
+  padding-top: 2px; 
+  font-weight: bold; 
 }
 
 .propButton:hover {
   background:rgba(255,255,255,0.5); 
   cursor: pointer; 
+  color:#000; 
+}
+
+#propSettingPanel{
+  background:hsla(43, 100%, 50%, 1.0);
+  border-radius: 2px;
+  width: 50%; 
+  height: 60%;
+  position: absolute;  
+  bottom: 3px; 
+  right: 3px; 
+  z-index: 999;  
+}
+
+#settPanel{
+  position: absolute;
+  left:35%;
+  top:30%;
+  width:300px;
+  height:300px;
+  background-color: hsla(50, 100%, 50%, 0.9);
+  border-radius: 5px;
+  z-index: 99;
+}
+
+#propOptions{
+  position:absolute;
+  left: 10px;
+  bottom: 5%;  
+  margin: 30px 5px 20px;
+  float: left;
+  height: 80%;
+  width: 33%;
+  padding: 5px 15px;
+}
+
+#propDisplay{
+  position:absolute;
+  right: 10px;
+  bottom: 5%;  
+  margin: 35px 5px 20px;
+  height: 80%;
+  width: 63%;
+  padding: 15px 15px;
+  border: 5px solid #000;
+  border-radius: 15px;
+  overflow: auto;
+}
+
+#propDisplay:before {
+  content: 'Individuals';
+  font-weight : bolder;
+  padding: 0 5px;
+  position: relative;
+  top: -1.7em;
+  background-color: hsla(43, 100%, 50%, 1.0);
+}
+
+.propertyMenu{
+    padding: 7px;
+    width:100%;
+    font-size: 14px;
+    font-weight: bolder;
+    margin: 5px;
+    text-align: center;
+    color:hsla(43, 100%, 50%, 1.0);
+    background-color: #000;
+    border: 5px solid hsla(43, 100%, 50%, 1.0);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.propertyMenu:hover{
+    color:#000;
+    background-color: hsla(43, 100%, 50%, 1.0);
+    border: 5px solid #000;
+}
+
+#propOKButton{
+  text-align: right;
+  position:absolute;
+  right: 10px;
+  bottom: 0; 
+  width:25%; 
 }
 
 /*==========================================================================================*/
-
-li.collapsibleListOpen{
-  list-style-image:url('button-open.png');
-  cursor:pointer;
-  }
-
-li.collapsibleListClosed{
-  list-style-image:url('button-closed.png');
-  cursor:pointer;
-}
 
 .left {
 	  overflow:auto;
@@ -511,6 +572,7 @@ li.collapsibleListClosed{
 
 #drop-target-one{
     /*padding: 5em 2em;*/
+  overflow-x: hidden; 
     height:100%;
     list-style-type:none;
 }
@@ -532,7 +594,6 @@ li.collapsibleListClosed{
 	border: 1px solid #D9D9D9;
 	background: #F7F7F7;
 	border-radius: 3px;
-
 }
 
 

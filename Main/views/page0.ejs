@@ -51,7 +51,7 @@
                 <a href="#member">SIGN IN</a>
               </li>
               <li data-tab="new">
-                <a href="#new">SIGN UP</a>
+                <a href="#new">REGISTER</a>
               </li>
             </ul>
 
@@ -66,17 +66,15 @@
             </div>
             
             <div  class="form-content" id="new">
-              <form id="reg" action="/signup" method="post">
+              <form id="reg" action="/sendemail" method="post">
 
                 <!-- new field 1-->
-                <input type="text" name="login-id" id="user" placeholder="USERNAME" class="field" required>
+                <input type="text" name="user" id="user" placeholder="USERNAME" class="field" required>
                 <!-- nw field 1-->
 
 
                 <input type="email" name="email" id="usremail" placeholder="EMAIL ADDRESS" class="field" required>
-                <input type="password" name="password" placeholder="PASSWORD" class="field" required><br />
-
-
+                
                 <!-- new field 2 -->
 
                 <input type="checkbox" name="promo" id="promo-check" class="check" unchecked required=""><label for="promo-check"
@@ -84,7 +82,7 @@
 
                 <!-- new field 2 -->
 
-                <button id="submit" name="register-button" class="flat-button signin">Sign Up</button>
+                <button id="submit" name="register-button" class="flat-button signin">Request</button>
                 <div class="clear"></div>
               </form>
             </div>

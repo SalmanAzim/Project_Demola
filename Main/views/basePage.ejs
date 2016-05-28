@@ -14,8 +14,20 @@
     <script  type="text/javascript" src="js/library/fv-svg.js"></script>
     <script  type="text/javascript" src="js/library/gauge.min.js"></script>
     <script  type="text/javascript" src="js/library/angular-canvas-gauge.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-nvd3/1.0.5/angular-nvd3.min.js"></script>
     <script  type="text/javascript" src="js/monitor/angularCodes.js"></script>
-
+    
+    <script>
+        $(document).ready(function () {
+            if(screen.height > 768 && screen.width > 1366 ){		
+                var zoom = screen.width/1366*100 + "%";
+                document.body.style.zoom = zoom;
+            }
+        });
+    </script>
+    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!--link rel="stylesheet" type="text/css" href="css/monitor/main.css"-->
 

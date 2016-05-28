@@ -12,6 +12,7 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 var restClient = require('node-rest-client').Client;
 var favicon = require('serve-favicon');
+var mailer = require("nodemailer");
 
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
@@ -90,18 +91,12 @@ function initialConfig() {
 	//client.get("http://localhost:3080/mes/datapoints", function (data, response) {
 
 	// Variables ===================================================================
-	var booleanDataPoints = ['phase1_status', 'phase2_status'];
-	var doubleDataPoints = ['phase1_completionPercent', 'phase2_completionPercent'];
-	var integerDataPoints = ['phase1_productNos', 'phase2_productNos'];
-	var stringDataPoints = ['phase1_location', 'phase2_location'];
-	var longDataPoints = ['phase1_time', 'phase2_time'];
-	var arrayMapStatus = ['phase2_indProdStat','overall_demandVsProd','overall_stockValue'];
 
 	// Assign it directly for all data types
 	dataPoints = [
 		{
 			data: {
-				productAndStatus: "array(HashMap<string,object>)",
+				indProdStat: "map",
 				completionPercent: "double",
 				location: "string",
 				time: "long",
@@ -114,11 +109,12 @@ function initialConfig() {
 		},
 		{
 			data: {
-				indProdStat: "hashmap(string, object)",
+				indProdStat: "map",
 				completionPercent: "double",
 				location: "string",
 				time: "long",
 				productList: "array(string)",
+				status: "boolean",
 				productNos: "integer"
 			},
 			id: "phase2",
@@ -126,8 +122,9 @@ function initialConfig() {
 		},
 		{
 			data: {
-				demandVsProd: "hashmap(string, object)",
-				stockValue: "hashmap(string, object)",
+				demandVsProd: "verBarChart",
+				stockValue: "candleChart",
+				phaseProd: "barChart"
 			},
 			id: "overall",
 			url: "http://localhost:3080/mes/datapoints?phase=2"
@@ -168,13 +165,6 @@ function initialConfig() {
 			}
 		}
 	}*/
-
-	// Emit the type with data points to the Client (HTML)
-	io.sockets.emit('boolean_DataPoint', booleanDataPoints);
-	io.sockets.emit('integer_DataPoint', integerDataPoints);
-	io.sockets.emit('double_DataPoint', doubleDataPoints);
-	io.sockets.emit('long_DataPoint', longDataPoints);
-	io.sockets.emit('string_DataPoint', stringDataPoints);
 	io.sockets.emit('all_DataPoint', dataPoints);
 
 	//call the function to register for all the events
@@ -209,6 +199,50 @@ app.post('/:parent/notifs', function (req, res) {
 //-----------------------------------------------------------------------------//
 
 
+////////////////////////////////////////////////////////////////////////////////////////////EMAIL.
+app.post('/sendemail', function (request, response) {
+
+    var send_to = request.body.email;
+	console.log(request.body);
+	var user_Id = request.body.user;
+    // Use Smtp Protocol to send Email
+    var smtpTransport = mailer.createTransport("SMTP", {
+        service: "Gmail",
+		//host: 'smtp.yourprovider.org',		//yourprovider = > gmail
+        auth: {
+            user: "factory.visualization@gmail.com",
+            pass: "factory&1"
+        }
+    });
+
+	var mail = {
+        from: "factory.visualization@gmail",
+        //to: "soccer_fan23@hotmail.com",
+        to: send_to,
+		subject: "Factory Visualization",
+        text: "UserName: admin\nPassword: admin",
+        html: "<b>You have been granted an access to FV Software.</b><br><p>UserName: " + user_Id + "<br>Password: reqPwd123#</p><br><p>http://leanware-baltor.rhcloud.com</p>"
+    }
+
+    smtpTransport.sendMail(mail, function (error, response) {
+        if (error) {
+			//response.send('Username: ' + request.body.loggedinUser);
+            console.log(error);
+        } else {
+			//response.send('Username: ' + request.query['username']);
+
+            console.log("Message sent: " + response.message);
+        }
+
+        smtpTransport.close();
+    });
+
+	response.send("An email has been sent at your respective address.");
+
+
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////EMAIL.
 
 
 //////////////////////////////////////////////////////////////////////////////////get the item being added.
@@ -244,47 +278,6 @@ io.on("connection", function (socket) {
 		io.sockets.emit('panel_Visibility', data);
 	});
 
-	socket.on('moveObject', function (data) {
-		io.sockets.emit('moved_Html', data);
-		io.sockets.emit('moved_Object', data);
-	});
-
-	socket.on('newObject', function (data) {
-
-		var el2 = data.currentHtml;
-		var el1 = data.loggedinUser;
-		var isAngular = data.isAngular;
-		var dataSource = data.dataSource;
-		var angularId;
-
-		if (isAngular) {
-			angularId = JSON.parse(data.id);
-		}
-
-		io.sockets.emit("added_Object", data);
-
-		//////////////////sample test
-		var document = jsdom.jsdom();
-		var frame = document.createElement('iframe');
-		frame.style.display = 'none';
-		document.body.appendChild(frame);
-		frame.contentDocument.open();
-		frame.contentDocument.write(el2);
-		frame.contentDocument.close();
-		var el = frame.contentDocument.body.firstChild;
-		document.body.removeChild(frame);
-
-		if (isAngular) {
-			el.removeAttribute("id");
-			el.setAttribute("id", angularId);
-			io.sockets.emit('added_Html', { 'loggedinUser': el1, 'currentHtml': el.outerHTML, 'isAngular': isAngular, 'dataSource': dataSource });
-			el.setAttribute("dataSource", JSON.stringify(dataSource));
-		} else {
-			io.sockets.emit('added_Html', { 'loggedinUser': el1, 'currentHtml': el.outerHTML, 'isAngular': isAngular, 'dataSource': null });
-		}
-
-	});
-
 	socket.on('createScreen', function (data) {
 		//Initially Get the elements
         var elementsReceived = data.objects;
@@ -303,10 +296,9 @@ io.on("connection", function (socket) {
             var $ = window.$;
 			//Set the attrbutes for the background
             $('body').css('background', 'url(../images/background-image3.jpg) no-repeat center center fixed');
-			console.log(background);
-            $('body').css('background', 'url(' + background + ') no-repeat center center fixed');
+			$('body').css('background', 'url(' + background + ') no-repeat center center fixed');
             $('body').css('position', 'absolute');
-            $('body').css('top', '0');
+			$('body').css('top', '0');
             $('body').css('left', '0');
             $('body').css('height', '100%');
             $('body').css('width', '100%');
@@ -323,9 +315,9 @@ io.on("connection", function (socket) {
             fs.writeFile('./views/' + pageName, $('html')[0].outerHTML,
                 function (error) {
                     if (error) throw error;
-                });			
+                });
+			io.sockets.emit('creation_Success', { 'pageId': pageName.replace('.ejs', '') });
         });
-		io.sockets.emit('creation_Success', { 'pageId': pageName.replace('.ejs','')});
 	});
 });
 

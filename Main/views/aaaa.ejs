@@ -19,31 +19,20 @@
 <body id="my_body" ng-app="myApp" ng-controller="MyController">
 
 	<div class="left" id='LeftPan'>
-		<span class='TitleText2'>Factory <button  id='LeftPanAdjustButton' type="button" class="btn btn-default" aria-label="Left Align">
+		<span class='TitleText2'><button  id='LeftPanAdjustButton' type="button" class="btn btn-default" aria-label="Left Align">
 					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		</button><br />Visualization
+		</button><br/> Factory<br/> Visualization
 		</span>
 		<uib-tabset active="activeJustified" justified="true">
-			<uib-tab index="0" heading="Object" ng-click="tab1()">
+			<uib-tab index="0" heading="Object">
 				<br>
 				<uib-accordion close-others="true">
-					<div class="dropdown">
-						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
-                            panels
-							<span class="caret"></span>
-						</button>
-						<div class="dropdown-menu ">
-							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-								<li data-objectid="panElement" data-type="scalable" class="drag-elements-li" draggable="true" sytle="background: #EEECEC;">Panel</li>
-							</ul>
-						</div>
-					</div>
 					<div class="dropdown">
 						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
                             General
 							<span class="caret"></span>
 						</button>
-						<div class="dropdown-menu ">
+						<div class="dropdown-menu">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
 								<li data-objectid="label" data-type="unscalable" draggable="true"><label for='label' style=' font-family: Verdana; color: black; '> textLabel </label></li>
 								<li data-objectid="textBox" data-type="unscalable" draggable="true"><label for='textBox' style='font-family: Verdana; color: black; background-color: #FFFFFF; position:relative; display: inline-block;	border: 1px solid #000000; border-radius: 3px;'> SimpleTextBox</label></li>
@@ -60,10 +49,10 @@
 					</div>
 					<div class="dropdown">
 						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
-                            Element SVG
+                            SVG
 							<span class="caret"></span>
 						</button>
-						<div class="dropdown-menu ">
+						<div class="dropdown-menu">
 							<ul>
 								<svg-icon data-objectid="svg-square" data-type="unscalable" p="rectangle" draggable="true"></svg-icon>
 								<svg-icon data-objectid="svg-circle" data-type="unscalable" p="circle" draggable="true"></svg-icon>
@@ -76,18 +65,17 @@
                             Charts & Widgets
 							<span class="caret"></span>
 						</button>
-						<div class="dropdown-menu ">
+						<div class="dropdown-menu">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-								<li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gaugeone.png" height="70px" width="70px" style="float:left;"></li>
+								<!--li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gaugeone.png" height="70px" width="70px" style="float:left;"></li>
 								<li data-objectid="gauge-2" data-type="scalable" draggable="true"><img src="../images/gaugetwo.png" height="70px" width="70px"></li>
-								&nbsp; &nbsp; &nbsp; &nbsp;
+								&nbsp; &nbsp; &nbsp; &nbsp;-->
 								<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gaugethree.png" height="70px" width="70px" style="float:left;"></li>
 								<li data-objectid="bar-chart" data-type="scalable" draggable="true"><img src="../images/barchrt.png" height="70px" width="70px"></li>
 								&nbsp; &nbsp; &nbsp; &nbsp;
-								<li data-objectid="line-chart" data-type="scalable" draggable="true"><img src="../images/candlechrt.png" height="70px" width="70px" style="float:left;"></li>
-								<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/linechrt.png" height="70px" width="70px"></li>
-								&nbsp; &nbsp; &nbsp; &nbsp;
-								<li data-objectid="dsBarChart" data-type="scalable" draggable="true"><img src="../images/verbarChrt.png" height="70px" width="70px"></li>
+								<!--li data-objectid="line-chart" data-type="scalable" draggable="true"><img src="../images/candlechrt.png" height="70px" width="70px" style="float:left;"></li-->
+								<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/candlechrt.png" height="70px" width="70px" style="float:left;"></li>
+								<li data-objectid="ver-bar-chart" data-type="scalable" draggable="true"><img src="../images/verbarChrt.png" height="70px" width="70px"></li>
 							</ul>
 						</div>
 					</div>
@@ -96,7 +84,7 @@
                             Buttons & Menu
 							<span class="caret"></span>
 						</button>
-						<div class="dropdown-menu ">
+						<div class="dropdown-menu">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
 								<li data-objectid="MenuButton" data-type="unscalable" draggable="true">
 									<div class="cn-button small"><i class="fa fa-desktop mt-top-15"></i></div>
@@ -106,7 +94,7 @@
 					</div>
 				</uib-accordion>
 			</uib-tab>
-			<uib-tab index='1' select="tabAlert()" ng-click="tab2()">
+			<uib-tab index='1' select="tabAlert()">
 				<uib-tab-heading>
 					DataPoint
 				</uib-tab-heading>
@@ -146,216 +134,258 @@
 						<svg-icon data-objectid="svg-square" data-type="unscalable" p="rectangle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
 						<svg-icon data-objectid="svg-circle" data-type="unscalable" p="circle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
 						<svg-icon data-objectid="svg-path" data-type="unscalable" p="arrow" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
-						<li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gaugeone.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
-						<li data-objectid="gauge-2" data-type="scalable" draggable="true"><img src="../images/gaugetwo.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
 						<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gaugethree.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
-						<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/candlechrt.png" height="100px" width="120px" ng-show="(dpSelectPanel.mapShow)"></li>
+						<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/candlechrt.png" height="100px" width="120px" ng-show="(dpSelectPanel.candleChartShow)"></li>
+						<li data-objectid="ver-bar-chart" data-type="scalable" draggable="true"><img src="../images/verbarChrt.png" height="100px" width="120px" ng-show="(dpSelectPanel.verBarChartShow)"></li>
+						<li data-objectid="bar-chart" data-type="scalable" draggable="true"><img src="../images/barchrt.png" height="100px" width="120px" ng-show="(dpSelectPanel.barChartShow)"></li>
 					</ul>
 				</div>
 			</uib-tab>
 		</uib-tabset>
 		<hr />
-		<uib-tabset active="active" justified="true" id='LeftSettings' ng-show="settings">
-			<uib-tab index='0' heading="GRID">
-				<button type="button" class="TitleText" ng-model="gridDetails.hide" ng-click="showHideGrid()" uib-btn-checkbox>
-					{{gridDetails.value}}
-				</button>
-				</br>
-				<!-- <span>Grid Color</span> -->
-				<select class="input-sm TitleText" ng-model="gridDetails.colorSelect" ng-change="gridColorChange()">
-					<option selected="selected" >Grid Color: BLACK</option>
-					<option>Grid Color: WHITE</option>
-				</select>
-			</uib-tab>
-			<uib-tab index='1' heading="Background">
-				<div class=" mt-left-5 mt-bot-10">
-					<input id='BackImageInput' type="text" ng-model="newimagepath" placeholder="Image URL" />
-				</div>
-				<button class='btn subtext1' ng-click="setBackground()">CHANGE</button>
-			</uib-tab>
-		</uib-tabset>
 	</div>
 
 	<div id="main_ui" class="main" ng-style="mainPanelStyle">
-		<div id="drop-target-one" ng-style="dropTargetOne.style">
-			<button id='LeftPanAdjustButton2' type="button" class="btn btn-default not" aria-label="Left Align">
-	            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            </button>
-
-			<nav role="navigation" id='UIMenu'>
-				<h1><span id="MenuText">Menu</span></h1>
-				<ol id='mainUImenu'>
-					<li class='list' id='CreateBut'><a href="#">Create</a></li>
-					<li class='list'><a href="#">Save</a></li>
-					<li class='list'><a href="#">Cancel</a></li>
-				</ol>
-			</nav>
-
-			<div id='CreatePop'>
-				<a href="#"><button id='formClose' class="close">x &nbsp;</button></a>
-				<br/>
-				<span class="TitleText2"> &nbsp; &nbsp;  CONFIRM CREATION</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input type="text"
-					name="name" placeholder="Screen Name" class="input-sm" ng-model="screenName" required> &nbsp; &nbsp; &nbsp;<button class="btn btn-success"
-					ng-click="createScreen()">Confirm</button>
-				<br/>
-				<br/> ! This name will be used as the address endpoint so please no 'space' or 'special Characters'
-			</div>
-			<div ng-click="propertyPanel()" class="propButton">
-				Hello
-			</div>
+		<div ng-click="propertyPanelShow()" class="propButton" ng-show="propertyPanel.minimize">
+			Properties
 		</div>
-	</div>
-
-	<!-- Options with respect to bottom panel. These will be hide/shown based on the selected object-->
-	<div class="bottom" ng-show="bottomPropPanel.panelShow" ng-style="bottomPanelStyle">
-		<div class="row">
-			<div class="col-md-6 col-lg-6">
-				Id &nbsp; &nbsp; &nbsp; &nbsp;
-				<input type="text" ng-model="bottomPropPanel.name">
-			</div>
-			<div class="col-md-6 col-lg-6 text-right" ng-show="bottomPropPanel.minMaxButton">
-				<button type="button" class="btn btn-primary" ng-model="bottomPropPanel.minMaxShow" uib-btn-checkbox ng-click="arrayMapDPGenerate(bottomPropPanel.minMaxValue)">
-        			{{bottomPropPanel.minMaxValue}}
-    			</button>
-			</div>
-		</div>
-
-		<div ng-show="(bottomPropPanel.dpSelectShow) && (!bottomPropPanel.justPanel)">
-			Parent &nbsp;
-			<select class="input-sm" ng-model="bottomPropPanel.parentSelect" ng-change="generatePropDP()" required>
-				<option ng-repeat="i in allDP">{{i.id}}</option>
-			</select> &nbsp;&nbsp;&nbsp; Data Point &nbsp;
-			<select class="input-sm" ng-model="bottomPropPanel.dpSelect" required>
-				<option ng-repeat="i in bottomPropPanel.dpList">{{i}}</option>
-			</select>
-		</div>
-
-		<div ng-show="bottomPropPanel.fontPropShow">
-			<span ng-show="(!bottomPropPanel.minMaxShow)">
-				Color &nbsp; &nbsp;&nbsp;&nbsp; 
-			</span>
-			<select class="input-sm" ng-model="bottomPropPanel.colorSelect" ng-show="!bottomPropPanel.minMaxShow">
-				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
-			</select> Font &nbsp;
-			<select class="input-sm" ng-model="bottomPropPanel.fontSelect">
-				<option ng-repeat="i in bottomPropPanel.fontList">{{i}}</option>
-			</select> &nbsp;&nbsp;&nbsp; Size &nbsp;
-			<input type="number" ng-model="bottomPropPanel.fontSize" min="1" max="100">
-
-			<span ng-show="(!bottomPropPanel.minMaxShow) && (!bottomPropPanel.gaugeDetailsShow)">
-				Background-Color &nbsp; &nbsp;&nbsp;&nbsp; 
-			</span>
-			<select class="input-sm" ng-model="bottomPropPanel.backColorSelect" ng-show="(!bottomPropPanel.minMaxShow) && (!bottomPropPanel.gaugeDetailsShow)">
-				<option ng-repeat="i in bottomPropPanel.backColorList">{{i}}</option>
-			</select>
-		</div>
-
-		<!-- property setting options for Image and SVG (while svg Url is made hidden)-->
-		<div ng-show="(bottomPropPanel.imageDetailsShow) || (bottomPropPanel.svgDetailsShow)">
-			<div class="row">
-				<div class="col-md-1 col-lg-1">
-					Rotate Object &nbsp; &nbsp;&nbsp;&nbsp;
+		<div id="propSettingPanel" ng-show="propertyPanel.panel">
+			<!-- buttons for panel operation-->
+			<a href="#"><button class="close" ng-click="propertyPanelClose()">x&nbsp;</button></a>
+			<a href="#"><button class="close" ng-click="propertyPanelMinimize()">_&nbsp;</button></a>
+			<a href="#"><button class="close" ng-click="propertyInfo()">i&nbsp;</button></a>
+			<!-- Layer that will hold the buttons-->
+			<div id="propOptions">
+				<div class="propertyMenu" ng-click="showGeneral()" ng-style="propertyPanel.generalButtonStyle" ng-show="propertyPanel.generalOption">
+					General
 				</div>
-				<div class="col-md-6 col-lg-6">
-					<!--Slider for adjusting the angle-->
-					<input type="range" min="0" max="360" step="5" onchange="showValue(this.value)" ng-model="bottomPropPanel.degree" />
+				<div class="propertyMenu" ng-click="showFont()" ng-style="propertyPanel.fontButtonStyle" ng-show="propertyPanel.fontOption">
+					Font
 				</div>
-				<div class="col-md-2 col-lg-2">
-					<!--Showing current value of the slider-->
-					{{bottomPropPanel.degree}}
+				<div class="propertyMenu" ng-click="showBG()" ng-style="propertyPanel.bgButtonStyle" ng-show="propertyPanel.bgOption">
+					BackGround
+				</div>
+				<div class="propertyMenu" ng-click="showShape()" ng-style="propertyPanel.shapeButtonStyle" ng-show="propertyPanel.shapeOption">
+					Shape
+				</div>
+				<div class="propertyMenu" ng-click="showDP()" ng-style="propertyPanel.dpButtonStyle" ng-show="propertyPanel.dpOption">
+					Data Point
+				</div>
+				<div class="propertyMenu" ng-click="showSpecial()" ng-style="propertyPanel.specialButtonStyle" ng-show="propertyPanel.specialOption">
+					Specials
+				</div>
+				<div class="propertyMenu" ng-click="showConnection()" ng-style="propertyPanel.conncetionButtonStyle" ng-show="propertyPanel.connectionOption">
+					Connections
 				</div>
 			</div>
-			<span ng-show="!bottomPropPanel.svgDetailsShow">url &nbsp; &nbsp;&nbsp;&nbsp; </span>
-			<input type="text" ng-model="bottomPropPanel.url" ng-show="!bottomPropPanel.svgDetailsShow">
-
-			<!-- Property objects for all Svg -->
-			<span ng-show="(bottomPropPanel.justPanel) && (!bottomPropPanel.imageDetailsShow)"> color </span> &nbsp;
-			<select class="input-sm" ng-model="bottomPropPanel.colorSelect" ng-show="(bottomPropPanel.justPanel) && (!bottomPropPanel.imageDetailsShow)">
-				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
-			</select>
-
-			<!-- Property objects for SVG square -->
-			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.imageDetailsShow) && (!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)"> Width(px) </span>			&nbsp;
-			<input type="number" ng-model="bottomPropPanel.width" min="1" max="500" ng-show="(!bottomPropPanel.imageDetailsShow) && (!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)">			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.imageDetailsShow) && (!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)"> Height(px) </span>			&nbsp;
-			<input type="number" ng-model="bottomPropPanel.height" min="1" max="500" ng-show="(!bottomPropPanel.imageDetailsShow) &&(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgPathShow)">
-
-			<!-- Property objects for SVG Circle -->
-			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.svgSquareShow) && (!bottomPropPanel.svgPathShow) && (!bottomPropPanel.imageDetailsShow)"> radius(px) </span>			&nbsp;
-			<input type="number" ng-model="bottomPropPanel.radius" min="1" max="500" ng-show="(!bottomPropPanel.svgSquareShow) && (!bottomPropPanel.svgPathShow) && (!bottomPropPanel.imageDetailsShow)">
-
-			<!-- Property objects for SVG Path -->
-			&nbsp;&nbsp;&nbsp; <span ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgSquareShow) && (!bottomPropPanel.imageDetailsShow)"> zoom(%) </span>			&nbsp;
-			<input type="number" ng-model="bottomPropPanel.zoom" min="1" max="500" ng-show="(!bottomPropPanel.svgCircleShow) && (!bottomPropPanel.svgSquareShow) && (!bottomPropPanel.imageDetailsShow)">
+			<div id="propDisplay">
+				<div ng-show="propertyPanel.generalShow">
+					<!-- Name of the object-->
+					<input type="text" placeholder="Object Name/ID" class="input-sm" ng-model="propertyPanel.name">
+				</div>
+				<div ng-show="propertyPanel.fontShow">
+					<!-- Font Family -->
+					<select class="input-sm" ng-model="propertyPanel.font">
+						<option ng-repeat="i in propertyPanel.fontList">{{i}}</option>
+					</select>
+					<br/>
+					<br/>
+					<!-- Font Color -->
+					<select class="input-sm" ng-model="propertyPanel.color">
+						<option ng-repeat="i in propertyPanel.colorList">Font-Color : {{i}}</option>
+					</select>
+					<br/>
+					<br/>
+					<!-- Font Size -->
+					Font Size &nbsp;&nbsp;&nbsp;
+					<input type="number" class="input-sm" ng-model="propertyPanel.fontSize" min="1" max="100">
+					<br/>
+					<br/>
+				</div>
+				<div ng-show="propertyPanel.bgShow">
+					<!-- Background Color -->
+					<select class="input-sm" ng-model="propertyPanel.backgroundColor" ng-show="!propertyPanel.imageProp">
+						<option ng-repeat="i in propertyPanel.colorList">Background-Color : {{i}}</option>
+					</select>
+					<br/>
+					<br/>
+					<!-- Url for the image type objects -->
+					<input type="text" placeholder="Url" class="input-sm" ng-model="propertyPanel.url" ng-show="propertyPanel.imageProp">
+				</div>
+				<div ng-show="propertyPanel.dpShow">
+					<!-- parent element of data point (eg. phase1) -->
+					<select class="input-sm" ng-model="propertyPanel.parent" ng-change="generatePropDP()">
+						<option ng-repeat="i in allDP">Parent : {{i.id}}</option>
+					</select>
+					<br/>
+					<br/>
+					<!-- Data Point -->
+					<select class="input-sm" ng-model="propertyPanel.dataPoint">
+						<option ng-repeat="i in propertyPanel.dpList">DP : {{i}}</option>
+					</select>
+				</div>
+				<div ng-show="propertyPanel.shapeShow">
+					<div class="row">
+						<div class="col-md-1 col-lg-1">
+							Rotate Object
+						</div>
+						<div class="col-md-1 col-lg-1">
+						</div>
+						<div class="col-md-9 col-lg-9">
+							<!--Slider for adjusting the angle-->
+							<input type="range" min="0" max="360" step="10" onchange="showValue(this.value)" ng-model="propertyPanel.degree" />
+							<!--Showing current value of the slider-->
+							&nbsp;{{propertyPanel.degree}}
+						</div>
+					</div>
+					<br/>
+					<br/>
+					<div ng-show="propertyPanel.widthHeightShow">
+						Width(px)&nbsp;&nbsp;&nbsp;
+						<input type="number" ng-model="propertyPanel.width" min="1">
+						<br/>
+						<br/>
+						<!-- Property objects for SVG Square -->
+						<span> Height(px) </span>&nbsp;&nbsp;&nbsp;
+						<input type="number" ng-model="propertyPanel.height" min="1">
+						<br/>
+						<br/>
+					</div>
+					<div ng-show="(!propertyPanel.imageProp) && (propertyPanel.radiusShow)">
+						<!-- Property objects for SVG Circle -->
+						<span> radius(px) </span>&nbsp;&nbsp;&nbsp;
+						<input type="number" ng-model="propertyPanel.radius" min="1">
+						<br/>
+						<br/>
+					</div>
+					<div ng-show="(!propertyPanel.imageProp) && (propertyPanel.zoomShow)">
+						<!-- Property objects for SVG Path -->
+						<span> zoom(%) </span>&nbsp;&nbsp;&nbsp;
+						<input type="number" ng-model="propertyPanel.zoom" min="1">
+					</div>
+				</div>
+				<div ng-show="propertyPanel.specialShow">
+					<!-- button to choose between Map / Array for List type of Objects-->
+					<div class="row" ng-show="propertyPanel.listShow">
+						<div class="col-md-12 col-lg-12 text-right">
+							<button type="button" class="btn btn-primary" ng-model="propertyPanel.minMaxPresence" uib-btn-checkbox ng-click="arrayMapDPGenerate(propertyPanel.custButtonLabel)">
+        						{{propertyPanel.custButtonLabel}}
+    						</button>
+						</div>
+						<br/>
+					</div>
+					<!-- Units in case of Gauge or tanks-->
+					<div ng-show="propertyPanel.gaugeShow">
+						<input type="text" placeholder="Units" class="input-sm" ng-model="propertyPanel.units">
+						<br/>
+					</div>
+					<!-- Check box button which changes functionality for many objects-->
+					<div ng-show="propertyPanel.checkBoxShow">
+						<input type="checkbox" ng-model="propertyPanel.checkBoxState"> {{propertyPanel.checkBoxLabel}}<br>
+						<br/>
+					</div>
+					<div ng-show="(!propertyPanel.minMaxPresence) && (!propertyPanel.checkBoxState)">
+						No of Rows &nbsp; &nbsp;&nbsp;
+						<input type="number" ng-model="propertyPanel.rowNos" min="1" max="100">
+						<br/>
+					</div>
+					<div class="row" ng-show="(propertyPanel.minMaxPresence) && (!propertyPanel.checkBoxState)">
+						<!-- Nominal properties it changes for each object type -->
+						{{propertyPanel.nomLabel}} &nbsp;&nbsp;&nbsp;
+						<input type="number" ng-model="propertyPanel.nomValue">
+						<br/>
+						<br/>
+						<select class="input-sm" ng-model="propertyPanel.nomColor">
+							<option ng-repeat="i in propertyPanel.colorList">{{propertyPanel.nomColorLabel}} : {{i}}</option>
+						</select>
+						<br/>
+						<br/>
+						<!-- Maximum propertis it changes for each object type -->
+						{{propertyPanel.maxLabel}} &nbsp;&nbsp;&nbsp;
+						<input type="number" ng-model="propertyPanel.maxValue">
+						<br/>
+						<br/>
+						<select class="input-sm" ng-model="propertyPanel.maxColor">
+							<option ng-repeat="i in propertyPanel.colorList">{{propertyPanel.maxColorLabel}} : {{i}}</option>
+						</select>
+						<br/>
+						<br/>
+						<!-- Minimum Properties it changes for each object type -->
+						<div ng-show="propertyPanel.minShow">
+							{{propertyPanel.minLabel}} &nbsp;&nbsp;&nbsp;
+							<input type="number" ng-model="propertyPanel.minValue">
+							<br/>
+							<br/>
+							<select class="input-sm" ng-model="propertyPanel.minColor">
+								<option ng-repeat="i in propertyPanel.colorList">{{propertyPanel.minColorLabel}} : {{i}}</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div ng-show="propertyPanel.connectionShow">
+					<!-- Name of the object-->
+					<input type="text" placeholder="PageUrl" class="input-sm" ng-model="propertyPanel.pageUrl">
+				</div>
+			</div>
+			<div id="propOKButton">
+				<button type="button" class="TitleText" ng-click="assignProperties()">OK</button>
+			</div>
 		</div>
-
-		<!-- property setting options for SVG-->
-		<div ng-show="bottomPropPanel.svgDetailsShow">
-			<input type="checkbox" ng-model="bottomPropPanel.justPanel"> Just Panel<br>
+		<button id='LeftPanAdjustButton2' type="button" class="btn btn-default not" aria-label="Left Align">
+	        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        </button>
+		<nav role="navigation" id='UIMenu'>
+			<h1><span id="MenuText">Menu</span></h1>
+			<ol id='mainUImenu'>
+				<li class='list' ng-click="createPanelShow()"><a href="#">Create</a></li>
+				<li class='list'><a href="#">Save</a></li>
+				<li class='list' ng-click="settingPanelShow()"><a href="#">Settings</a></li>
+			</ol>
+		</nav>
+		<div id="settPanel" ng-show="settingPanel.panelShow">
+			<a href="#"><button class="close" ng-click="settingPanelClose()">x&nbsp;</button></a>
+			<div class="text-center">
+				<span class="TitleText2"> SETTINGS </span>
+			</div>
+			<uib-tabset active="active" id='LeftSettings'>
+				<uib-tab index='0' heading="Grid">
+					<button type="button" class="TitleText" ng-model="gridDetails.hide" ng-click="showHideGrid()" uib-btn-checkbox>
+					{{gridDetails.value}}
+				</button>
+					</br>
+					<!-- <span>Grid Color</span> -->
+					<select class="input-sm TitleText" ng-model="gridDetails.colorSelect" ng-change="gridColorChange()">
+						<option selected="selected" >Grid Color: BLACK</option>
+						<option>Grid Color: WHITE</option>
+						</select>
+				</uib-tab>
+				<uib-tab index='1' heading="Background">
+					<div class="text-center mt-bot-20">
+						<input type="text" ng-model="newimagepath.url" placeholder="Image URL">
+					</div>
+					<button type="button" class="TitleText" ng-click="setBackground()">CHANGE</button>
+				</uib-tab>
+			</uib-tabset>
 		</div>
-
-		<!-- property setting options for gauge-->
-		<div ng-show="bottomPropPanel.gaugeDetailsShow">
-			unit &nbsp;
-			<input type="text" ng-model="bottomPropPanel.unit">
+		<div id="CreatePop" ng-show="creationPanel.panelShow">
+			<a href="#"><button class="close" ng-click="createPanelClose()">x&nbsp;</button></a>
 			<br/>
-			<span ng-show="(!bottomPropPanel.minMaxShow)"> Gauge Dial Color</span>
-			<select class="input-sm" ng-model="bottomPropPanel.backColorSelect" ng-show="(!bottomPropPanel.minMaxShow)">
-				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
-			</select>
-		</div>
-
-		<!-- property setting options for SVG-->
-		<div ng-show="(!bottomPropPanel.justPanel) &&(bottomPropPanel.svgDetailsShow)">
-			Normal-Color &nbsp;
-			<select class="input-sm" ng-model="bottomPropPanel.nomColorSelect">
-				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
-			</select> &nbsp;&nbsp;&nbsp;Danger-Color &nbsp;
-			<select class="input-sm" ng-model="bottomPropPanel.dangrColorSelect">
-				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
-			</select>
-		</div>
-
-		<!-- property setting options for List Objects-->
-		<div ng-show="(bottomPropPanel.rowSelectionShow) && (!bottomPropPanel.minMaxShow)">
-			<input type="checkbox" ng-model="bottomPropPanel.unfixRowNos"> Unfix Rows<br> No of Rows &nbsp; &nbsp;&nbsp;&nbsp;
-			<input type="number" ng-model="bottomPropPanel.rowNos" min="1" max="100" ng-disabled="bottomPropPanel.unfixRowNos">
-		</div>
-
-		<div ng-show="bottomPropPanel.minMaxShow">
-
-			{{bottomPropPanel.maxTextBoxDisplayName}} &nbsp;
-			<input type="number" ng-model="bottomPropPanel.value"> &nbsp;&nbsp;&nbsp; {{bottomPropPanel.maxSelectDisplayName}} &nbsp;
-			<select class="input-sm" ng-model="bottomPropPanel.maxColorSelect">
-				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
-			</select> &nbsp;&nbsp;&nbsp; {{bottomPropPanel.minTextBoxDisplayName}} &nbsp;
-			<input type="number" ng-model="bottomPropPanel.maxPercent"> &nbsp;&nbsp;&nbsp; {{bottomPropPanel.minSelectDisplayName}}
+			<span class="TitleText2"> &nbsp; &nbsp;  CONFIRM CREATION</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+			<input type="text" name="name" placeholder="Screen Name" class="input-sm" ng-model="screenName" required> &nbsp; &nbsp;
 			&nbsp;
-			<select class="input-sm" ng-model="bottomPropPanel.minColorSelect">
-				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
-			</select>
-
-			<span ng-show="!bottomPropPanel.gaugeDetailsShow">
-			&nbsp;&nbsp;&nbsp; {{bottomPropPanel.nomTextBoxDisplayName}} &nbsp;</span>
-			<input type="number" ng-model="bottomPropPanel.minPercent" ng-show="!bottomPropPanel.gaugeDetailsShow"> &nbsp;&nbsp;&nbsp;
-			{{bottomPropPanel.nomSelectDisplayName}} &nbsp;
-			<select class="input-sm" ng-model="bottomPropPanel.nomColorSelect">
-				<option ng-repeat="i in bottomPropPanel.colorList">{{i}}</option>
-			</select>
+			<button class="btn btn-success" ng-click="createScreen()">Confirm</button>
+			<br/>
+			<br/> ! This name will be used as the address endpoint so please no 'space' or 'special Characters'
 		</div>
-
-		<div class="text-right">
-			<a type="button" class="btn btn-default" ng-click="assignProperties()">
-				<span> OK</span>
-			</a>
+		<div id="drop-target-one" ng-style="dropTargetOne.style">
 		</div>
-
 	</div>
 
 	<div id="menu">
 		<a onclick="removeCustomMenu(this)">
 			<img src="http://puu.sh/nr60s/42df867bf3.png" /> Delete Element
 		</a>
-		<a onclick="showDoubleMenu(this)" ng-click="testFunction(this)">
+		<a onclick="showDoubleMenu(this)">
 			<img src="http://puu.sh/nr5Z6/4360098fc1.png" /> Properties
 		</a>
 	</div>
@@ -366,7 +396,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
 <script>
-	var elementDragged = null;	var right_global; var test_data; var double_Click
+	var elementDragged = null;	var right_global; var test_data; var double_Click, left_global;
 
 </script>
 <script src="js/controllers/demo.js"></script>
@@ -383,94 +413,83 @@
 <script type="text/javascript" src="js/controllers/multidraggable.js"></script>
 
 <script>
-	function menu(x, y,i) {
-				i.top = y + "px";
-				i.left = x + "px";
-				i.visibility = "visible";
-				i.opacity = "1";
-			}
-
-</script>
-
-<script>
+	//Function that shows the menu on right click
 	function showCustomMenu(currElement) {
-
-					right_global = currElement;
-					var e = window.event;
-					var i = document.getElementById("menu").style;
-					var posX = e.clientX;
-					var posY = e.clientY;
-					menu(posX, posY,i);
-					e.preventDefault();
-				
-			}
-
-</script>
-
-<script>
-	function feedDataToElement(currElement){
-				var mychart;
-				var chartType = right_global.getAttribute("type");
-				console.log(right_global.getAttribute("type"));
-				function addLeadingZero(num){
-						   return (num <= 9)? ("0"+num) : num;
-					 }
-				var chart_id = document.getElementById(right_global.id).children[0].id;
-				function updateData() {					
-					mychart = FusionCharts(chart_id);
-					currDate = new Date(),
-					label = addLeadingZero(currDate.getHours()) + ":" +
-								addLeadingZero(currDate.getMinutes()) + ":" +
-								addLeadingZero(currDate.getSeconds());
-					if(chartType == 'angulargauge' || chartType == 'cylinder'){
-						randomValue = Math.floor(Math.random() * 200) + 50,
-						strData ="&value=" + randomValue;
-					}
-					else if(chartType == "realtimeline"){
-						randomValue = Math.floor(Math.random() * 50) / 100 + 35.25,
-						strData = "&label=" + label  + "&value=" + randomValue;
-					}		
-					test_data = strData;
-					mychart.feedData(strData);
-				}						
-				var myVar = setInterval(function () {
-					updateData();
-				}, 1000);
-			}
-
-</script>
-
-<script>
+		right_global = currElement;
+		var e = window.event;
+		var i = document.getElementById("menu").style;
+		var posX = e.clientX;
+		var posY = e.clientY;
+		menu(posX, posY,i);
+		e.preventDefault();				
+	}
+	
+	// Function which calculates the right click display menu position
+	function menu(x, y,i) {
+		i.top = y +"px";
+		i.left = x +"px";
+		i.visibility ="visible";
+		i.opacity ="1";
+	}
+	
+	// Function that closes the right click display menu 
 	function removeCustomMenu(currElement) {
-
-			right_global.remove();
-
-					var e = window.event;
-					var i = document.getElementById("menu").style;
-				i.opacity = "0";
-				setTimeout(function() {
-				  i.visibility = "hidden";
-				});
-				
-				
-			right_global = null;
-				
-			}
-
-</script>
-
-<script>
+		angular.element($("#my_body")).scope().deleteObject(right_global);
+		right_global.remove();
+		var e = window.event;
+		var i = document.getElementById("menu").style;
+		i.opacity ="0";
+		setTimeout(function() {
+			i.visibility ="hidden";
+		});					
+		right_global = null;				
+	}
+	
+	// Function that pings the angular controller to show the angular element property panel
 	function showDoubleMenu(currElement) {
-				double_Click = currElement;
-				var socket = io();
-				socket.emit("panelVisibility",{'elementId':currElement.id});
-			}
+		var socket = io();
+		if((currElement.id != null)&&(currElement.id != "")){
+			double_Click = currElement;
+			socket.emit("panelVisibility",{'elementId':currElement.id});
+		}else if((right_global != null)&&(right_global != undefined)){
+			double_Click = right_global;
+			socket.emit("panelVisibility",{'elementId':right_global.id});				
+		}
+	}
+	
+	//Function which shows the selected object with a 	
+	function singleDotted(currElement) {
+		if(left_global!=undefined){
+			var remove_el = $(left_global);
+			$(remove_el.children()[0]).css("outline","");
+		}
+		var inner_el = $(currElement);
+		$(inner_el.children()[0]).css("outline","red dashed");
+		left_global = currElement;
+	}	
+	
+	//Function that rotates the object
+	function showValue(newValue)
+	{
+		var degree = newValue; 			
+		var svg_el = $(double_Click); 
+		//Rotation is added for both the child and the parent element
+		if((svg_el.attr("data-objectid")=='svg-square') || (svg_el.attr("data-objectid")=='svg-circle') || (svg_el.attr("data-objectid")=='svg-path')){				
+			$(svg_el.children()[0]).css('-moz-transform', 'rotate('+degree+'deg)')
+			$(svg_el.children()[0]).css('-webkit-transform', 'rotate('+degree+'deg)');
+			$(svg_el.children()[0]).css('-o-transform', 'rotate('+degree+'deg)');
+			$(svg_el.children()[0]).css('-ms-transform', 'rotate('+degree+'deg)');					
+		}	
+		svg_el.css('-moz-transform', 'rotate('+degree+'deg)');
+		svg_el.css('-webkit-transform', 'rotate('+degree+'deg)');
+		svg_el.css('-o-transform', 'rotate('+degree+'deg)');
+		svg_el.css('-ms-transform', 'rotate('+degree+'deg)');			
+	}
 
 </script>
 
 <script>
-	var socket = io();
-		
+	var socket = io();		
 			//this is pinged inorder to delete the old HTML element and update with the new element
 			socket.on("prop_Changed", function(data){
 				//remove the older element
@@ -478,77 +497,7 @@
 				double_Click.innerHTML = data.objectHtml;
 				//replace with the newer element
 				$("#drop-target-one").append(double_Click);			
-			});	
-			
-			socket.on("added_Html", function(notificationData) {
-			
-				if(notificationData.loggedinUser != loggedinUser){		
-
-					if(notificationData.isAngular){
-						var $htmlObject = $(notificationData.currentHtml);
-						$htmlObject.attr("dataSource",JSON.stringify(notificationData.dataSource));
-						$htmlObject.css({
-							position: 'absolute',
-							cursor: 'pointer'
-						});
-						var angular_obj = $htmlObject[0];
-						angular_obj.setAttribute("oncontextmenu","showCustomMenu(this)");
-						angular_obj.setAttribute("ondblclick","showDoubleMenu(this)");
-
-						angular.injector(['ng', 'myApp']).invoke(function ($compile) {
-							var $scope = angular.element(document.body).scope();
-							var dataSource = notificationData.dataSource;
-										
-							var to_compile = angular_obj;
-							//var to_compile = notificationData.currentHtml;
-							var $compiled = $compile(to_compile)($scope);
-							$scope.$digest();
-							// Append the compiled output to the page.
-							$("#drop-target-one").append($compiled[0]);
-						});	
-					}else{
-						var $htmlObject = $(notificationData.currentHtml);
-						$("#drop-target-one").append($htmlObject);
-					}			
-
-					setAllDrags();					
-				}
-				
 			});
-
-			socket.on("moved_Html", function(notificationData) {
-
-				if(notificationData.loggedinUser != loggedinUser){				
-					console.log(notificationData);
-					console.log("pinged");		
-					//loggedinUser=" + loggedinUser + "&currentId=" + this.id + "&positionX=" + ui.position.left+ "&positionY=" + ui.position.top;
-					var nodes_test = document.getElementById(notificationData.currentId);
-					nodes_test.style.top=(notificationData.positionY)+ "px";
-					nodes_test.style.left=(notificationData.positionX)+ "px";				
-						
-				}
-				
-			});
-
-</script>
-
-<script type="text/javascript">
-	function showValue(newValue)
-			{
-				var degree = newValue; 			
-				var svg_el = $(double_Click); 
-				//Rotation is added for both the child and the parent element
-				if((svg_el.attr("data-objectid")=='svg-square') || (svg_el.attr("data-objectid")=='svg-circle') || (svg_el.attr("data-objectid")=='svg-path')){				
-					$(svg_el.children()[0]).css('-moz-transform', 'rotate('+degree+'deg)')
-					$(svg_el.children()[0]).css('-webkit-transform', 'rotate('+degree+'deg)');
-					$(svg_el.children()[0]).css('-o-transform', 'rotate('+degree+'deg)');
-					$(svg_el.children()[0]).css('-ms-transform', 'rotate('+degree+'deg)');					
-				}	
-				svg_el.css('-moz-transform', 'rotate('+degree+'deg)');
-				svg_el.css('-webkit-transform', 'rotate('+degree+'deg)');
-				svg_el.css('-o-transform', 'rotate('+degree+'deg)');
-				svg_el.css('-ms-transform', 'rotate('+degree+'deg)');			
-			}
 
 </script>
 
@@ -558,14 +507,23 @@
 	// The functionality is used in order to hide the drop down menu while some item is being clicked
 	var menu_item = document.getElementById("menu").style;
 	document.addEventListener('click', function(e) {
-		menu_item.opacity = "0";
+		menu_item.opacity ="0";
 		setTimeout(function() {
-			menu_item.visibility = "hidden";
+			menu_item.visibility ="hidden";
 		});
 	}, false);
 	
-	$('div.main').click(function(){
+	$('#drop-target-one').click(function(e){
+		//console.log($(e.target).is('#drop-target-one'));
+		if($(e.target).is('#drop-target-one')){
+			if(left_global!=undefined){
+				var inner_el = $(left_global);
+				$(inner_el.children()[0]).css("outline","");
+			}
+		}				
 		socket.emit("panelVisibilityOnClick",{});
+		//left_global.style.outline="";
+		right_global=null;
 	});
 
 </script>
