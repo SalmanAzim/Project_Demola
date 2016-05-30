@@ -1,0 +1,49 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Monitoring Screen</title>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="js/controllers/angular.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="js/library/fv-Label.js"></script>
+    <script type="text/javascript" src="js/library/fv-map.js"></script>
+    <script type="text/javascript" src="js/library/fv-svg.js"></script>
+    <script type="text/javascript" src="js/library/gauge.min.js"></script>
+    <script type="text/javascript" src="js/library/angular-canvas-gauge.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-nvd3/1.0.5/angular-nvd3.min.js"></script>
+    <script type="text/javascript" src="js/monitor/angularCodes.js"></script>
+    <script type="text/javascript" src="js/monitor/main.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css">
+    <link rel="stylesheet" type="text/css" href="css/monitor/main.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+
+</head>
+
+<body class="ScreenAdj" id="my_body" ng-app="myApp" ng-controller="MyController" style="">
+
+
+
+    <script class="jsdom" src="http://code.jquery.com/jquery.js"></script>
+    <div id="backgroundDiv" class="ScreenAdj" style="background-image:url(../images/custbg.png);"></div>
+    <div class="drag-elements-li ScreenAdj" style="left: 9px; top: 10px; width: 644px; height: 605px; position: absolute; background-color: green;"></div><label for="label" style="font-family: Verdana; color: black; font-size: 20px; left: 27px; top: 29px; position: absolute; cursor: pointer; background-color: transparent;"
+        class="ScreenAdj" ng-click="forwardTo('http://localhost:8080/test2')">Phase Details</label>
+    <div class="drag-elements-li ScreenAdj"
+        style="left: 684px; top: 9px; width: 648px; height: 606px; position: absolute; background-color: blue;"></div><label for="label" style="font-family: Verdana; color: black; font-size: 20px; left: 701px; top: 20px; position: absolute; cursor: pointer; background-color: transparent;"
+        class="ScreenAdj" ng-click="forwardTo('http://localhost:8080/test3')">Production vs Demand</label>
+    <div class="ScreenAdj"
+        id="4e390300-25e0-11e6-8576-cf03e65d6432" style="left: 32px; top: 65px; position: absolute; width: 586px; height: 520px;">
+        <nvd3 options="chrtOption.phaseProd.options" data="overall.phaseProd.data"></nvd3>
+    </div>
+    <div class="ScreenAdj" id="534435e0-25e0-11e6-8576-cf03e65d6432" style="position: absolute; left: 699px; top: 65px; width: 612px; height: 527px;">
+        <nvd3 options="chrtOption.demandVsProd.options" data="overall.demandVsProd.data"></nvd3>
+    </div>
+</body>
+
+</html>

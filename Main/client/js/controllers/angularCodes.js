@@ -49,13 +49,15 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 	$scope.currentObject = '';
 	$scope.screenName = '';
 
+	$scope.initialPanel = true;
+
 	$scope.confirmButton = false;
 
 	$scope.settings = true;
 
 	$scope.gaugeValue = 50;
 
-    $scope.imagepath = '../images/bg.png';
+    $scope.imagepath = '../images/custbg.png';
 
 	$scope.newimagepath = {
 		url: ''
@@ -162,7 +164,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 		minMaxPresence: false,
 		checkBoxState: false,
 		//variables for individuals	
-		colorList: ['red', 'orange', 'blue', 'green', 'black', 'white'],
+		colorList: ['red', 'orange', 'blue', 'green', 'black', 'white', 'transparent'],
 		fontList: ['Font-Family : Arial', 'Font-Family : Impact', 'Font-Family : Times New Roman', 'Font-Family : Verdana', 'Font-Family : Tahoma'],//variables with respect to items visibility as per Object type
 		imageProp: false,
 		widthHeightShow: false,
@@ -185,6 +187,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 		id: '',
 		url: '',
 		objectId: '',
+		dataType: '',
 		posX: '',
 		posY: '',
 		parent: '',
@@ -285,6 +288,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 			dataPoint: '',
 			html: '',
 			objectHtml: '',
+			dataType: '',
 			name: '',
 			rowNos: 2,
 			font: 'Verdana',
@@ -397,7 +401,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 			minMaxPresence: false,
 			checkBoxState: false,
 			//variables for individuals	
-			colorList: ['red', 'orange', 'blue', 'green', 'black', 'white'],
+			colorList: ['red', 'orange', 'blue', 'green', 'black', 'white', 'transparent'],
 			fontList: ['Font-Family : Arial', 'Font-Family : Impact', 'Font-Family : Times New Roman', 'Font-Family : Verdana', 'Font-Family : Tahoma'],//variables with respect to items visibility as per Object type
 			imageProp: false,
 			widthHeightShow: false,
@@ -517,6 +521,10 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 						$scope.propertyPanel.font = "Font-Family : " + $scope.objectDetails[i].font;
 						$scope.propertyPanel.fontSize = parseInt($scope.objectDetails[i].fontSize.replace("px", ""));
 						$scope.propertyPanel.color = "Font-Color : " + $scope.objectDetails[i].color;
+						$scope.propertyPanel.backgroundColor = "Background-Color : " + $scope.objectDetails[i].backgroundColor;
+						break;
+					case 'panel':
+						$scope.propertyPanel.bgOption = true;
 						$scope.propertyPanel.backgroundColor = "Background-Color : " + $scope.objectDetails[i].backgroundColor;
 						break;
 					case 'textBox':
@@ -829,7 +837,11 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 
 	//----------------------General Functions (Accessed by Javascript)------------------
 
+	//Function which sets the background
 
+	$scope.objectProperties.finalHtml = "<div id='backgroundDiv' class='ScreenAdj' style='background-image:url(" + $scope.imagepath + ");'></div>";
+	$scope.objectProperties.objectId = "background";
+	$scope.objectDetails.push($scope.objectProperties);
 
 	//Function which adds the dragged objects to the objectDetails array
 	$scope.addObject = function (data) {
@@ -850,6 +862,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 			$scope.objectProperties.objectHtml = data.objectHtml;
 			$scope.objectProperties.posX = data.positionX;
 			$scope.objectProperties.posY = data.positionY;
+			$scope.objectProperties.dataType = data.dataType;
 			$scope.objectDetails.push($scope.objectProperties);
 		}
 	};
@@ -875,13 +888,15 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 	$scope.objectMoved = function (data) {
 		for (i = 0; len = $scope.objectDetails.length, i < len; i++) {
 			//Get the latest position of the object and add them to the Object Detail arrays final elements
-			if ($scope.objectDetails[i].id === data.currentId) {
+			if ($scope.objectDetails[i].id === "\"" + data.currentId + "\"") {
 				$scope.objectDetails[i].posX = data.positionX;
 				$scope.objectDetails[i].posY = data.positionY;
-				var finalElement = angular.element(finalElement[0].outerHTML);
-				finalElement[0].style.left = $scope.objectDetails[i].posX;
-				finalElement[0].style.top = $scope.objectDetails[i].posY;
-				$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+				if ($scope.objectDetails[i].finalHtml != '') {
+					var finalElement = angular.element($scope.objectDetails[i].finalHtml);
+					finalElement[0].style.left = $scope.objectDetails[i].posX;
+					finalElement[0].style.top = $scope.objectDetails[i].posY;
+					$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+				}
 			}
 		}
 	};
@@ -971,6 +986,14 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 
 	//------------------------------------------------------------------
 
+	//----------------------------Overview Panel Functions------------------------
+
+	$scope.overviewPanelClose = function () {
+		$scope.initialPanel = false;
+	}
+
+	//-----------------------------------------------------------------------------
+
 	//-----------------------------left Panel Functions-------------------
 
 	//Function that shows or hides the grid depending upon the user requirements
@@ -1007,7 +1030,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 		}
 	};
 
-	//Function that changes the backgroud image depending on the user configurations
+	//Function that changes the background image depending on the user configurations
 	$scope.setBackground = function () {
 		$scope.imagepath = $scope.newimagepath.url;
 		$scope.mainPanelStyle = {
@@ -1015,6 +1038,11 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 			'background-size': '100% 100%',
 			'background-repeat': 'no-repeat'
 		};
+		for (i = 0; len = $scope.objectDetails.length, i < len; i++) {
+			if ($scope.objectDetails[i].objectId === "background") {
+				$scope.objectDetails[i].finalHtml = "<div id='backgroundDiv' class='ScreenAdj' style='background-image:url(" + $scope.imagepath + ");'></div>";
+			}
+		}
 
 	};
 
@@ -1048,11 +1076,11 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							var dataPointArray = [];
 							dataPointArray = Object.keys($scope.allDP[i].data);
 							for (j = 0; lenJ = dataPointArray.length, lenJ > j; j++) {
-								if (!$scope.propertyPanel.minMaxShow) {
+								if ($scope.propertyPanel.custButtonLabel === 'Map') {
 									if ($scope.allDP[i].data[dataPointArray[j]] === 'array(string)') {
 										$scope.propertyPanel.dpList.push(dataPointArray[j]);
 									}
-								} else if ($scope.propertyPanel.minMaxShow) {
+								} else if ($scope.propertyPanel.custButtonLabel === 'Array') {
 									if (
 										$scope.allDP[i].data[dataPointArray[j]] === 'map') {
 										$scope.propertyPanel.dpList.push(dataPointArray[j]);
@@ -1173,6 +1201,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 					var currentElement = angular.element(document.getElementById($scope.currentObject));
 					$scope.objectDetails[i].posX = currentElement[0].style.left;
 					$scope.objectDetails[i].posY = currentElement[0].style.top;
+					console.log(currentElement[0].style.left);
 					//convert 'ObjectHTML' String to HTML DOM Element
 					var htmlElement = angular.element($scope.objectDetails[i].objectHtml);
 					$scope.clean(htmlElement[0]);
@@ -1194,8 +1223,24 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							htmlElement[0].style.backgroundColor = $scope.objectDetails[i].backgroundColor;
 							//Generate the Final HTML
 							var finalElement = angular.element(htmlElement[0].outerHTML);
+							finalElement[0].setAttribute("class", "ScreenAdj");
 							finalElement[0].style.left = $scope.objectDetails[i].posX;
 							finalElement[0].style.top = $scope.objectDetails[i].posY;
+							finalElement[0].style.position = 'absolute';
+							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+							break;
+						case 'panel':
+							$scope.objectDetails[i].backgroundColor = $scope.propertyPanel.backgroundColor.replace("Background-Color : ", "");
+							$scope.objectDetails[i].width = currentElement[0].style.width;
+							$scope.objectDetails[i].height = currentElement[0].style.height;
+							htmlElement[0].style.backgroundColor = $scope.objectDetails[i].backgroundColor;
+							var finalElement = angular.element(htmlElement[0].outerHTML);
+							finalElement[0].style.outline = null;
+							finalElement[0].setAttribute("class", "drag-elements-li ScreenAdj");
+							finalElement[0].style.left = $scope.objectDetails[i].posX;
+							finalElement[0].style.top = $scope.objectDetails[i].posY;
+							finalElement[0].style.width = $scope.objectDetails[i].width;
+							finalElement[0].style.height = $scope.objectDetails[i].height;
 							finalElement[0].style.position = 'absolute';
 							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
 							break;
@@ -1208,32 +1253,35 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							htmlElement[0].innerHTML = dummyName;
 							htmlElement[0].style.fontFamily = $scope.objectDetails[i].font;
 							htmlElement[0].style.color = $scope.objectDetails[i].color;
-							htmlElement[0].style.backgroundColor = $scope.objectDetails[i].backgroundColor;
 							htmlElement[0].style.fontSize = $scope.objectDetails[i].fontSize;
 							$scope.objectDetails[i].checkBoxState = $scope.propertyPanel.checkBoxState;
-							if ($scope.objectDetails[i].checkBoxState) {
+							if (!$scope.objectDetails[i].checkBoxState) {
 								$scope.objectDetails[i].nomValue = $scope.propertyPanel.nomValue;
 								$scope.objectDetails[i].maxColor = $scope.propertyPanel.maxColor.replace("Max-Color : ", "");
 								$scope.objectDetails[i].maxValue = $scope.propertyPanel.maxValue;
 								$scope.objectDetails[i].minColor = $scope.propertyPanel.minColor.replace("Min-Color : ", "");
 								$scope.objectDetails[i].minValue = $scope.propertyPanel.minValue;
 								$scope.objectDetails[i].nomColor = $scope.propertyPanel.nomColor.replace("Nom-Color : ", "");
+							} else {
+								htmlElement[0].style.backgroundColor = $scope.objectDetails[i].backgroundColor;
 							}
 							//Generate the Final HTML
 							var finalElement = angular.element(htmlElement[0].outerHTML);
+							finalElement[0].setAttribute("class", "ScreenAdj");
+							finalElement[0].style.outline = null;
 							//Assign position
 							finalElement[0].style.left = $scope.objectDetails[i].posX;
 							finalElement[0].style.top = $scope.objectDetails[i].posY;
 							finalElement[0].style.position = 'absolute';
 							finalElement[0].textContent = "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}";
 							//if it has a data point assign it to the child element else leave it
-							if ($scope.objectDetails[i].checkBoxState) {
+							if (!$scope.objectDetails[i].checkBoxState) {
 								finalElement[0].setAttribute("fv-label", "");
 								finalElement[0].setAttribute("fv-label-nom-color", $scope.objectDetails[i].nomColor);
 								finalElement[0].setAttribute("fv-label-max-color", $scope.objectDetails[i].maxColor);
 								finalElement[0].setAttribute("fv-label-min-color", $scope.objectDetails[i].minColor);
-								finalElement[0].setAttribute("fv-label-range-low", parseInt(($scope.objectDetails[i].minValue / 100) * $scope.propertyPanelnomValue));
-								finalElement[0].setAttribute("fv-label-range-high", parseInt(($scope.objectDetails[i].maxValue / 100) * $scope.propertyPanelnomValue));
+								finalElement[0].setAttribute("fv-label-range-low", parseInt(($scope.objectDetails[i].minValue / 100) * $scope.propertyPanel.nomValue));
+								finalElement[0].setAttribute("fv-label-range-high", parseInt(($scope.objectDetails[i].maxValue / 100) * $scope.propertyPanel.nomValue));
 								finalElement[0].setAttribute("fv-label-value", "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
 							}
 							finalElement[0].textContent = "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}";
@@ -1247,9 +1295,11 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							//Assign image properties to DOM 
 							htmlElement[0].src = $scope.objectDetails[i].url;
 							htmlElement[0].width = $scope.objectDetails[i].width.replace("px", "");
-							htmlElement[0].height = $scope.objectDetails[i].height.replace("px", "");;
+							htmlElement[0].height = $scope.objectDetails[i].height.replace("px", "");
 							//Generate the Final HTML
 							var finalElement = angular.element(htmlElement[0].outerHTML);
+							finalElement[0].setAttribute("class", "ScreenAdj");
+							finalElement[0].style.outline = null;
 							finalElement[0].style.left = $scope.objectDetails[i].posX;
 							finalElement[0].style.top = $scope.objectDetails[i].posY;
 							finalElement[0].style.position = 'absolute';
@@ -1310,14 +1360,16 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							htmlElement[0].style.fontSize = $scope.objectDetails[i].fontSize + "px";
 							//Generate the Final HTML
 							var finalElement = angular.element(htmlElement[0].outerHTML);
+							finalElement[0].setAttribute("class", "ScreenAdj");
+							finalElement[0].style.outline = null;
 							//Assign position
 							finalElement[0].style.left = $scope.objectDetails[i].posX;
 							finalElement[0].style.top = $scope.objectDetails[i].posY;
 							finalElement[0].style.position = 'absolute';
-							finalElement[0].style.width = "100px";
+							finalElement[0].style.width = "auto";
 							//Create a new child element
 							var liElement = document.createElement("li");
-							if ($scope.propertyPanel.minMaxValue === 'Map') {
+							if ($scope.propertyPanel.custButtonLabel === 'Map') {
 								//Assign the angular Data Points 
 								if ($scope.propertyPanel.checkBoxState) {
 									liElement.setAttribute("ng-repeat", "i in " + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint);
@@ -1325,7 +1377,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 									liElement.setAttribute("ng-repeat", "i in " + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + " | limitTo:" + $scope.objectDetails[i].rows);
 								}
 								liElement.textContent = "{{i}}";
-							} else if ($scope.propertyPanel.minMaxValue === 'Array') {
+							} else if ($scope.propertyPanel.custButtonLabel === 'Array') {
 								//Set ng-repeat as for the number of data in the data point 
 								liElement.setAttribute("ng-repeat", "i in " + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint);
 								//Assign all the values.
@@ -1336,9 +1388,10 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 								liElement.setAttribute("fv-map-nom-value", $scope.objectDetails[i].nomValue);
 								liElement.setAttribute("fv-map-suc-value", $scope.objectDetails[i].maxValue);
 								liElement.setAttribute("fv-map-dangr-value", $scope.objectDetails[i].minValue);
-								liElement.setAttribute("fv-map-dangr-status", "{{i.status}}");
+								liElement.setAttribute("fv-map-status", "{{i.status}}");
+								liElement.style.backgroundColor = "green";
+								liElement.style.border = "1px solid black";
 								liElement.textContent = "{{i.id}}";
-								liElement.style.display = "inLine";
 							}
 							finalElement[0].innerHTML = liElement.outerHTML;
 							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
@@ -1366,6 +1419,8 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							htmlElement[0].innerHTML = innerElement;
 							//Generate the Final HTML
 							var finalElement = angular.element(htmlElement[0].outerHTML);
+							finalElement[0].setAttribute("class", "ScreenAdj");
+							finalElement[0].style.outline = null;
 							//Assign position
 							finalElement[0].style.left = $scope.objectDetails[i].posX;
 							finalElement[0].style.top = $scope.objectDetails[i].posY;
@@ -1403,6 +1458,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							htmlElement[0].innerHTML = innerElement;
 							//Generate the Final HTML
 							var finalElement = angular.element(htmlElement[0].outerHTML);
+							finalElement[0].setAttribute("class", "ScreenAdj");
 							//Assign position
 							finalElement[0].style.left = $scope.objectDetails[i].posX;
 							finalElement[0].style.top = $scope.objectDetails[i].posY;
@@ -1445,6 +1501,8 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							htmlElement[0].innerHTML = innerElement[0].outerHTML;
 							//Generate the Final HTML
 							var finalElement = angular.element(htmlElement[0].outerHTML);
+							finalElement[0].setAttribute("class", "ScreenAdj");
+							finalElement[0].style.outline = null;
 							//Assign position
 							finalElement[0].style.left = $scope.objectDetails[i].posX;
 							finalElement[0].style.top = $scope.objectDetails[i].posY;
@@ -1510,6 +1568,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							$scope.objectDetails[i].minColor = $scope.generateHexCode($scope.propertyPanel.minColor.replace("Min-Color : ", ""));
 							$scope.objectDetails[i].nomColor = $scope.generateHexCode($scope.propertyPanel.nomColor.replace("Nom-Color : ", ""));
 							var gaugeElement = document.createElement("canvas");
+							gaugeElement.setAttribute("class", "ScreenAdj");
 							gaugeElement.setAttribute("canvas-gauge", "");
 							gaugeElement.setAttribute("id", $scope.currentObject);
 							gaugeElement.setAttribute("width", parseInt($scope.objectDetails[i].width.replace("px", "")));
@@ -1540,13 +1599,15 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 								$scope.objectDetails[i].height = currHeight;
 							}
 							var divElement = document.createElement("div");
+							divElement.setAttribute("class", "ScreenAdj");
 							divElement.style.left = $scope.objectDetails[i].posX;
 							divElement.style.top = $scope.objectDetails[i].posY;
+							divElement.style.position = "absolute";
 							divElement.setAttribute("id", $scope.currentObject);
-							divElement.setAttribute("width", parseInt($scope.objectDetails[i].width.replace("px", "")));
-							divElement.setAttribute("height", parseInt($scope.objectDetails[i].height.replace("px", "")));
+							divElement.style.width = $scope.objectDetails[i].width;
+							divElement.style.height = $scope.objectDetails[i].height;
 							var nvd3Element = document.createElement("nvd3");
-							nvd3Element.setAttribute("options", $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".options");
+							nvd3Element.setAttribute("options", "chrtOption." + $scope.objectDetails[i].dataPoint + ".options");
 							nvd3Element.setAttribute("data", $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".data");
 							divElement.innerHTML = nvd3Element.outerHTML;
 							$scope.objectDetails[i].finalHtml = divElement.outerHTML;
@@ -1563,13 +1624,15 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 								$scope.objectDetails[i].height = currHeight;
 							}
 							var divElement = document.createElement("div");
+							divElement.style.position = "absolute";
+							divElement.setAttribute("class", "ScreenAdj");
 							divElement.style.left = $scope.objectDetails[i].posX;
 							divElement.style.top = $scope.objectDetails[i].posY;
 							divElement.setAttribute("id", $scope.currentObject);
-							divElement.setAttribute("width", parseInt($scope.objectDetails[i].width.replace("px", "")));
-							divElement.setAttribute("height", parseInt($scope.objectDetails[i].height.replace("px", "")));
+							divElement.style.width = $scope.objectDetails[i].width;
+							divElement.style.height = $scope.objectDetails[i].height;
 							var nvd3Element = document.createElement("nvd3");
-							nvd3Element.setAttribute("options", $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".options");
+							nvd3Element.setAttribute("options", "chrtOption." + $scope.objectDetails[i].dataPoint + ".options");
 							nvd3Element.setAttribute("data", $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".data");
 							divElement.innerHTML = nvd3Element.outerHTML;
 							$scope.objectDetails[i].finalHtml = divElement.outerHTML;
@@ -1586,13 +1649,15 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 								$scope.objectDetails[i].height = currHeight;
 							}
 							var divElement = document.createElement("div");
+							divElement.style.position = "absolute";
+							divElement.setAttribute("class", "ScreenAdj");
 							divElement.style.left = $scope.objectDetails[i].posX;
 							divElement.style.top = $scope.objectDetails[i].posY;
 							divElement.setAttribute("id", $scope.currentObject);
-							divElement.setAttribute("width", parseInt($scope.objectDetails[i].width.replace("px", "")));
-							divElement.setAttribute("height", parseInt($scope.objectDetails[i].height.replace("px", "")));
+							divElement.style.width = $scope.objectDetails[i].width;
+							divElement.style.height = $scope.objectDetails[i].height;
 							var nvd3Element = document.createElement("nvd3");
-							nvd3Element.setAttribute("options", $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".options");
+							nvd3Element.setAttribute("options", "chrtOption." + $scope.objectDetails[i].dataPoint + ".options");
 							nvd3Element.setAttribute("data", $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".data");
 							divElement.innerHTML = nvd3Element.outerHTML;
 							$scope.objectDetails[i].finalHtml = divElement.outerHTML;
@@ -1609,13 +1674,15 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 								$scope.objectDetails[i].height = currHeight;
 							}
 							var divElement = document.createElement("div");
+							divElement.style.position = "absolute";
+							divElement.setAttribute("class", "ScreenAdj");
 							divElement.style.left = $scope.objectDetails[i].posX;
 							divElement.style.top = $scope.objectDetails[i].posY;
+							divElement.style.width = $scope.objectDetails[i].width;
+							divElement.style.height = $scope.objectDetails[i].height;
 							divElement.setAttribute("id", $scope.currentObject);
-							divElement.setAttribute("width", parseInt($scope.objectDetails[i].width.replace("px", "")));
-							divElement.setAttribute("height", parseInt($scope.objectDetails[i].height.replace("px", "")));
 							var nvd3Element = document.createElement("nvd3");
-							nvd3Element.setAttribute("options", $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".options");
+							nvd3Element.setAttribute("options", "chrtOption." + $scope.objectDetails[i].dataPoint + ".options");
 							nvd3Element.setAttribute("data", $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".data");
 							divElement.innerHTML = nvd3Element.outerHTML;
 							$scope.objectDetails[i].finalHtml = divElement.outerHTML;
@@ -1634,7 +1701,6 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 					$scope.objectDetails[i].objectHtml = htmlElement[0].outerHTML;
 					//Emit the event to Server indicating that the properties has changed
 					socket.emit('propChanged', $scope.objectDetails[i]);
-
 				}
 			}
 		}
@@ -1672,6 +1738,27 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 
 	//create the Monitoring screen 
 	$scope.createScreen = function () {
+		//Since there might be changes before create screen and after assigning properties,
+		//the position, width, height must be calculated again
+		for (i = 0; len = $scope.objectDetails.length, i < len; i++) {
+			if (($scope.objectDetails[i].objectId !== 'background') && ($scope.objectDetails[i].finalHtml !== '') ){
+				var lastElement = angular.element(document.getElementById($scope.objectDetails[i].id.replace(/['"]+/g, '')));
+				$scope.objectDetails[i].posX = lastElement[0].style.left;
+				$scope.objectDetails[i].posY = lastElement[0].style.top;
+				var lastFinalElement = angular.element($scope.objectDetails[i].finalHtml);
+				console.log(lastFinalElement);
+				lastFinalElement[0].style.left = $scope.objectDetails[i].posX;
+				lastFinalElement[0].style.top = $scope.objectDetails[i].posY;
+				//Incase of height and width, just the scallable things are modified
+				if ($scope.objectDetails[i].dataType === 'scalable') {
+					$scope.objectDetails[i].width = lastElement[0].style.width;
+					$scope.objectDetails[i].height = lastElement[0].style.height;
+					lastFinalElement[0].style.width = $scope.objectDetails[i].width;
+					lastFinalElement[0].style.height = $scope.objectDetails[i].height;
+				}
+				$scope.objectDetails[i].finalHtml = lastFinalElement[0].outerHTML;
+			}
+		}
 		var dataObj = {
 			'name': $scope.screenName,
 			'objects': $scope.objectDetails,

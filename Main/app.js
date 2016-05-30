@@ -88,39 +88,15 @@ var dpParents = [];
 */
 function initialConfig() {
 
-	//client.get("http://localhost:3080/mes/datapoints", function (data, response) {
-
-	// Variables ===================================================================
-
+	client.get("http://localhost:3080/mes/datapoints", function (data, response) {
 	// Assign it directly for all data types
-	dataPoints = [
-		{
-			data: {
-				indProdStat: "map",
-				completionPercent: "double",
-				location: "string",
-				time: "long",
-				productList: "array(string)",
-				status: "boolean",
-				productNos: "integer"
-			},
-			id: "phase1",
-			url: "http://localhost:3080/mes/datapoints?phase=1"
-		},
-		{
-			data: {
-				indProdStat: "map",
-				completionPercent: "double",
-				location: "string",
-				time: "long",
-				productList: "array(string)",
-				status: "boolean",
-				productNos: "integer"
-			},
-			id: "phase2",
-			url: "http://localhost:3080/mes/datapoints?phase=2"
-		},
-		{
+	dataPoints = data;
+	//Going through each array of data
+	for (incDP = 0; lenDP = data.length, incDP < lenDP; incDP++) {
+		dpParents.push(data[incDP].id);
+	}	
+	//push the details for the charts
+	var  overall = {
 			data: {
 				demandVsProd: "verBarChart",
 				stockValue: "candleChart",
@@ -128,69 +104,33 @@ function initialConfig() {
 			},
 			id: "overall",
 			url: "http://localhost:3080/mes/datapoints?phase=2"
-		}
-	];
-
-	//Going through each array of data
-	/*for (incDP = 0; lenDP = data.length, incDP < lenDP; incDP++) {
-		dpParents.push(data[incDP].id);
-		//Array for getting the keys under 'data' in JSON message
-		var mesData = [];
-		//Get the total number of data points present in a phase
-		mesData = Object.keys(data[incDP].data);
-		for (incDataKey = 0; lenDataKey = mesData.length, incDataKey < lenDataKey; incDataKey++) {
-			//Based upon the type of the data point assign it to the socket variables
-			switch (data[incDP].data[mesData[incDataKey]]) {
-				case 'boolean':
-					booleanDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
-					break;
-				case 'integer':
-					integerDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
-					break;
-				case 'string':
-					stringDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
-					break;
-				case 'double':
-					doubleDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
-					break;
-				case 'long':
-					longDataPoints.push(data[incDP].id + '_' + mesData[incDataKey]);
-					break;
-				case 'array(hashmap<string,object>)':
-					arrayMapStatus.push(data[incDP].id+ '_'+ mesData[incDataKey]);
-					break;
-				default:
-					console.log(data[incDP].id + '_' + mesData[incDataKey]);
-					break;
-			}
-		}
-	}*/
+		};
+	dataPoints.push(overall);	
+	//Emit the datat to the admin screen
 	io.sockets.emit('all_DataPoint', dataPoints);
-
 	//call the function to register for all the events
-	//eventRegister();
-	//});
+	eventRegister();
+	});
 }
 
 //Calling the function to get the data point and associate them
 initialConfig();
 
-/*function eventRegister() {
+function eventRegister() {
 	//Register to all the events from the server
 	for (incDP = 0; lenDP = dataPoints.length, incDP < lenDP; incDP++) {
 		var args = {
-			data: { "id": "client", "destUrl": "http://localhost:" + port + "/" + dataPoints[incDP].id + "/notifs" },
+			data: { "id": "client", "destUrl": "http://localhost:" + server_port + "/" + dataPoints[incDP].id + "/notifs" },
 			headers: { "Content-Type": "application/json" }
 		};
 		//Array for getting the keys under 'data' in JSON message
 		client.post(dataPoints[incDP].url, args, function (data, response) {
 		});
 	}
-}*/
+}
 
 
 app.post('/:parent/notifs', function (req, res) {
-	console.log(req.params.parent);
 	io.sockets.emit(req.params.parent, req.body);
     res.send({});
 });
@@ -295,19 +235,7 @@ io.on("connection", function (socket) {
         jsdom.jQueryify(window, "http://code.jquery.com/jquery.js", function () {
             var $ = window.$;
 			//Set the attrbutes for the background
-            $('body').css('background', 'url(../images/background-image3.jpg) no-repeat center center fixed');
-			$('body').css('background', 'url(' + background + ') no-repeat center center fixed');
-            $('body').css('position', 'absolute');
-			$('body').css('top', '0');
-            $('body').css('left', '0');
-            $('body').css('height', '100%');
-            $('body').css('width', '100%');
-            $('body').css('-webkit-background-size', 'cover');
-            $('body').css('-moz-background-size', 'cover');
-            $('body').css('-o-background-size', 'cover');
-            $('body').css('background-size', 'cover');
-            $('body').css('top', '0');
-            for (i = 0; len = elementsReceived.length, i < len; i++) {
+			 for (i = 0; len = elementsReceived.length, i < len; i++) {
                 var $jQueryObject = $($.parseHTML(elementsReceived[i].finalHtml));
                 $('body').append(elementsReceived[i].finalHtml);
             }

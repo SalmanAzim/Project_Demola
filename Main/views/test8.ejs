@@ -1,0 +1,31 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <title>Monitoring Screen</title>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="js/controllers/angular.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="js/library/fv-Label.js"></script>
+    <script type="text/javascript" src="js/library/fv-map.js"></script>
+    <script type="text/javascript" src="js/library/fv-svg.js"></script>
+    <script type="text/javascript" src="js/library/gauge.min.js"></script>
+    <script type="text/javascript" src="js/library/angular-canvas-gauge.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-nvd3/1.0.5/angular-nvd3.min.js"></script>
+    <script type="text/javascript" src="js/monitor/angularCodes.js"></script>
+    <script type="text/javascript" src="js/monitor/main.js"></script>
+        
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css">
+    <link rel="stylesheet" type="text/css" href="css/monitor/main.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+
+</head>
+
+<body class="ScreenAdj" id="my_body" ng-app="myApp" ng-controller="MyController" style="">
+        
+
+
+<script class="jsdom" src="http://code.jquery.com/jquery.js"></script><div id="backgroundDiv" class="ScreenAdj" style="background-image:url(../images/custbg.png);"></div><div class="drag-elements-li ScreenAdj" style="left: 25px; top: 24px; width: 1278px; height: 614px; position: absolute; background-color: orange;"></div><label for="label" style="font-family: Verdana; color: white; font-size: 25px; left: 377px; top: 41px; position: absolute; background-color: transparent;" class="ScreenAdj">PÄÄVAIHEIDEN TYÖJONOT</label><ul style="font-family: Verdana; color: black; list-style-type: none; border-style: inset; float: left; margin-left: 70px; left: 74px; top: 233px; position: absolute; width: auto; background-color: rgb(255, 255, 255);" class="ScreenAdj"><li ng-repeat="i in phase1.indProdStat" fv-map="" fv-map-nom-color="green" fv-map-suc-color="red" fv-map-dangr-color="orange" fv-map-nom-value="0" fv-map-suc-value="1" fv-map-dangr-value="2" fv-map-status="{{i.status}}" style="border: 1px solid black; background-color: green;">{{i.id}}</li></ul><ul style="font-family: Verdana; color: black; list-style-type: none; border-style: inset; float: left; margin-left: 70px; left: 725px; top: 234px; position: absolute; width: auto; background-color: rgb(255, 255, 255);" class="ScreenAdj"><li ng-repeat="i in phase2.indProdStat" fv-map="" fv-map-nom-color="green" fv-map-suc-color="red" fv-map-dangr-color="orange" fv-map-nom-value="0" fv-map-suc-value="1" fv-map-dangr-value="2" fv-map-status="{{i.status}}" style="border: 1px solid black; background-color: green;">{{i.id}}</li></ul><label for="textBox" style="font-family: Verdana; color: black; position: absolute; display: inline-block; border: 1px solid rgb(0, 0, 0); border-radius: 3px; font-size: 30px; left: 933px; top: 76px; background-color: white;" class="ScreenAdj">{{phase1.time}}</label><label for="textBox" style="font-family: Verdana; color: red; position: absolute; display: inline-block; border: 1px solid rgb(0, 0, 0); border-radius: 3px; font-size: 20px; left: 138px; top: 183px; background-color: transparent;" class="ScreenAdj">{{phase1.location}}</label><label for="textBox" style="font-family: Verdana; color: red; position: absolute; display: inline-block; border: 1px solid rgb(0, 0, 0); border-radius: 3px; font-size: 20px; left: 791px; top: 188px; background-color: transparent;" class="ScreenAdj">{{phase2.location}}</label></body></html>

@@ -63,7 +63,6 @@ app.directive(
             attributes.$observe(
                 "fvMapStatus",
                 function (i) {
-                    console.log(i);
                     // Based on the value status, the background is changed between normal, success and danger color
                     if (i == nomValue) {
                         currentColor = nomColor; //Set the color to be the current color (Normal color)

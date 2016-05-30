@@ -28,7 +28,6 @@ app.directive(
             attributes.$observe(
                 "fvSvgStatus",
                 function (i) {
-                    console.log(i);
                     // Based on the value status, the background is changed between normal and danger color
                     if (i === "true") {
                         element[0].style.fill = dangerColor;
@@ -61,7 +60,7 @@ app.directive(
                         } else {
                             element[0].style.fillOpacity = '1';
                         }
-                    }, 500);
+                    }, 300);
                 })(count);
             };
         }

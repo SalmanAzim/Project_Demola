@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="css/custom.css">
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css">
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 </head>
 
 <body id="my_body" ng-app="myApp" ng-controller="MyController">
@@ -27,6 +28,17 @@
 			<uib-tab index="0" heading="Object">
 				<br>
 				<uib-accordion close-others="true">
+					<div class="dropdown">
+						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
+                            panels
+							<span class="caret"></span>
+						</button>
+						<div class="dropdown-menu ">
+							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
+								<li data-objectid="panel" data-type="scalable" draggable="true"><div class="drag-elements-li">Panel</div></li>
+							</ul>
+						</div>
+					</div>
 					<div class="dropdown">
 						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
                             General
@@ -79,7 +91,7 @@
 							</ul>
 						</div>
 					</div>
-					<div class="dropdown">
+					<!--div class="dropdown">
 						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
                             Buttons & Menu
 							<span class="caret"></span>
@@ -91,7 +103,7 @@
 								</li>
 							</ul>
 						</div>
-					</div>
+					</div-->
 				</uib-accordion>
 			</uib-tab>
 			<uib-tab index='1' select="tabAlert()">
@@ -146,6 +158,10 @@
 	</div>
 
 	<div id="main_ui" class="main" ng-style="mainPanelStyle">
+		<div id="initial_help" ng-show="initialPanel">
+			<a href="#"><button class="close" ng-click="overviewPanelClose()">x&nbsp;</button></a>
+			<img src="../images/overview.png" alt="FV">
+		</div>
 		<div ng-click="propertyPanelShow()" class="propButton" ng-show="propertyPanel.minimize">
 			Properties
 		</div>
@@ -492,11 +508,23 @@
 	var socket = io();		
 			//this is pinged inorder to delete the old HTML element and update with the new element
 			socket.on("prop_Changed", function(data){
-				//remove the older element
-				double_Click.remove();						
-				double_Click.innerHTML = data.objectHtml;
-				//replace with the newer element
-				$("#drop-target-one").append(double_Click);			
+				// For the scalable things, which are mainly the pictures the element is not changed instead their objects are just replaced.				
+				if(double_Click.getAttribute('data-type') != 'scalable'){
+					//remove the older element
+					double_Click.remove();						
+					double_Click.innerHTML = data.objectHtml;
+					//replace with the newer element
+					$("#drop-target-one").append(double_Click);		
+				}else if(double_Click.getAttribute('data-type') == 'scalable'){
+					switch(double_Click.getAttribute('data-objectid')){
+						case 'image':						
+							double_Click.firstChild.src = data.url;
+							break;
+						case 'panel':
+							double_Click.firstChild.style.backgroundColor = data.backgroundColor;
+							break;
+					}
+				}		
 			});
 
 </script>

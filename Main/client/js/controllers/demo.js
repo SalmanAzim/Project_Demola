@@ -203,7 +203,7 @@ window.onload = function () {
 				aaa = xhttp.responseText;
 				cln.setAttribute("id", JSON.parse(aaa));
 				//Generate the json to be sent to Angular
-				var objectJson = { 'currentHtml': cln.outerHTML, 'id': xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml': cln.innerHTML, 'positionX': cln.style.left, 'positionY': cln.style.top };
+				var objectJson = { 'currentHtml': cln.outerHTML, 'id': xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml': cln.innerHTML, 'positionX': cln.style.left, 'positionY': cln.style.top, 'dataType': cln.getAttribute("data-type")};
 				angular.element($("#my_body")).scope().addObject(objectJson);
 			}
 		};

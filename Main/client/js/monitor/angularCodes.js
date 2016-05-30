@@ -1,6 +1,6 @@
 var app = angular.module("myApp", ['fv-svg', 'fv-map', 'fv-label', 'angular-canvas-gauge', 'nvd3']);
 
-/*app.factory('socket', function ($rootScope) {
+app.factory('socket', function ($rootScope) {
 	var socket = io.connect();
 	return {
 		on: function (eventName, callback) {
@@ -22,9 +22,75 @@ var app = angular.module("myApp", ['fv-svg', 'fv-map', 'fv-label', 'angular-canv
 			})
 		}
 	};
-});*/
+});
 
-app.controller('MyController', function ($scope, socket, $window) {
+//The directive is to show case that the d3 components value can be observed
+// And can be used in the 
+/*app.directive(
+    "nvdThree",
+	function ($compile) {
+        function link($scope, element, attributes) {
+			$scope.dirChrtDetail = [
+				{
+					id: 'pie',
+					width: 400,
+					height: 400
+				},
+				{
+					id: 'bar',
+					width: 400,
+					height: 400
+				},
+				{
+					id: 'candle',
+					width: 400,
+					height: 400
+				}
+			];
+			var type = '';
+			attributes.$observe(
+                "nvType",
+                function (typ) {
+					type = typ;
+                }
+            );
+			attributes.$observe(
+                "nvWidth",
+                function (wid) {
+					//Now based on the type assign the width
+					for (i = 0; len = $scope.dirChrtDetail.length, i < len; i++) {
+						if(type === $scope.dirChrtDetail[i].id){
+							$scope.dirChrtDetail[i].width = wid;
+						}
+					}
+                }
+            );
+			attributes.$observe(
+                "nvHeight",
+                function (hei) {
+					//Now based on the type assign the height
+					for (i = 0; len = $scope.dirChrtDetail.length, i < len; i++) {
+						if(type === $scope.dirChrtDetail[i].id){
+							$scope.dirChrtDetail[i].height = hei;
+						}
+					}
+                }
+            );
+		}
+        // Return the directive configuration.
+        return ({
+            link: link,
+            restrict: "A"
+        });
+    }
+);*/
+
+app.controller('MyController', function ($scope, socket ,$window, $timeout) {
+
+
+	/*$scope.$watch('dirChrtDetail', function (value) {
+		$scope.chartDetails = value;
+	});*/
 
 	var d = new Date();
 
@@ -82,12 +148,11 @@ app.controller('MyController', function ($scope, socket, $window) {
 		productNos: 5
 	};
 
-	$scope.overall = {
+	$scope.chrtOption = {
 		phaseProd: {
 			options: {
 				chart: {
 					type: 'pieChart',
-					height: 500,
 					x: function (d) { return d.key; },
 					y: function (d) { return d.y; },
 					showLabels: true,
@@ -107,31 +172,12 @@ app.controller('MyController', function ($scope, socket, $window) {
 						}
 					}
 				}
-			},
-			data: [
-				{
-					key: "Phase 1",
-					y: 5
-				},
-				{
-					key: "Phase 2",
-					y: 2
-				},
-				{
-					key: "Phase 3",
-					y: 9
-				},
-				{
-					key: "Phase 4",
-					y: 7
-				}
-			]
+			}
 		},
 		stockValue: {
 			options: {
 				chart: {
 					type: 'candlestickBarChart',
-					height: 450,
 					margin: {
 						top: 20,
 						right: 20,
@@ -167,7 +213,59 @@ app.controller('MyController', function ($scope, socket, $window) {
 						unzoomEventType: 'dblclick.zoom'
 					}
 				}
-			},
+			}
+		},
+		demandVsProd: {
+			options: {
+				chart: {
+					type: 'discreteBarChart',
+					margin: {
+						top: 20,
+						right: 20,
+						bottom: 50,
+						left: 55
+					},
+					x: function (d) { return d.label; },
+					y: function (d) { return d.value; },
+					showValues: true,
+					valueFormat: function (d) {
+						return d3.format(',.0f')(d);
+					},
+					duration: 500,
+					xAxis: {
+						axisLabel: 'Dates'
+					},
+					yAxis: {
+						axisLabel: 'Extra / lag',
+						axisLabelDistance: -10
+					}
+				}
+			}
+		}
+	};
+
+	$scope.overall = {
+		phaseProd: {
+			data: [
+				{
+					key: "Phase 1",
+					y: 5
+				},
+				{
+					key: "Phase 2",
+					y: 2
+				},
+				{
+					key: "Phase 3",
+					y: 9
+				},
+				{
+					key: "Phase 4",
+					y: 7
+				}
+			]
+		},
+		stockValue: {
 			data: [{
 				values: [
 					{ "date": 15854, "open": 165.42, "high": 165.8, "low": 164.34, "close": 165.22, "volume": 160363400, "adjusted": 164.35 },
@@ -244,32 +342,6 @@ app.controller('MyController', function ($scope, socket, $window) {
 			}]
 		},
 		demandVsProd: {
-			options: {
-				chart: {
-					type: 'discreteBarChart',
-					height: 450,
-					margin: {
-						top: 20,
-						right: 20,
-						bottom: 50,
-						left: 55
-					},
-					x: function (d) { return d.label; },
-					y: function (d) { return d.value; },
-					showValues: true,
-					valueFormat: function (d) {
-						return d3.format(',.0f')(d);
-					},
-					duration: 500,
-					xAxis: {
-						axisLabel: 'Dates'
-					},
-					yAxis: {
-						axisLabel: 'Extra / lag',
-						axisLabelDistance: -10
-					}
-				}
-			},
 			data: [
 				{
 					key: "Cumulative Return",
@@ -312,7 +384,8 @@ app.controller('MyController', function ($scope, socket, $window) {
 		}
 	};
 
-	(function update() {
+	/*(function update() {
+		console.log($scope.chartDetails);
 		$timeout(update, 2000 * 1);
 		$scope.phase2.completionPercent = Math.round((Math.random() * 10) * 10);
 		$scope.phase1.completionPercent = Math.round((Math.random() * 10) * 10);
@@ -326,15 +399,15 @@ app.controller('MyController', function ($scope, socket, $window) {
 			$scope.phase1.status = false;
 		}
 		for (i = 0; len = $scope.phase1.indProdStat.length, i < len; i++) {
-			 $scope.phase1.indProdStat[i].status = Math.round((Math.random() * 10) / 2);
-		}		
+			$scope.phase1.indProdStat[i].status = Math.round((Math.random() * 10) / 4);
+		}
 		for (i = 0; len = $scope.phase2.indProdStat.length, i < len; i++) {
-			 $scope.phase2.indProdStat[i].status = Math.round((Math.random() * 10) / 2);
+			$scope.phase2.indProdStat[i].status = Math.round((Math.random() * 10) / 4);
 		}
 
-	} ());
+	} ());*/
 
-	/*socket.on('phase1', function (data) {
+	socket.on('phase1', function (data) {
 		$scope.phase1 = data;
 		console.log($scope.phase1);
 	});
@@ -342,6 +415,14 @@ app.controller('MyController', function ($scope, socket, $window) {
 	socket.on('phase2', function (data) {
 		$scope.phase2 = data;
 		console.log($scope.phase2);
-	});*/
+	});
+	
+
+	/**
+	 * Function that forwards the screen to another inter linked screen
+	 */
+	$scope.forwardTo = function (data) {
+		$window.open(data, '_self');
+	};
 
 });
