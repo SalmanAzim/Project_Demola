@@ -1,6 +1,6 @@
 var xsd;
 var mychart;
-var app = angular.module("myApp", ['test', 'app', 'ui.bootstrap']);
+var app = angular.module("myApp", ['ui.bootstrap']);
 
 app.factory('httpReq', function ($http, $q) {
 	return {

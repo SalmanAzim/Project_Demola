@@ -72,23 +72,6 @@ html{
   z-index: 99;
 }
 
-#WrapDiv{
-  position: absolute;
-  top:0;
-  left:0;
-  height:100%;
-  width: 100%;
-  z-index: 1;
-  background: url('../images/custbg.png') no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
 .left{
   /*position: relative;*/
   opacity: 1;
@@ -143,8 +126,8 @@ html{
   text-align: center;
   align-items: center;
   margin-top: 30px;
-  }
-
+}
+  
 .TitleText2{
   font-size: 15px;
   font-weight: bolder;;
@@ -174,7 +157,7 @@ html{
 
 }
 
- .subtext1{
+.subtext1{
   margin-left: 10%;
 
   font-size: 10px;
@@ -190,6 +173,7 @@ html{
   text-transform: uppercase;
   width: 80%;
 }
+
 .subtext1:hover{
   background-color: black;
   box-shadow: 5px 5px 3px #434343;
@@ -331,7 +315,7 @@ a {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 2.5em;}*/
 
-  #UIMenu{
+ #UIMenu{
     z-index: 99;
     position: absolute;
     right: 0;
@@ -546,6 +530,8 @@ nav:hover li:nth-child(3) a {
 #initial_help{
   top : 10px;
   left : 10px;
+  height: 98%;
+  width: 98%;
   position : absolute;
   z-index: 99999;
   border-radius: 5px;
@@ -762,7 +748,6 @@ p {
     right: .55em;
     color: #aaa;
 }
-
 
 .spinner {
 	  width: 100%;

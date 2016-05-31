@@ -10,7 +10,6 @@
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<link rel="stylesheet" type="text/css" href="css/angular-circular-navigation.css">
 	<link rel="stylesheet" type="text/css" href="css/custom.css">
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css">
@@ -24,10 +23,12 @@
 					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</button><br/> Factory<br/> Visualization
 		</span>
+		<!--Tabs for selection between just objects or data based object selection-->
 		<uib-tabset active="activeJustified" justified="true">
 			<uib-tab index="0" heading="Object">
 				<br>
 				<uib-accordion close-others="true">
+					<!-- Drop down for panels -->
 					<div class="dropdown">
 						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
                             panels
@@ -39,6 +40,7 @@
 							</ul>
 						</div>
 					</div>
+					<!-- Drop down for General objects like label, textbox, image and list box-->
 					<div class="dropdown">
 						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
                             General
@@ -59,19 +61,21 @@
 							</ul>
 						</div>
 					</div>
+					<!-- Drop down for SVG objects like square, circle, arrow-->
 					<div class="dropdown">
 						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
                             SVG
 							<span class="caret"></span>
 						</button>
 						<div class="dropdown-menu">
-							<ul>
-								<svg-icon data-objectid="svg-square" data-type="unscalable" p="rectangle" draggable="true"></svg-icon>
-								<svg-icon data-objectid="svg-circle" data-type="unscalable" p="circle" draggable="true"></svg-icon>
-								<svg-icon data-objectid="svg-path" data-type="unscalable" p="arrow" draggable="true"></svg-icon>
+							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
+								<li data-objectid="svg-square" data-type="unscalable" draggable="true"><svg width='61' height='61'><rect width='60' height='60' fill='rgba(0,0,0,.7)'></svg></li>
+								<li data-objectid="svg-circle" data-type="unscalable" draggable="true"><svg height='60' width='60'><circle cx='30' cy='30' r='30' fill='rgba(0,0,0,.7)' /></svg></li>
+								<li data-objectid="svg-path" data-type="unscalable" draggable="true"><svg width='60' height='60'><path d='m0,30 h15 v30 h30 V30 h15 L30,0' style='fill:rgba(0,0,0,.7);'/></svg></li>
 							</ul>
 						</div>
 					</div>
+					<!-- Drop down for widget objects like Gauges and Charts -->
 					<div class="dropdown">
 						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
                             Charts & Widgets
@@ -79,31 +83,14 @@
 						</button>
 						<div class="dropdown-menu">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-								<!--li data-objectid="gauge-1" data-type="scalable" draggable="true"><img src="../images/gaugeone.png" height="70px" width="70px" style="float:left;"></li>
-								<li data-objectid="gauge-2" data-type="scalable" draggable="true"><img src="../images/gaugetwo.png" height="70px" width="70px"></li>
-								&nbsp; &nbsp; &nbsp; &nbsp;-->
 								<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gaugethree.png" height="70px" width="70px" style="float:left;"></li>
 								<li data-objectid="bar-chart" data-type="scalable" draggable="true"><img src="../images/barchrt.png" height="70px" width="70px"></li>
 								&nbsp; &nbsp; &nbsp; &nbsp;
-								<!--li data-objectid="line-chart" data-type="scalable" draggable="true"><img src="../images/candlechrt.png" height="70px" width="70px" style="float:left;"></li-->
 								<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/candlechrt.png" height="70px" width="70px" style="float:left;"></li>
 								<li data-objectid="ver-bar-chart" data-type="scalable" draggable="true"><img src="../images/verbarChrt.png" height="70px" width="70px"></li>
 							</ul>
 						</div>
 					</div>
-					<!--div class="dropdown">
-						<button class=" dropdown-toggle TitleText" type="button" data-toggle="dropdown">
-                            Buttons & Menu
-							<span class="caret"></span>
-						</button>
-						<div class="dropdown-menu">
-							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-								<li data-objectid="MenuButton" data-type="unscalable" draggable="true">
-									<div class="cn-button small"><i class="fa fa-desktop mt-top-15"></i></div>
-								</li>
-							</ul>
-						</div>
-					</div-->
 				</uib-accordion>
 			</uib-tab>
 			<uib-tab index='1' select="tabAlert()">
@@ -135,6 +122,7 @@
 				</div>
 				<br>
 				<div style="background: #FFFFFF;border-style: inset;">
+					<!--consits of a list of pretty same objects as explained above and which are rendered as part of data point selection -->
 					<ul id="drag-elements1" class="drag-elements">
 						<li data-objectid="textBox" data-type="unscalable" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.stringShow) || (dpSelectPanel.longShow) || (dpSelectPanel.integerShow)|| (dpSelectPanel.booleanShow)"><label class='mock-text-box' for='textBox' style=' font-family: Verdana; color: black; '>SimpleTextBox</label></li>
 						<li data-objectid="listBox" data-type="unscalable" draggable="true" ng-show="(dpSelectPanel.arrayShow)">
@@ -143,9 +131,9 @@
 								<li>Item1</li>
 							</ul>
 						</li>
-						<svg-icon data-objectid="svg-square" data-type="unscalable" p="rectangle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
-						<svg-icon data-objectid="svg-circle" data-type="unscalable" p="circle" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
-						<svg-icon data-objectid="svg-path" data-type="unscalable" p="arrow" draggable="true" ng-show="dpSelectPanel.booleanShow"></svg-icon>
+						<li data-objectid="svg-square" data-type="unscalable" draggable="true"><svg width='61' height='61'><rect width='60' height='60' fill='rgba(0,0,0,.7)'></svg></li>
+						<li data-objectid="svg-circle" data-type="unscalable" draggable="true"><svg height='60' width='60'><circle cx='30' cy='30' r='30' fill='rgba(0,0,0,.7)' /></svg></li>
+						<li data-objectid="svg-path" data-type="unscalable" draggable="true"><svg width='60' height='60'><path d='m0,30 h15 v30 h30 V30 h15 L30,0' style='fill:rgba(0,0,0,.7);'/></svg></li>
 						<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gaugethree.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
 						<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/candlechrt.png" height="100px" width="120px" ng-show="(dpSelectPanel.candleChartShow)"></li>
 						<li data-objectid="ver-bar-chart" data-type="scalable" draggable="true"><img src="../images/verbarChrt.png" height="100px" width="120px" ng-show="(dpSelectPanel.verBarChartShow)"></li>
@@ -158,10 +146,12 @@
 	</div>
 
 	<div id="main_ui" class="main" ng-style="mainPanelStyle">
+		<!-- Initial Screen which consists the description of how to work with -->
 		<div id="initial_help" ng-show="initialPanel">
 			<a href="#"><button class="close" ng-click="overviewPanelClose()">x&nbsp;</button></a>
-			<img src="../images/overview.png" alt="FV">
+			<img src="../images/overview.png" width="100%" height="100%" alt="FV">
 		</div>
+		<!-- Button which is dispalyed while the property panel s minimised-->
 		<div ng-click="propertyPanelShow()" class="propButton" ng-show="propertyPanel.minimize">
 			Properties
 		</div>
@@ -416,8 +406,6 @@
 
 </script>
 <script src="js/controllers/demo.js"></script>
-<script type="text/javascript" src="js/controllers/test.js"></script>
-<script type="text/javascript" src="js/controllers/svg_script.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/controllers/jquery.ui.core.js"></script>
 <script src="js/controllers/jquery.ui.widget.js"></script>
