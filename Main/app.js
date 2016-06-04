@@ -131,7 +131,7 @@ function eventRegister() {
 
 
 app.post('/:parent/notifs', function (req, res) {
-	io.sockets.emit(req.params.parent, req.body);
+	io.sockets.emit('mes_data', req.body);
     res.send({});
 });
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

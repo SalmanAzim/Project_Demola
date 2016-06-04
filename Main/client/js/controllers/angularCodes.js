@@ -1284,7 +1284,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 								finalElement[0].setAttribute("fv-label-range-high", parseInt(($scope.objectDetails[i].maxValue / 100) * $scope.propertyPanel.nomValue));
 								finalElement[0].setAttribute("fv-label-value", "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
 							}
-							finalElement[0].textContent = "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}";
+							finalElement[0].textContent = "{{values." + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}";
 							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
 							break;
 						case 'image':
@@ -1372,14 +1372,14 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							if ($scope.propertyPanel.custButtonLabel === 'Map') {
 								//Assign the angular Data Points 
 								if ($scope.propertyPanel.checkBoxState) {
-									liElement.setAttribute("ng-repeat", "i in " + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint);
+									liElement.setAttribute("ng-repeat", "i in values." + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint);
 								} else {
-									liElement.setAttribute("ng-repeat", "i in " + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + " | limitTo:" + $scope.objectDetails[i].rows);
+									liElement.setAttribute("ng-repeat", "i in values." + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + " | limitTo:" + $scope.objectDetails[i].rows);
 								}
 								liElement.textContent = "{{i}}";
 							} else if ($scope.propertyPanel.custButtonLabel === 'Array') {
 								//Set ng-repeat as for the number of data in the data point 
-								liElement.setAttribute("ng-repeat", "i in " + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint);
+								liElement.setAttribute("ng-repeat", "i in values." + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint);
 								//Assign all the values.
 								liElement.setAttribute("fv-map", "");
 								liElement.setAttribute("fv-map-nom-color", $scope.objectDetails[i].nomColor);
@@ -1431,7 +1431,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 								childElement[0].setAttribute("fv-svg", "");
 								childElement[0].setAttribute("fv-svg-nom-color", $scope.objectDetails[i].nomColor);
 								childElement[0].setAttribute("fv-svg-danger-color", $scope.objectDetails[i].maxColor);
-								childElement[0].setAttribute("fv-svg-status", "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
+								childElement[0].setAttribute("fv-svg-status", "{{values." + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
 								finalElement[0].innerHTML = childElement[0].outerHTML;
 							}
 							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
@@ -1469,7 +1469,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 								childElement[0].setAttribute("fv-svg", "");
 								childElement[0].setAttribute("fv-svg-nom-color", $scope.objectDetails[i].nomColor);
 								childElement[0].setAttribute("fv-svg-danger-color", $scope.objectDetails[i].maxColor);
-								childElement[0].setAttribute("fv-svg-status", "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
+								childElement[0].setAttribute("fv-svg-status", "{{values." + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
 								finalElement[0].innerHTML = childElement[0].outerHTML;
 							}
 							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
@@ -1513,42 +1513,10 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 								childElement[0].setAttribute("fv-svg", "");
 								childElement[0].setAttribute("fv-svg-nom-color", $scope.objectDetails[i].nomColor);
 								childElement[0].setAttribute("fv-svg-danger-color", $scope.objectDetails[i].maxColor);
-								childElement[0].setAttribute("fv-svg-status", "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
+								childElement[0].setAttribute("fv-svg-status", "{{values." + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
 								finalElement[0].innerHTML = childElement[0].outerHTML;
 							}
 							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
-							break;
-						case 'gauge-1':
-							var parentElement = angular.element(document.getElementById($scope.currentObject));
-							//get the current width and height after resizing and store it to the object details
-							var currHeight = parentElement[0].style.height;
-							var currWidth = parentElement[0].style.width;
-							if (currWidth != '') {
-								$scope.objectDetails[i].width = currWidth;
-							}
-							if (currHeight != '') {
-								$scope.objectDetails[i].height = currHeight;
-							}
-							$scope.objectDetails[i].color = $scope.propertyPanel.fontColor.replace("Font-Color : ", "");
-							$scope.objectDetails[i].font = $scope.propertyPanel.font.replace("Font-Family : ", "");
-							$scope.objectDetails[i].fontSize = $scope.propertyPanel.fontSize + "px";
-							$scope.objectDetails[i].units = $scope.propertyPanel.units;
-							break;
-						case 'gauge-2':
-							var parentElement = angular.element(document.getElementById($scope.currentObject));
-							//get the current width and height after resizing and store it to the object details
-							var currHeight = parentElement[0].style.height;
-							var currWidth = parentElement[0].style.width;
-							if (currWidth != '') {
-								$scope.objectDetails[i].width = currWidth;
-							}
-							if (currHeight != '') {
-								$scope.objectDetails[i].height = currHeight;
-							}
-							$scope.objectDetails[i].color = $scope.propertyPanel.fontColor.replace("Font-Color : ", "");
-							$scope.objectDetails[i].font = $scope.propertyPanel.font.replace("Font-Family : ", "");
-							$scope.objectDetails[i].fontSize = $scope.propertyPanel.fontSize + "px";
-							$scope.objectDetails[i].units = $scope.propertyPanel.units;
 							break;
 						case 'gauge-3':
 							var parentElement = angular.element(document.getElementById($scope.currentObject));
@@ -1582,7 +1550,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							gaugeElement.style.position = 'absolute';
 							gaugeElement.setAttribute("data-major-ticks", "0 10 20 30 40 50 60 70 80 90 100");
 							gaugeElement.setAttribute("data-highlights", "0 " + $scope.objectDetails[i].minValue + " " + $scope.objectDetails[i].minColor + ", " + $scope.objectDetails[i].minValue + " " + $scope.objectDetails[i].maxValue + " " + $scope.objectDetails[i].nomColor + ", " + $scope.objectDetails[i].maxValue + " 100 " + $scope.objectDetails[i].maxColor);
-							gaugeElement.setAttribute("data-value", "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
+							gaugeElement.setAttribute("data-value", "{{values." + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
 							gaugeElement.style.left = $scope.objectDetails[i].posX;
 							gaugeElement.style.top = $scope.objectDetails[i].posY;
 							$scope.objectDetails[i].finalHtml = gaugeElement.outerHTML;
@@ -1608,32 +1576,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							divElement.style.height = $scope.objectDetails[i].height;
 							var nvd3Element = document.createElement("nvd3");
 							nvd3Element.setAttribute("options", "chrtOption." + $scope.objectDetails[i].dataPoint + ".options");
-							nvd3Element.setAttribute("data", $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".data");
-							divElement.innerHTML = nvd3Element.outerHTML;
-							$scope.objectDetails[i].finalHtml = divElement.outerHTML;
-							break;
-						case 'line-chart':
-							var parentElement = angular.element(document.getElementById($scope.currentObject));
-							//get the current width and height after resizing and store it to the object details
-							var currHeight = parentElement[0].style.height;
-							var currWidth = parentElement[0].style.width;
-							if (currWidth != '') {
-								$scope.objectDetails[i].width = currWidth;
-							}
-							if (currHeight != '') {
-								$scope.objectDetails[i].height = currHeight;
-							}
-							var divElement = document.createElement("div");
-							divElement.style.position = "absolute";
-							divElement.setAttribute("class", "ScreenAdj");
-							divElement.style.left = $scope.objectDetails[i].posX;
-							divElement.style.top = $scope.objectDetails[i].posY;
-							divElement.setAttribute("id", $scope.currentObject);
-							divElement.style.width = $scope.objectDetails[i].width;
-							divElement.style.height = $scope.objectDetails[i].height;
-							var nvd3Element = document.createElement("nvd3");
-							nvd3Element.setAttribute("options", "chrtOption." + $scope.objectDetails[i].dataPoint + ".options");
-							nvd3Element.setAttribute("data", $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".data");
+							nvd3Element.setAttribute("data", "values." + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".data");
 							divElement.innerHTML = nvd3Element.outerHTML;
 							$scope.objectDetails[i].finalHtml = divElement.outerHTML;
 							break;
@@ -1658,7 +1601,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							divElement.style.height = $scope.objectDetails[i].height;
 							var nvd3Element = document.createElement("nvd3");
 							nvd3Element.setAttribute("options", "chrtOption." + $scope.objectDetails[i].dataPoint + ".options");
-							nvd3Element.setAttribute("data", $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".data");
+							nvd3Element.setAttribute("data", "values." + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".data");
 							divElement.innerHTML = nvd3Element.outerHTML;
 							$scope.objectDetails[i].finalHtml = divElement.outerHTML;
 							break;
@@ -1683,7 +1626,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							divElement.setAttribute("id", $scope.currentObject);
 							var nvd3Element = document.createElement("nvd3");
 							nvd3Element.setAttribute("options", "chrtOption." + $scope.objectDetails[i].dataPoint + ".options");
-							nvd3Element.setAttribute("data", $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".data");
+							nvd3Element.setAttribute("data", "values." + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + ".data");
 							divElement.innerHTML = nvd3Element.outerHTML;
 							$scope.objectDetails[i].finalHtml = divElement.outerHTML;
 							break;
@@ -1741,7 +1684,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 		//Since there might be changes before create screen and after assigning properties,
 		//the position, width, height must be calculated again
 		for (i = 0; len = $scope.objectDetails.length, i < len; i++) {
-			if (($scope.objectDetails[i].objectId !== 'background') && ($scope.objectDetails[i].finalHtml !== '') ){
+			if (($scope.objectDetails[i].objectId !== 'background') && ($scope.objectDetails[i].finalHtml !== '')) {
 				var lastElement = angular.element(document.getElementById($scope.objectDetails[i].id.replace(/['"]+/g, '')));
 				$scope.objectDetails[i].posX = lastElement[0].style.left;
 				$scope.objectDetails[i].posY = lastElement[0].style.top;

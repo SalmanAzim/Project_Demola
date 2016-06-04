@@ -151,10 +151,11 @@
 			<a href="#"><button class="close" ng-click="overviewPanelClose()">x&nbsp;</button></a>
 			<img src="../images/overview.png" width="100%" height="100%" alt="FV">
 		</div>
-		<!-- Button which is dispalyed while the property panel s minimised-->
+		<!-- Button which is dispalyed while the property panel is minimised-->
 		<div ng-click="propertyPanelShow()" class="propButton" ng-show="propertyPanel.minimize">
 			Properties
 		</div>
+		<!-- Property panel and its setting base objects-->
 		<div id="propSettingPanel" ng-show="propertyPanel.panel">
 			<!-- buttons for panel operation-->
 			<a href="#"><button class="close" ng-click="propertyPanelClose()">x&nbsp;</button></a>
@@ -337,9 +338,11 @@
 				<button type="button" class="TitleText" ng-click="assignProperties()">OK</button>
 			</div>
 		</div>
+		<!-- Button in the left which adjusts the screen to full screen-->
 		<button id='LeftPanAdjustButton2' type="button" class="btn btn-default not" aria-label="Left Align">
 	        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
         </button>
+		<!-- Functionality with respect to menu items -->
 		<nav role="navigation" id='UIMenu'>
 			<h1><span id="MenuText">Menu</span></h1>
 			<ol id='mainUImenu'>
@@ -348,6 +351,7 @@
 				<li class='list' ng-click="settingPanelShow()"><a href="#">Settings</a></li>
 			</ol>
 		</nav>
+		<!-- Items (background, grid) in the setting panels -->
 		<div id="settPanel" ng-show="settingPanel.panelShow">
 			<a href="#"><button class="close" ng-click="settingPanelClose()">x&nbsp;</button></a>
 			<div class="text-center">
@@ -373,6 +377,7 @@
 				</uib-tab>
 			</uib-tabset>
 		</div>
+		<!-- Panel with options to create screen -->
 		<div id="CreatePop" ng-show="creationPanel.panelShow">
 			<a href="#"><button class="close" ng-click="createPanelClose()">x&nbsp;</button></a>
 			<br/>
@@ -383,6 +388,7 @@
 			<br/>
 			<br/> ! This name will be used as the address endpoint so please no 'space' or 'special Characters'
 		</div>
+		<!-- Space where the obejects are dropped -->
 		<div id="drop-target-one" ng-style="dropTargetOne.style">
 		</div>
 	</div>
