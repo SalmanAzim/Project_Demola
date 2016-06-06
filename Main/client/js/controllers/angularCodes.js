@@ -1201,7 +1201,6 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 					var currentElement = angular.element(document.getElementById($scope.currentObject));
 					$scope.objectDetails[i].posX = currentElement[0].style.left;
 					$scope.objectDetails[i].posY = currentElement[0].style.top;
-					console.log(currentElement[0].style.left);
 					//convert 'ObjectHTML' String to HTML DOM Element
 					var htmlElement = angular.element($scope.objectDetails[i].objectHtml);
 					$scope.clean(htmlElement[0]);
@@ -1224,10 +1223,13 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							//Generate the Final HTML
 							var finalElement = angular.element(htmlElement[0].outerHTML);
 							finalElement[0].setAttribute("class", "ScreenAdj");
-							finalElement[0].style.left = $scope.objectDetails[i].posX;
-							finalElement[0].style.top = $scope.objectDetails[i].posY;
-							finalElement[0].style.position = 'absolute';
-							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+							var divElement = document.createElement("div");	
+							divElement.setAttribute("class", "ScreenAdj");
+							divElement.style.left = $scope.objectDetails[i].posX;
+							divElement.style.top = $scope.objectDetails[i].posY;
+							divElement.style.position = 'absolute';						
+							divElement.innerHTML = finalElement[0].outerHTML;
+							$scope.objectDetails[i].finalHtml = divElement.outerHTML;
 							break;
 						case 'panel':
 							$scope.objectDetails[i].backgroundColor = $scope.propertyPanel.backgroundColor.replace("Background-Color : ", "");
@@ -1269,10 +1271,7 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							var finalElement = angular.element(htmlElement[0].outerHTML);
 							finalElement[0].setAttribute("class", "ScreenAdj");
 							finalElement[0].style.outline = null;
-							//Assign position
-							finalElement[0].style.left = $scope.objectDetails[i].posX;
-							finalElement[0].style.top = $scope.objectDetails[i].posY;
-							finalElement[0].style.position = 'absolute';
+							finalElement[0].style.width = "auto";
 							finalElement[0].textContent = "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}";
 							//if it has a data point assign it to the child element else leave it
 							if (!$scope.objectDetails[i].checkBoxState) {
@@ -1285,7 +1284,14 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 								finalElement[0].setAttribute("fv-label-value", "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
 							}
 							finalElement[0].textContent = "{{values." + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}";
-							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+							var divElement = document.createElement("div");	
+							divElement.setAttribute("class", "ScreenAdj");
+							//Assign position
+							divElement.style.left = $scope.objectDetails[i].posX;
+							divElement.style.top = $scope.objectDetails[i].posY;
+							divElement.style.position = 'absolute';						
+							divElement.innerHTML = finalElement[0].outerHTML;
+							$scope.objectDetails[i].finalHtml = divElement.outerHTML;
 							break;
 						case 'image':
 							$scope.objectDetails[i].width = $scope.propertyPanel.width + "px";
@@ -1362,10 +1368,6 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							var finalElement = angular.element(htmlElement[0].outerHTML);
 							finalElement[0].setAttribute("class", "ScreenAdj");
 							finalElement[0].style.outline = null;
-							//Assign position
-							finalElement[0].style.left = $scope.objectDetails[i].posX;
-							finalElement[0].style.top = $scope.objectDetails[i].posY;
-							finalElement[0].style.position = 'absolute';
 							finalElement[0].style.width = "auto";
 							//Create a new child element
 							var liElement = document.createElement("li");
@@ -1394,7 +1396,14 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 								liElement.textContent = "{{i.id}}";
 							}
 							finalElement[0].innerHTML = liElement.outerHTML;
-							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
+							var divElement = document.createElement("div");	
+							divElement.setAttribute("class", "ScreenAdj");
+							//Assign position
+							divElement.style.left = $scope.objectDetails[i].posX;
+							divElement.style.top = $scope.objectDetails[i].posY;
+							divElement.style.position = 'absolute';						
+							divElement.innerHTML = finalElement[0].outerHTML;
+							$scope.objectDetails[i].finalHtml = divElement.outerHTML;
 							break;
 						case 'svg-square':
 							$scope.objectDetails[i].checkBoxState = $scope.propertyPanel.checkBoxState;

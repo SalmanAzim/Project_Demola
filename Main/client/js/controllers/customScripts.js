@@ -90,14 +90,14 @@ window.onload = function () {
 		var cln = elementDragged.cloneNode(true);
 		cln.removeAttribute("draggable");
 		cln.style.top = (ess.clientY - 60) + "px";
-		cln.style.left = (ess.clientX - 140) + "px";		
-		
+		cln.style.left = (ess.clientX - 140) + "px";
+
 		//it removes the selection of the components 
-		if(left_global!=undefined){
+		if (left_global != undefined) {
 			var remove_el = $(left_global);
-			$(remove_el.children()[0]).css("outline","");
-		}		
-		
+			$(remove_el.children()[0]).css("outline", "");
+		}
+
 		// This closes the property panel for other elements 
 		socket.emit("panelVisibilityOnClick", {});
 
@@ -158,7 +158,7 @@ window.onload = function () {
 			});
 			if ($(elementDragged).attr("data-type") == "scalable") {
 				$(cln).resizable({});
-				
+
 				$(cln).css('width', "100px");
 				$(cln).css('height', "100px");
 			}
@@ -203,7 +203,7 @@ window.onload = function () {
 				aaa = xhttp.responseText;
 				cln.setAttribute("id", JSON.parse(aaa));
 				//Generate the json to be sent to Angular
-				var objectJson = { 'currentHtml': cln.outerHTML, 'id': xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml': cln.innerHTML, 'positionX': cln.style.left, 'positionY': cln.style.top, 'dataType': cln.getAttribute("data-type")};
+				var objectJson = { 'currentHtml': cln.outerHTML, 'id': xhttp.responseText, 'objectId': cln.getAttribute("data-objectid"), 'objectHtml': cln.innerHTML, 'positionX': cln.style.left, 'positionY': cln.style.top, 'dataType': cln.getAttribute("data-type") };
 				angular.element($("#my_body")).scope().addObject(objectJson);
 			}
 		};
@@ -218,11 +218,11 @@ window.onload = function () {
 	});
 };
 
-//========================Abhi Scripts=====================//
+//========================Jquery Scripts=====================//
 $(document).ready(function () {
 
 	// jQuery methods go here...	
-		
+
 	$("#LeftPanAdjustButton").click(function () {
 		socket.emit("panelVisibilityOnClick", {});
 		$("#LeftPan").animate({
@@ -248,3 +248,97 @@ $(document).ready(function () {
 });
 
 //========================================================//
+
+//Function that shows the menu on right click
+function showCustomMenu(currElement) {
+	right_global = currElement;
+	var e = window.event;
+	var i = document.getElementById("menu").style;
+	var posX = e.clientX;
+	var posY = e.clientY;
+	menu(posX, posY, i);
+	e.preventDefault();
+}
+
+// Function which calculates the right click display menu position
+function menu(x, y, i) {
+	i.top = y + "px";
+	i.left = x + "px";
+	i.visibility = "visible";
+	i.opacity = "1";
+}
+
+// Function that closes the right click display menu 
+function removeCustomMenu(currElement) {
+	angular.element($("#my_body")).scope().deleteObject(right_global);
+	right_global.remove();
+	var e = window.event;
+	var i = document.getElementById("menu").style;
+	i.opacity = "0";
+	setTimeout(function () {
+		i.visibility = "hidden";
+	});
+	right_global = null;
+}
+
+// Function that pings the angular controller to show the angular element property panel
+function showDoubleMenu(currElement) {
+	var socket = io();
+	if ((currElement.id != null) && (currElement.id != "")) {
+		double_Click = currElement;
+		socket.emit("panelVisibility", { 'elementId': currElement.id });
+	} else if ((right_global != null) && (right_global != undefined)) {
+		double_Click = right_global;
+		socket.emit("panelVisibility", { 'elementId': right_global.id });
+	}
+}
+
+//Function which shows the selected object with a 	
+function singleDotted(currElement) {
+	if (left_global != undefined) {
+		var remove_el = $(left_global);
+		$(remove_el.children()[0]).css("outline", "");
+	}
+	var inner_el = $(currElement);
+	$(inner_el.children()[0]).css("outline", "red dashed");
+	left_global = currElement;
+}
+
+//Function that rotates the object
+function showValue(newValue) {
+	var degree = newValue;
+	var svg_el = $(double_Click);
+	//Rotation is added for both the child and the parent element
+	if ((svg_el.attr("data-objectid") == 'svg-square') || (svg_el.attr("data-objectid") == 'svg-circle') || (svg_el.attr("data-objectid") == 'svg-path')) {
+		$(svg_el.children()[0]).css('-moz-transform', 'rotate(' + degree + 'deg)')
+		$(svg_el.children()[0]).css('-webkit-transform', 'rotate(' + degree + 'deg)');
+		$(svg_el.children()[0]).css('-o-transform', 'rotate(' + degree + 'deg)');
+		$(svg_el.children()[0]).css('-ms-transform', 'rotate(' + degree + 'deg)');
+	}
+	svg_el.css('-moz-transform', 'rotate(' + degree + 'deg)');
+	svg_el.css('-webkit-transform', 'rotate(' + degree + 'deg)');
+	svg_el.css('-o-transform', 'rotate(' + degree + 'deg)');
+	svg_el.css('-ms-transform', 'rotate(' + degree + 'deg)');
+}
+
+var socket = io();
+//this is pinged inorder to delete the old HTML element and update with the new element
+socket.on("prop_Changed", function (data) {
+	// For the scalable things, which are mainly the pictures the element is not changed instead their objects are just replaced.				
+	if (double_Click.getAttribute('data-type') != 'scalable') {
+		//remove the older element
+		double_Click.remove();
+		double_Click.innerHTML = data.objectHtml;
+		//replace with the newer element
+		$("#drop-target-one").append(double_Click);
+	} else if (double_Click.getAttribute('data-type') == 'scalable') {
+		switch (double_Click.getAttribute('data-objectid')) {
+			case 'image':
+				double_Click.firstChild.src = data.url;
+				break;
+			case 'panel':
+				double_Click.firstChild.style.backgroundColor = data.backgroundColor;
+				break;
+		}
+	}
+});

@@ -6,7 +6,6 @@ body{
   left:0;
   height:768px;
   width:1366px;
-  overflow: auto;
 }
 
 #backgroundDiv{
@@ -18,6 +17,10 @@ body{
   height:768px;
   width:1366px;
   background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 .drag-elements-li {
@@ -41,4 +44,4 @@ ul {
 ul li {
     width: auto;
     text-align: center;
-}
+}  

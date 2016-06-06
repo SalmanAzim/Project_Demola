@@ -6,6 +6,10 @@ var LocalStrategy   = require('passport-local').Strategy;
 // load up the user model
 var User            = require('../app/models/user');
 
+
+//--
+var mailer = require("nodemailer");
+//--
 // expose this function to our app using module.exports
 module.exports = function(passport) {
 
@@ -89,6 +93,42 @@ module.exports = function(passport) {
                 return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
             } else {
 
+			//Insert the email code here.			
+			
+    var send_to = email;
+    // Use Smtp Protocol to send Email
+    var smtpTransport = mailer.createTransport("SMTP", {
+        service: "Gmail",
+		//host: 'smtp.yourprovider.org',		//yourprovider = > gmail
+        auth: {
+            user: "factory.visualization@gmail.com",
+            pass: "factory&1"
+        }
+    });
+
+	var mail = {
+        from: "factory.visualization@gmail",
+        //to: "soccer_fan23@hotmail.com",
+        to: send_to,
+		subject: "Factory Visualization",
+        text: "UserName: admin\nPassword: admin",
+        html: "<b>You have been granted an access to FV Software.</b><br><p>UserName: " + email + "<br>Password: "+ password+"</p><br><p>http://leanware-baltor.rhcloud.com</p>"
+    }
+
+    smtpTransport.sendMail(mail, function (error, response) {
+        if (error) {
+			//response.send('Username: ' + request.body.loggedinUser);
+            console.log(error);
+        } else {
+			//response.send('Username: ' + request.query['username']);
+			console.log("message sent");
+        }
+
+        smtpTransport.close();
+    });			
+			
+			
+			
                 // if there is no user with that email
                 // create the user
                 var newUser            = new User();
