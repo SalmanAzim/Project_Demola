@@ -275,7 +275,6 @@ app.controller('MyController', function ($scope, socket, $window, $timeout) {
 					x: function (d) { return d['date']; },
 					y: function (d) { return d['close']; },
 					duration: 100,
-
 					xAxis: {
 						axisLabel: 'Dates',
 						tickFormat: function (d) {

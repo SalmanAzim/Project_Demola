@@ -48,8 +48,8 @@
 						</button>
 						<div class="dropdown-menu text-center">
 							<ul id="drag-elements1" class="drag-elements" style="list-style-type:none">
-								<li data-objectid="label" data-type="unscalable" draggable="true"><label for='label' style=' font-family: Verdana; color: black; '> textLabel </label></li>
-								<li data-objectid="textBox" data-type="unscalable" draggable="true"><label for='textBox' style='font-family: Verdana; color: black; background-color: #FFFFFF; position:relative; display: inline-block;	border: 1px solid #000000; border-radius: 3px;'> SimpleTextBox</label></li>
+								<li data-objectid="label" data-type="unscalable" draggable="true"><label for='label' style='font-family: Verdana; color: black;'> textLabel </label></li>
+								<li data-objectid="textBox" data-type="unscalable" draggable="true"><label for='textBox' style='font-family: Verdana; color: black; background-color: #FFFFFF; position:relative; display: inline-block;border: 1px solid #000000; border-radius: 3px;'> SimpleTextBox</label></li>
 								<li data-objectid="listBox" data-type="unscalable" draggable="true">
 									<ul style='font-family: Verdana; color: black; background-color: #FFFFFF; list-style-type:none; border-style: inset; float: left;'>
 										<li>Item0</li>
@@ -131,13 +131,13 @@
 								<li>Item1</li>
 							</ul>
 						</li>
-						<li data-objectid="svg-square" data-type="unscalable" draggable="true"><svg width='61' height='61'><rect width='60' height='60' fill='rgba(0,0,0,.7)'></svg></li>
-						<li data-objectid="svg-circle" data-type="unscalable" draggable="true"><svg height='60' width='60'><circle cx='30' cy='30' r='30' fill='rgba(0,0,0,.7)' /></svg></li>
-						<li data-objectid="svg-path" data-type="unscalable" draggable="true"><svg width='60' height='60'><path d='m0,30 h15 v30 h30 V30 h15 L30,0' style='fill:rgba(0,0,0,.7);'/></svg></li>
-						<li data-objectid="gauge-3" data-type="scalable" draggable="true"><img src="../images/gaugethree.png" height="100px" width="100px" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"></li>
-						<li data-objectid="candle-chart" data-type="scalable" draggable="true"><img src="../images/candlechrt.png" height="100px" width="120px" ng-show="(dpSelectPanel.candleChartShow)"></li>
-						<li data-objectid="ver-bar-chart" data-type="scalable" draggable="true"><img src="../images/verbarChrt.png" height="100px" width="120px" ng-show="(dpSelectPanel.verBarChartShow)"></li>
-						<li data-objectid="bar-chart" data-type="scalable" draggable="true"><img src="../images/barchrt.png" height="100px" width="120px" ng-show="(dpSelectPanel.barChartShow)"></li>
+						<li data-objectid="svg-square" data-type="unscalable" draggable="true" ng-show="dpSelectPanel.booleanShow"><svg width='61' height='61'><rect width='60' height='60' fill='rgba(0,0,0,.7)'/></svg></li>
+						<li data-objectid="svg-circle" data-type="unscalable" draggable="true" ng-show="dpSelectPanel.booleanShow"><svg height='60' width='60'><circle cx='30' cy='30' r='30' fill='rgba(0,0,0,.7)' /></svg></li>
+						<li data-objectid="svg-path" data-type="unscalable" draggable="true" ng-show="dpSelectPanel.booleanShow"><svg width='60' height='60'><path d='m0,30 h15 v30 h30 V30 h15 L30,0' style='fill:rgba(0,0,0,.7);'/></svg></li>
+						<li data-objectid="gauge-3" data-type="scalable" draggable="true" ng-show="(dpSelectPanel.doubleShow) || (dpSelectPanel.integerShow)"><img src="../images/gaugethree.png" height="100px" width="100px"></li>
+						<li data-objectid="candle-chart" data-type="scalable" draggable="true" ng-show="(dpSelectPanel.candleChartShow)"><img src="../images/candlechrt.png" height="100px" width="120px"></li>
+						<li data-objectid="ver-bar-chart" data-type="scalable" draggable="true" ng-show="(dpSelectPanel.verBarChartShow)"><img src="../images/verbarChrt.png" height="100px" width="120px"></li>
+						<li data-objectid="bar-chart" data-type="scalable" draggable="true" ng-show="(dpSelectPanel.barChartShow)"><img src="../images/barchrt.png" height="100px" width="120px"></li>
 					</ul>
 				</div>
 			</uib-tab>
@@ -416,7 +416,6 @@
 <script>
 	var elementDragged = null;	var right_global; var test_data; var double_Click, left_global;
 </script>
-<script src="js/controllers/customScripts.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/controllers/jquery.ui.core.js"></script>
 <script src="js/controllers/jquery.ui.widget.js"></script>
@@ -424,6 +423,7 @@
 <script src="js/controllers/jquery.ui.draggable.js"></script>
 <script src="js/controllers/ui-bootstrap-tpls-1.3.2.min.js"></script>
 <script src="js/controllers/bootstrap.min.js"></script>
+<script src="js/controllers/customScripts.js"></script>
 <script src="js/controllers/angularCodes.js"></script>
 <script type="text/javascript" src="js/controllers/multidraggable.js"></script>
 

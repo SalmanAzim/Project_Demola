@@ -1,3 +1,25 @@
+var socket = io();
+//this is pinged inorder to delete the old HTML element and update with the new element
+socket.on("prop_Changed", function (data) {
+	// For the scalable things, which are mainly the pictures the element is not changed instead their objects are just replaced.				
+	if (double_Click.getAttribute('data-type') != 'scalable') {
+		//remove the older element
+		double_Click.remove();
+		double_Click.innerHTML = data.objectHtml;
+		//replace with the newer element
+		$("#drop-target-one").append(double_Click);
+	} else if (double_Click.getAttribute('data-type') == 'scalable') {
+		switch (double_Click.getAttribute('data-objectid')) {
+			case 'image':
+				double_Click.firstChild.src = data.url;
+				break;
+			case 'panel':
+				double_Click.firstChild.style.backgroundColor = data.backgroundColor;
+				break;
+		}
+	}
+});
+
 window.onload = function () {
 
 	/**
@@ -321,24 +343,3 @@ function showValue(newValue) {
 	svg_el.css('-ms-transform', 'rotate(' + degree + 'deg)');
 }
 
-var socket = io();
-//this is pinged inorder to delete the old HTML element and update with the new element
-socket.on("prop_Changed", function (data) {
-	// For the scalable things, which are mainly the pictures the element is not changed instead their objects are just replaced.				
-	if (double_Click.getAttribute('data-type') != 'scalable') {
-		//remove the older element
-		double_Click.remove();
-		double_Click.innerHTML = data.objectHtml;
-		//replace with the newer element
-		$("#drop-target-one").append(double_Click);
-	} else if (double_Click.getAttribute('data-type') == 'scalable') {
-		switch (double_Click.getAttribute('data-objectid')) {
-			case 'image':
-				double_Click.firstChild.src = data.url;
-				break;
-			case 'panel':
-				double_Click.firstChild.style.backgroundColor = data.backgroundColor;
-				break;
-		}
-	}
-});

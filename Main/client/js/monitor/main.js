@@ -35,6 +35,7 @@ function realign() {
     $('.ScreenAdj').each(function () {
       var initH = $(this).height();
       var initW = $(this).width();
+      console.log(initH + "_" + initW);
       if (initH != 0) {
         $(this).height(Math.round(adjH * initH));
       }

@@ -1222,14 +1222,12 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 							htmlElement[0].style.backgroundColor = $scope.objectDetails[i].backgroundColor;
 							//Generate the Final HTML
 							var finalElement = angular.element(htmlElement[0].outerHTML);
+							finalElement[0].style.outline = null;
 							finalElement[0].setAttribute("class", "ScreenAdj");
-							var divElement = document.createElement("div");	
-							divElement.setAttribute("class", "ScreenAdj");
-							divElement.style.left = $scope.objectDetails[i].posX;
-							divElement.style.top = $scope.objectDetails[i].posY;
-							divElement.style.position = 'absolute';						
-							divElement.innerHTML = finalElement[0].outerHTML;
-							$scope.objectDetails[i].finalHtml = divElement.outerHTML;
+							finalElement[0].style.left = $scope.objectDetails[i].posX;
+							finalElement[0].style.top = $scope.objectDetails[i].posY;
+							finalElement[0].style.position = 'absolute';
+							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
 							break;
 						case 'panel':
 							$scope.objectDetails[i].backgroundColor = $scope.propertyPanel.backgroundColor.replace("Background-Color : ", "");
@@ -1284,14 +1282,11 @@ app.controller('MyController', function ($scope, socket, $window, httpReq, $loca
 								finalElement[0].setAttribute("fv-label-value", "{{" + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}");
 							}
 							finalElement[0].textContent = "{{values." + $scope.objectDetails[i].parent + "." + $scope.objectDetails[i].dataPoint + "}}";
-							var divElement = document.createElement("div");	
-							divElement.setAttribute("class", "ScreenAdj");
 							//Assign position
-							divElement.style.left = $scope.objectDetails[i].posX;
-							divElement.style.top = $scope.objectDetails[i].posY;
-							divElement.style.position = 'absolute';						
-							divElement.innerHTML = finalElement[0].outerHTML;
-							$scope.objectDetails[i].finalHtml = divElement.outerHTML;
+							finalElement[0].style.left = $scope.objectDetails[i].posX;
+							finalElement[0].style.top = $scope.objectDetails[i].posY;
+							finalElement[0].style.position = 'absolute';	
+							$scope.objectDetails[i].finalHtml = finalElement[0].outerHTML;
 							break;
 						case 'image':
 							$scope.objectDetails[i].width = $scope.propertyPanel.width + "px";
